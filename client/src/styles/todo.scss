@@ -1,0 +1,103 @@
+@import "./index.scss";
+
+.todo-container {
+    background-image: url('images/arkaplanTodoList.png');
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    height: 100vh;
+    width: 100%;
+
+    .todo-todoArea {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: $light-beige;
+        width: 92%;
+        margin-top: 30px;
+        border-radius: 8px;
+        padding: 12px;
+
+
+        h3 {
+            @include title-style;
+            border: none;
+        }
+
+        .todo-todoTextarea {
+
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+            textarea {
+                width: 420px;
+                height: 35px;
+                padding: 10px 15px;
+                border-radius: 10px;
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+            }
+
+            textarea:focus {
+                border-color: #000000;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+                outline: none;
+            }
+
+            button {
+                @include button-style;
+                margin-bottom: 0;
+                margin-left: 10px;
+            }
+        }
+
+        .todo-todoList {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            /* Küçük ekranlar için varsayılan olarak 2 sütun */
+            gap: 20px;
+            width: 100%;
+            margin-top: 30px;
+
+            // Tablet cihazlar için medya sorgusu
+            @include for-tablet {
+                grid-template-columns: repeat(3, 1fr);
+                /* Orta ekran boyutları için 3 sütun */
+            }
+
+            // Masaüstü cihazlar için medya sorgusu
+            @include for-desktop {
+                grid-template-columns: repeat(4, 1fr);
+                /* Büyük ekran boyutları için 4 sütun */
+            }
+
+
+            div {
+                color: white;
+                background-color: rgba(0, 0, 0, 0.4);
+                padding: 8px 15px;
+                border-radius: 8px;
+                width: 100%;
+                display: block;
+                width: 230px;
+
+                p {
+                    white-space: nowrap;
+                    font-size: 14px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 100%;
+                    text-overflow: ellipsis;
+
+
+                }
+            }
+        }
+
+
+    }
+}

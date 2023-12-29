@@ -1,0 +1,85 @@
+@import './index';
+
+
+
+.container {
+   @include full-screen-background;
+
+
+   .box {
+      @include container-style;
+      
+      @include for-mobile {
+         padding: 5px 8px;
+      }
+
+
+      h3 {
+         @include title-style
+      }
+
+      div {
+         width: 100%;
+
+         label {
+            margin-bottom: 10px;
+            font-size: 20px
+         }
+
+         input {
+            @include input-style;
+            box-sizing: border-box;
+         }
+      }
+
+  .InputsPassword {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      @include for-mobile{
+         display: flex;
+         flex-direction: column;
+      }
+
+      @include for-tablet{
+         display: flex;
+         flex-direction: row;
+      }
+
+      @include for-desktop{
+         display: flex;
+         flex-direction: row;
+      }
+
+
+      .passwordInput,
+      .passwordAgainInput {
+
+         width: 100%;
+
+         label {
+
+            margin-bottom: 10px;
+            font-size: 20px
+         }
+
+         input {
+            @include input-style;
+            box-sizing: border-box;
+         }
+      }
+
+   }
+
+   button {
+      @include button-style
+   }
+
+
+   }
+
+ 
+
+}

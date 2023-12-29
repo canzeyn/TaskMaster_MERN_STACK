@@ -1,0 +1,50 @@
+@import "./index.scss";
+
+.header-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: $light-beige;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    width: 100%;
+
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        h3 {
+            @include title-style;
+            margin: 0;
+            padding: 0;
+            border: none;
+            margin-left: 15px;
+        }
+
+        p {
+            font-size: 20px;
+            cursor: pointer;
+            margin-right: 15px;
+            font-weight: 600;
+
+        }
+
+        p:hover {
+            border-bottom: 2px solid $black;
+            box-sizing: border-box;
+        }
+
+        .profile-photo-header {
+            background-color: $black;
+            padding: 10px 20px;
+            border-radius: 100%;
+        }
+
+        .profile-photo-header:hover {
+            border: none;
+        }
+    }
+
+
+}

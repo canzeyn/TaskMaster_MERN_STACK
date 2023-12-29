@@ -1,0 +1,37 @@
+@import './index';
+
+.container {
+    @include full-screen-background;
+
+    .box {
+        @include container-style;
+
+
+        p {
+            @include title-style;
+
+        }
+
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+
+            div {
+                label {
+                    margin-bottom: 10px;
+                    font-size: 20px;
+                }
+
+                input {
+                    @include input-style
+                }
+            }
+
+            button {
+                @include button-style
+            }
+        }
+    }
+}
