@@ -2,6 +2,9 @@ import React from "react";
 import "../styles/todo.scss";
 import { IoEnter } from "react-icons/io5";
 import Header from "./Header";
+ 
+
+
 
 const Todo: React.FC = () => {
   return (
@@ -12,9 +15,10 @@ const Todo: React.FC = () => {
         <Header />
         <div className="todo-todoArea">
           <h3>Todo Content.</h3>
+          
           <div className="todo-todoTextarea">
             <textarea />
-            <button><IoEnter /></button>
+            <button><IoEnter className="ikonButton" /></button>
           </div>
 
           <div className="todo-todoList">

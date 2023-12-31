@@ -4,19 +4,28 @@ $black: #000000;
 $light-beige: #F4EAE0;
 
 @mixin for-mobile {
-    @media (min-width: 380px) and (max-width:767px) {
+    @media (min-width: 180px) and (max-width:719px) {
         @content;
     }
 }
 
 @mixin for-tablet {
-    @media (min-width: 768px) and (max-width: 1024px) {
+    @media (min-width: 720px) and (max-width: 900px) {
         @content;
     }
 }
 
+@mixin for-tablet2 {
+    @media (min-width: 901px) and (max-width: 1050px) {
+        @content;
+    }
+}
+
+
+
+
 @mixin for-desktop {
-    @media (min-width: 1025px) and (max-width: 1500px) {
+    @media (min-width: 1051px) and (max-width: 1500px) {
         @content;
     }
 }

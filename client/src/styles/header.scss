@@ -5,29 +5,42 @@
     flex-direction: row;
     justify-content: space-between;
     background-color: $light-beige;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
     width: 100%;
+    align-items: center;
+    flex-wrap: wrap;
 
-    div {
+    .title-header {
+        @include title-style;
+        margin: 0;
+        padding: 0;
+        border: none;
+        margin-left: 15px;
+        cursor: pointer;
+
+        @include for-mobile {
+            margin-left: 0; // Mobil cihazlarda sola yapışık olmasını engeller
+            padding-left: 15px; // İçerik ile kenarlık arasında boşluk sağlar
+        }
+    }
+
+    .menu {
         display: flex;
         justify-content: center;
         align-items: center;
 
-        h3 {
-            @include title-style;
-            margin: 0;
-            padding: 0;
-            border: none;
-            margin-left: 15px;
+        @include for-mobile {
+            display: none;
         }
+
+
 
         p {
             font-size: 20px;
             cursor: pointer;
             margin-right: 15px;
             font-weight: 600;
-
         }
 
         p:hover {
@@ -39,6 +52,8 @@
             background-color: $black;
             padding: 10px 20px;
             border-radius: 100%;
+
+          
         }
 
         .profile-photo-header:hover {
@@ -46,5 +61,22 @@
         }
     }
 
+    .hamburger-menu {
+        display: none; // Varsayılan olarak hamburger menüyü gizle
+        cursor:pointer;
 
+        @include for-mobile {
+            display: flex; // Mobil ekranlarda hamburger menüyü göster
+            align-items: center;
+            margin-right: 10px;
+        }
+    }
+
+   Offcanvas {
+    Offcanvas.body {
+        p {
+            font-size: 100px;
+        }
+    }
+   }
 }
