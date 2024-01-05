@@ -1,0 +1,13 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://github.com/canzeyn/TaskMaster_MERN_STACK.git
+	fetch = +refs/*:refs/*
+	mirror = true
+[remote "gitlab"]
+	url = git@gitlab.com:canzeyn1616/taskmaster.git
+	fetch = +refs/heads/*:refs/remotes/gitlab/*

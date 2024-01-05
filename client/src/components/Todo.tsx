@@ -2,11 +2,18 @@ import React from "react";
 import "../styles/todo.scss";
 import { IoEnter } from "react-icons/io5";
 import Header from "./Header";
+import { useEffect } from "react";
  
 
 
 
 const Todo: React.FC = () => {
+
+  useEffect(() => {
+    fetch('/todo')
+      .then(response => response.json())
+      .then(data => console.log(data));
+  }, []);
   return (
     <>
     
