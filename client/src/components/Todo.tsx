@@ -10,10 +10,14 @@ import { useEffect } from "react";
 const Todo: React.FC = () => {
 
   useEffect(() => {
-    fetch('/todo')
+    
+    fetch("http://localhost:3000/todo")
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => console.log(data))
+      .catch(err => console.error('Hata:', err));
   }, []);
+
+
   return (
     <>
     
