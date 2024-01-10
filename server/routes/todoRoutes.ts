@@ -1,10 +1,10 @@
 import { Router , Request , Response } from 'express';
 
-const router = Router();
+const todoRouter = Router();
 
-router.get('/' , (req: Request , res: Response) => {
+ todoRouter.get('/' , (req: Request , res: Response) => {
     res.json({message: 'burada todo verileri olacak'})
     console.log("todo rotasına get isteği atıldı")
 });
 
-export default router;
+export default todoRouter;

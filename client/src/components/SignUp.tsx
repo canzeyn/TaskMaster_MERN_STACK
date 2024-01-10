@@ -11,18 +11,18 @@ const SignUp: React.FC = () => {
 
             <div>
               <label>Rumuz:</label>
-              <input className="" type="text" placeholder="NickName" />
+              <input className="" name="name" type="text" placeholder="NickName" />
             </div>
 
             <div>
               <label>E-mail:</label>
-              <input type="email" placeholder="E-mail..." />
+              <input type="email" name="email" placeholder="E-mail..." />
             </div>
 
             <div className="InputsPassword">
               <div className="passwordInput">
                 <label>Password:</label>
-                <input type="password" placeholder="********" />
+                <input type="password" name="password" placeholder="********" />
               </div>
 
               <div className="passwordAgainInput">
