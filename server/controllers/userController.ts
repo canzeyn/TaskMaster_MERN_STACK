@@ -18,7 +18,11 @@ export  const userController = async (req: Request, res: Response) => {
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         const newUser = new User({ name, email, password: hashedPassword });  // userModel sayfasında tanımlanan modele göre bir model oluşturur req.body ile client tarafından gelen veriler bu modele gönderirlr ve bir tane oluşturulur
+
+        console.log("Kullanıcı kaydetmeden önce:", newUser); // Kaydetmeden önceki durum
         await newUser.save(); // mongoose kütüphanseinde gelen save metodu ile oluşturulan model mongodb içine kaydedilir
+        console.log("Kullanıcı başarıyla kaydedildi:", newUser); // Başarılı kayıttan sonra
+        
 
         res.status(201).json({ // 201 durum kodu isteğin başarıyla tamamlandığını ve sonucunda yeni bir kaynak(veri tabanı oluşturulduğunu) gösterir 
             message: "Kullanıcı başarıyla oluşturuldu",

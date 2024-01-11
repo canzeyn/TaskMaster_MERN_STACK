@@ -1,6 +1,6 @@
 import mongoose , {Schema , Document} from 'mongoose';
 
-interface IUser extends Document {
+interface IUser extends Document { //typescripten gelen interface ile nesnenin içerisini belirliyoruz artık oluşturulan model bu interface tipine göre oluturulacak
     name: string;
     email: string;
     password: string;
@@ -33,5 +33,5 @@ const userSchema: Schema = new Schema({
       },
 }) 
 
-const User = mongoose.model<IUser>('User', userSchema);
+const User = mongoose.model<IUser>('User', userSchema); // User adlı collection içine userSchema dan verileri ekler ve kullanıcı oluşur <IUser> ile interface tipinde olduğunu belirtiyoruz
 export default User;
