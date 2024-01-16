@@ -6,6 +6,7 @@ interface IUser extends Document { //typescripten gelen interface ile nesnenin i
     password: string;
     profilePictureUrl?: string;
     createdAt: Date;
+    role:string;
 }
 
 const userSchema: Schema = new Schema({
@@ -31,6 +32,10 @@ const userSchema: Schema = new Schema({
         type: Date,
         default: Date.now, // Varsayılan değer olarak şu anki zamanı atıyoruz.
       },
+      role: {
+        type:String,
+        default:'user',
+      }
 }) 
 
 const User = mongoose.model<IUser>('User', userSchema); // User adlı collection içine userSchema dan verileri ekler ve kullanıcı oluşur <IUser> ile interface tipinde olduğunu belirtiyoruz
