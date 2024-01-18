@@ -1,18 +1,18 @@
 import React from "react";
 import "../styles/signup.scss";
-import axios from 'axios';
-import { AxiosError } from 'axios';
-import { useState , FormEvent } from "react";
+import axios from "axios";
+import { AxiosError } from "axios";
+import { useState, FormEvent } from "react";
+import { useNavigate, NavigateFunction } from "react-router-dom";
 
 const SignUp: React.FC = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const navigate: NavigateFunction = useNavigate();
 
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
-
+  const handleSubmit = async ( event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
     interface UserData {
@@ -21,21 +21,31 @@ const SignUp: React.FC = () => {
       password: string;
     }
 
-    const userData: UserData = {name  , email , password};
+    const userData: UserData = { name, email, password };
 
     try {
-      const response = await axios.post('http://localhost:3000/signup' , userData);
+      const response = await axios.post(
+        "http://localhost:3000/signup",
+        userData
+      );
 
-      console.log("kullanıcı kaydedildi:" , response.data);
-      setName("");
-      setEmail("");
-      setPassword("");
-    }catch(error) {
+      console.log("kullanıcı kaydedildi:", response.data);
+      if (response.status === 201) {
+        navigate("/signin");
+        setName("");
+        setEmail("");
+        setPassword("");
+      } else {
+        console.log("kullanıcı kaydıyla ilgili hata var");
+      }
+    } catch (error) {
       const axiosError = error as AxiosError;
-      console.error('Kayıt sırasında hata oluştu:', axiosError.response ? axiosError.response.data : axiosError);
+      console.error(
+        "Kayıt sırasında hata oluştu:",
+        axiosError.response ? axiosError.response.data : axiosError
+      );
     }
-
-  }
+  };
   return (
     <>
       <div className="container">
@@ -45,18 +55,37 @@ const SignUp: React.FC = () => {
 
             <div>
               <label>Rumuz:</label>
-              <input className="" value={name} name="name" type="text" onChange={e => setName(e.target.value)} placeholder="NickName" />
+              <input
+                className=""
+                value={name}
+                name="name"
+                type="text"
+                onChange={(e) => setName(e.target.value)}
+                placeholder="NickName"
+              />
             </div>
 
             <div>
               <label>E-mail:</label>
-              <input type="email" value={email} name="email" onChange={e => setEmail(e.target.value)} placeholder="E-mail..." />
+              <input
+                type="email"
+                value={email}
+                name="email"
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="E-mail..."
+              />
             </div>
 
             <div className="InputsPassword">
               <div className="passwordInput">
                 <label>Password:</label>
-                <input type="password" value={password} name="password" onChange={e => setPassword(e.target.value)} placeholder="********" />
+                <input
+                  type="password"
+                  value={password}
+                  name="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="********"
+                />
               </div>
 
               <div className="passwordAgainInput">
@@ -65,7 +94,7 @@ const SignUp: React.FC = () => {
               </div>
             </div>
 
-            <button >Sign Up</button>
+            <button>Sign Up</button>
           </form>
         </div>
       </div>

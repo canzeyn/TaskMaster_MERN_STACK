@@ -11,7 +11,7 @@ const Todo: React.FC = () => {
 
   useEffect(() => {
     
-    fetch("http://localhost:3000/todo")
+    fetch("http://localhost:3000/todo" , {mode: 'cors',})
       .then(response => response.json())
       .then(data => console.log(data))
       .catch(err => console.error('Hata:', err));

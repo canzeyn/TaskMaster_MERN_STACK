@@ -10,10 +10,10 @@ export const authorize = (roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization; //req kısmı http isteğinin tamamıdır
     // http isteğinin headers adlı kısım http isteğinin başlığıdır
-    // authorization başlığı vardır burada yetki durumu saklanır
+  
 
     if (!authHeader) {
-      // eğer başlıkta authorization  yoksa çalışır kodlar
+      // eğer başlıkta authorizatio n  yoksa çalışır kodlar
       return res.status(401).json({ message: "yetkilendirme tokeni eksik" }); // 401 ile yetkilendirme tokeni eksik hatası gönderilir
     }
 
