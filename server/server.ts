@@ -6,12 +6,14 @@ import mongoose from 'mongoose';
 import signupRoutes from "./routes/signupRoutes"
 import signinRoutes from './routes/signinRoutes';
 import corsOptions  from "./config/corsConfig"
+import cookieParser from 'cookie-parser';
 
 const app: Express = express(); //express frameworkunun tüm özelliklerinib ir değişkene atar ve oradan kullanırız
 
 
 app.use(cors(corsOptions)); // cors ile başka kaynaklardan sunucuya gelen istekleri yönetiriz bir politika ayarlanır ve bu politikaya uymayan istekler sunucuya gelmez 
 app.use(express.json()); //json olarak gelen verileri javascript objesine çeviri
+app.use(cookieParser());
 
 require('dotenv').config(); //.env dosyasından gereken bilgileri getirir ve kullanıma izin verir
 
@@ -31,7 +33,7 @@ app.use('/todo', todoRoutes); //routes klasöründe her rota için ayrı sayfa v
 
 app.use('/signup' , signupRoutes);
 
-app.use('/signin' , signinRoutes)
+app.use('/signin' , signinRoutes);
 
 
 // Statik dosyaları sunmadan önce tüm API rotaları tanımlanmalıdır
