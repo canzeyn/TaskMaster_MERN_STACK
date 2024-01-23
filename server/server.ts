@@ -1,12 +1,14 @@
 import express, { Express, Request, Response } from 'express';
 import path from 'path';
 import cors from 'cors';
-import todoRoutes from "./routes/todoRoutes"
+import todoRoutes from "./routes/todoRoutes";
 import mongoose from 'mongoose';
-import signupRoutes from "./routes/signupRoutes"
+import signupRoutes from "./routes/signupRoutes";
 import signinRoutes from './routes/signinRoutes';
-import corsOptions  from "./config/corsConfig"
+import corsOptions  from "./config/corsConfig";
 import cookieParser from 'cookie-parser';
+import logOutRoutes from "./routes/logOutRoutes";
+import getUserRoutes from "./routes/getUserRoutes";
 
 const app: Express = express(); //express frameworkunun tüm özelliklerinib ir değişkene atar ve oradan kullanırız
 
@@ -34,6 +36,10 @@ app.use('/todo', todoRoutes); //routes klasöründe her rota için ayrı sayfa v
 app.use('/signup' , signupRoutes);
 
 app.use('/signin' , signinRoutes);
+
+app.use('/logout' , logOutRoutes);
+
+app.use('/get-user' , getUserRoutes);
 
 
 // Statik dosyaları sunmadan önce tüm API rotaları tanımlanmalıdır

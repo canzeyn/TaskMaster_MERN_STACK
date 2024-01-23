@@ -1,19 +1,46 @@
-
 import "../styles/header.scss";
 import { Dropdown } from "react-bootstrap";
 import { Offcanvas, Modal, Button } from "react-bootstrap";
 import { FaBars } from "react-icons/fa";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [userInfo , setUserInfo] = useState("");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
+
+  const handleLogOut = async () => {
+    try {
+      await axios.get("http://localhost:3000/logout", {
+        withCredentials: true,
+      });
+      
+      navigate("/");
+    } catch (err) {
+      console.log("çıkış yapma işleminde hata var", err);
+    }
+  };
+
+  const fetchUsername = async () => {
+    const response = await axios.get("http://localhost:3000/get-user" , {withCredentials:true})
+    setUserInfo(response.data);
+    console.log(userInfo);
+  }
+
+  useEffect(() => {
+    fetchUsername();
+  },[]);
+
+
   return (
     <>
       <div className="header-box">
@@ -31,7 +58,7 @@ const Header: React.FC = () => {
               id="dropdown-basic"
               className="profile-photo-header"
             >
-              a
+              {userInfo.name}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
@@ -56,39 +83,43 @@ const Header: React.FC = () => {
             <p className="text-white">All Todos</p>
             <p className="text-white">Finished Works</p>
             <Dropdown>
-            <Dropdown.Toggle
-              id="dropdown-basic"
-              className="profile-photo-header"
-            >
-              a
-            </Dropdown.Toggle>
+              <Dropdown.Toggle
+                id="dropdown-basic"
+                className="profile-photo-header"
+              >
+                a
+              </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              <Dropdown.Item href="#/profil-duzenle">
-                Profil Düzenle
-              </Dropdown.Item>
-              <Dropdown.Item href="#/cikis-yap">Çıkış Yap</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+              <Dropdown.Menu>
+                <Dropdown.Item href="#/profil-duzenle">
+                  Profil Düzenle
+                </Dropdown.Item>
+                <Dropdown.Item href="#/cikis-yap">Çıkış Yap</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
             {/* Diğer menü öğeleri */}
           </Offcanvas.Body>
         </Offcanvas>
 
-
         <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Çıkış Yap</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Çıkış yapmak istediğinize emin misiniz?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            İptal
-          </Button>
-          <Button variant="primary" onClick={() => { /* Çıkış yapma işlemleri */ }}>
-            Çıkış Yap
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          <Modal.Header closeButton>
+            <Modal.Title>Çıkış Yap</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Çıkış yapmak istediğinize emin misiniz?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseModal}>
+              İptal
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+               handleLogOut();
+              }}
+            >
+              Çıkış Yap
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </>
   );

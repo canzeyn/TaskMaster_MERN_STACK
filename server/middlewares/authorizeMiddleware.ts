@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import express, { Request, Response, NextFunction } from "express";
 
-require("dotenv").config();
+require('dotenv').config();
 
 export const authorize = (roles: string[]) => {
   // bu middleware ile jwt kısmında yetkilendirme yapıyoruz admin gibi basic user gibi kimlerin nereye geçebileceğini ve ne görebileceğini ayarlaması yapılıyor bu fonksiyon ile

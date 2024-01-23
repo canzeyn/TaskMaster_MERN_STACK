@@ -31,16 +31,9 @@ export const userController = async (req: Request, res: Response) => {
     await newUser.save(); // mongoose kütüphanseinde gelen save metodu ile oluşturulan model mongodb içine kaydedilir
     console.log("Kullanıcı başarıyla kaydedildi:", newUser); // Başarılı kayıttan sonra
 
-    const token = generateToken({ id: newUser.id, role: newUser.role }); // authMiddlewareden gelen generateToken adlı fonksiyon ile her kullanıcı oluşturulduktan sonra o kullanıcıya bir token üretir
+    const userId = newUser._id.toString();
+    const token = generateToken({ id: userId, role: newUser.role }); // authMiddlewareden gelen generateToken adlı fonksiyon ile her kullanıcı oluşturulduktan sonra o kullanıcıya bir token üretir
     //biz burada bu token içine kullanıcın benzersiz idsini ve yetkisini tanımlıyoruz her kullanıcı ilk oluşturduğu zaman hesabını yetkisi default olarak user olacak
-
-    res.status(201).json({
-      // 201 durum kodu isteğin başarıyla tamamlandığını ve sonucunda yeni bir kaynak(veri tabanı oluşturulduğunu) gösterir
-      message: "Kullanıcı başarıyla oluşturuldu",
-      user: newUser,
-      token: token,
-      role: "user",
-    });
 
     res.cookie("token", token, {
       // bir cookie oluşturuluyor
@@ -49,7 +42,13 @@ export const userController = async (req: Request, res: Response) => {
       maxAge: 3600000, // cookienin ne kadar süre kalacağını beliritir burada 1 saat olarak belirlenmiştir
     });
 
-    res.status(201).json({ message: "kullanıcı başarıyla kayıt oldu" });
+    res.status(201).json({
+      // 201 durum kodu isteğin başarıyla tamamlandığını ve sonucunda yeni bir kaynak(veri tabanı oluşturulduğunu) gösterir
+      message: "Kullanıcı başarıyla oluşturuldu",
+      user: newUser,
+      token: token,
+      role: "user",
+    });
   } catch (err) {
     res.status(500).json({
       //burada 500 durum kodu beklenmeyen hatalarda kullanılır

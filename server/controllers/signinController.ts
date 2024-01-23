@@ -21,20 +21,20 @@ export const signinController = async (req: Request, res: Response) => {
       // isMatch false ise kodlar çalışır
       return res.status(401).json({ message: "yanlış şifre" });
     }
-
+  
     const token = generateToken(user._id);
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // HTTPS üzerinde çalışırken true olmalı
+      maxAge: 3600000, // 1 saat (milisaniye cinsinden)
+    });
 
     res.json({
       _id: user.id,
       email: user.email,
       token: token,
       message: "başarılı giriş",
-    });
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // HTTPS üzerinde çalışırken true olmalı
-      maxAge: 3600000, // 1 saat (milisaniye cinsinden)
     });
   } catch (error) {
     res.status(500).json({ messsage: "sunucu hatası" });
