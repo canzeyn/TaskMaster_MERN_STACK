@@ -9,6 +9,9 @@ import corsOptions  from "./config/corsConfig";
 import cookieParser from 'cookie-parser';
 import logOutRoutes from "./routes/logOutRoutes";
 import getUserRoutes from "./routes/getUserRoutes";
+import isAuthenticatedRoutes from "./routes/isAuthenticatedRoutes";
+import verifyToken from './middlewares/verifyToken';
+import getTodosRoutes from "./routes/getTodosRoutes"
 
 const app: Express = express(); //express frameworkunun tüm özelliklerinib ir değişkene atar ve oradan kullanırız
 
@@ -31,8 +34,6 @@ if (mongoDBUrl) { // eğer url varsa veri tabanına bağlanmak için kodlar çal
     console.error('MongoDB bağlantı URL’si bulunamadı.');
 }
 
-app.use('/todo', todoRoutes); //routes klasöründe her rota için ayrı sayfa var ve bu sayfalardan yapılması istenen işlemler var burada hangi rotaya yapılacağı mesela burada /todo rotasına todoRoutes adlı sayfadaki işelmler yapılır
-
 app.use('/signup' , signupRoutes);
 
 app.use('/signin' , signinRoutes);
@@ -40,6 +41,12 @@ app.use('/signin' , signinRoutes);
 app.use('/logout' , logOutRoutes);
 
 app.use('/get-user' , getUserRoutes);
+
+app.use('/auth/check' , isAuthenticatedRoutes);
+
+app.use('/addTodo' , verifyToken ,  todoRoutes );
+
+app.use('/getTodos' , getTodosRoutes);
 
 
 // Statik dosyaları sunmadan önce tüm API rotaları tanımlanmalıdır

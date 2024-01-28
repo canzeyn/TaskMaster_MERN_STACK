@@ -8,10 +8,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Header: React.FC = () => {
+
+  type UserInfo = {
+    name: string;
+  }
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [userInfo , setUserInfo] = useState("");
+  const [userInfo , setUserInfo] = useState<UserInfo  | null> (null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -26,7 +30,7 @@ const Header: React.FC = () => {
       
       navigate("/");
     } catch (err) {
-      console.log("çıkış yapma işleminde hata var", err);
+      console.log("(Header.tsx) çıkış yapma işleminde hata var", err);
     }
   };
 
@@ -58,7 +62,7 @@ const Header: React.FC = () => {
               id="dropdown-basic"
               className="profile-photo-header"
             >
-              {userInfo.name}
+                {userInfo ? userInfo.name : "err"}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>

@@ -8,14 +8,14 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await User.findById(userId).exec(); // User modelinden yani mongodb içindeki users adlı collection içinde istek ile gelen userId değeri ile eşleşen kişinin verileri getirlir o collection içindeki findByid o id değerini bulur exec ile bu sorgu çalıltırır ayrıca exec promise değer döndüğrü bu sayede asenkron işlem yapılabilr ve hata yakalaması kolaylaşır
     if (!user) { // user false ise kodlar çalışır
-      return res.status(404).send({ message: "Kullanıcı bulunamadı." });
+      return res.status(404).send({ message: "(getUser.ts) Kullanıcı bulunamadı." });
     }
     // Kullanıcı bilgilerini istek nesnesine ekleyin
     (req as any).user = user; // istek nesnesine kullanıcın bilgileri atılır
     next();
   } catch (error) {
     console.error("Kullanıcı bilgileri çekilirken hata:", error);
-    return res.status(500).send({ message: "Sunucu hatası." });
+    return res.status(500).send({ message: " (getUser.ts) Sunucu hatası." });
   }
 };
 

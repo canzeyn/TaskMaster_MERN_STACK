@@ -12,14 +12,14 @@ export const signinController = async (req: Request, res: Response) => {
 
     if (!user) {
       // eğer user false değer dönerse kodlar çalışır
-      return res.status(401).json({ message: "kullanıcı bulunamadı" });
+      return res.status(401).json({ message: " (signinController.ts) kullanıcı bulunamadı" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password); // girilen passwordu hashler ve veri tabanındaki haslenen şifreyle karşılaştırır aynı ise true değer döner
 
     if (!isMatch) {
       // isMatch false ise kodlar çalışır
-      return res.status(401).json({ message: "yanlış şifre" });
+      return res.status(401).json({ message: " (signinController.ts) yanlış şifre" });
     }
   
     const token = generateToken(user._id);
@@ -37,6 +37,6 @@ export const signinController = async (req: Request, res: Response) => {
       message: "başarılı giriş",
     });
   } catch (error) {
-    res.status(500).json({ messsage: "sunucu hatası" });
+    res.status(500).json({ messsage: " (signinController.ts) sunucu hatası" });
   }
 };

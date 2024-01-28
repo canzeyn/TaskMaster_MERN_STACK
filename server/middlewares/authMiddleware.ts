@@ -6,7 +6,7 @@ require('dotenv').config(); // .env dosyasından gelecek olan bilgiler için ger
 const JWT_SECRET: string | undefined  = process.env.JWT_SECRET // kullanıcının oluşturduğu tokenin imzalanması için kullanılacak
 
   if(!JWT_SECRET) { // eğer jwt secret kodu bulunamazsa kodlar çalışır
-    throw new Error('JWT_SECRET is not defined'); // throw ile hata mesajı gönderilir
+    throw new Error('(authMiddleware.ts) JWT_SECRET is not defined'); // throw ile hata mesajı gönderilir
   }
 
  export const generateToken = (user: {id:ObjectId , role:string}) => { // token üretemesi için fonksiyondır parametre olarak girilen user  değerine özellik olarak id değeri içierdiğini ve onunda string tipinde olduğunu belirtiyoruz
