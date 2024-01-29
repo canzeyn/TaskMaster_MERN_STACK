@@ -11,7 +11,8 @@ import logOutRoutes from "./routes/logOutRoutes";
 import getUserRoutes from "./routes/getUserRoutes";
 import isAuthenticatedRoutes from "./routes/isAuthenticatedRoutes";
 import verifyToken from './middlewares/verifyToken';
-import getTodosRoutes from "./routes/getTodosRoutes"
+import getTodosRoutes from "./routes/getTodosRoutes";
+import deleteTodoRoutes from "./routes/deleteTodoRoutes";
 
 const app: Express = express(); //express frameworkunun tüm özelliklerinib ir değişkene atar ve oradan kullanırız
 
@@ -47,6 +48,8 @@ app.use('/auth/check' , isAuthenticatedRoutes);
 app.use('/addTodo' , verifyToken ,  todoRoutes );
 
 app.use('/getTodos' , getTodosRoutes);
+
+app.use('/deleteTodo' , deleteTodoRoutes)
 
 
 // Statik dosyaları sunmadan önce tüm API rotaları tanımlanmalıdır

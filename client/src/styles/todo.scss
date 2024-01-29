@@ -20,23 +20,19 @@
         border-radius: 8px;
         padding: 12px;
 
-
         h3 {
             @include title-style;
             border: none;
         }
 
-
         .todo-todoTextarea {
-
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
 
             textarea {
-
-                width: 420px ;
+                width: 420px;
                 height: 70px;
                 padding: 10px 15px;
                 border-radius: 10px;
@@ -58,74 +54,76 @@
                 @include for-mobile {
                     width: 30px;
                 }
-
-                // .ikonButton {
-                //     width: 24px;
-                //     height: 24px;
-                // }
             }
 
-            // Mobil ekranlar için medya sorgusu
             @include for-mobile {
                 textarea {
-                    width: 200px
+                    width: 200px;
                 }
             }
 
-            // Tablet ve daha büyük ekranlar için medya sorgusu
             @include for-tablet {
                 textarea {
-                    width: 350px
+                    width: 350px;
                 }
             }
 
-            // Masaüstü ve daha büyük ekranlar için medya sorgusu
             @include for-desktop {
                 textarea {
-                    width: 400px // Masaüstü cihazlarda genişlik ayarı
+                    width: 400px; // Masaüstü cihazlarda genişlik ayarı
                 }
             }
         }
 
-
-
         .todo-todoList {
             display: grid;
             grid-template-columns: repeat(1, 1fr);
-
             gap: 20px;
             width: 100%;
             margin-top: 30px;
             justify-items: center;
             align-items: center;
 
-
-            // Tablet cihazlar için medya sorgusu
             @include for-tablet {
                 grid-template-columns: repeat(2, 1fr);
-                /* Orta ekran boyutları için 3 sütun */
             }
 
             @include for-tablet2 {
                 grid-template-columns: repeat(3, 1fr);
-                /* Orta ekran boyutları için 3 sütun */
             }
 
-            // Masaüstü cihazlar için medya sorgusu
             @include for-desktop {
                 grid-template-columns: repeat(4, 1fr);
-                /* Büyük ekran boyutları için 4 sütun */
             }
 
-
-            div {
+            .todoItem {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
                 color: white;
                 background-color: rgba(0, 0, 0, 0.4);
                 padding: 8px 15px;
                 border-radius: 8px;
-                width: 100%;
-                display: block;
                 width: 230px;
+
+                .icon-container{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 2px 4px;
+
+                    .iconEye{
+                        margin-bottom:3px;
+                        cursor: pointer;
+                    }
+                    .iconDelete{
+                        margin-top: 3px;
+                        cursor: pointer;
+                    }
+                }
+
+               
 
                 p {
                     white-space: nowrap;
@@ -133,13 +131,10 @@
                     overflow: hidden;
                     text-overflow: ellipsis;
                     max-width: 100%;
-                    text-overflow: ellipsis;
-
-
                 }
+
+
             }
         }
-
-
     }
 }
