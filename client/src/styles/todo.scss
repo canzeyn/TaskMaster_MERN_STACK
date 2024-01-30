@@ -106,24 +106,26 @@
                 border-radius: 8px;
                 width: 230px;
 
-                .icon-container{
+                .icon-container {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
                     padding: 2px 4px;
+                    margin: 3px 5px;
 
-                    .iconEye{
-                        margin-bottom:3px;
+                    .iconEye {
+                        margin-bottom: 3px;
                         cursor: pointer;
                     }
-                    .iconDelete{
+
+                    .iconDelete {
                         margin-top: 3px;
                         cursor: pointer;
                     }
                 }
 
-               
+
 
                 p {
                     white-space: nowrap;
@@ -137,4 +139,10 @@
             }
         }
     }
+}
+
+.modal-body {
+    overflow-y: auto; // Yatayda kaydırma çubuğu ekler
+    max-height: 400px; 
+    word-wrap: break-word; // Uzun metinleri kırar ve alt satıra taşır
 }

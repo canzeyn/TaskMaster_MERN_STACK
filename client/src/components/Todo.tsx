@@ -5,6 +5,7 @@ import Header from "./Header";
 import axios from "axios";
 import { RxEyeOpen } from "react-icons/rx";
 import { MdDelete } from "react-icons/md";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 interface TodoItem {
   // veri tabanına eklenen veriler çekilirken bu interface göre geliyor
@@ -16,6 +17,8 @@ const Todo: React.FC = () => {
   const [todoDescription, setTodoDescription] = useState(""); // textare içineki todo buraya ekleneiyor ve buradaki veri tabanına gönderiliyor
   const [todos, setTodos] = useState<TodoItem[]>([]); // veri tabanındaki tüm veriler buraya çekiliyor
   const [loading, setLoading] = useState(true); // yükleme durumu buradan kontrol ediliyor
+  const [modal, setModal] = useState(false);
+  const [selectedTodo, setSelectedTodo] = useState<TodoItem | null>(null); // Seçili todo'yu tutacak
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -63,6 +66,13 @@ const Todo: React.FC = () => {
     }
   };
 
+  const handleViewTodo = (todo: TodoItem) => { // bu fonksiyonun kullanıldığı yerde tıklanan todonun tüm verisini alıyoruz ve state içine ekliyoruz ve modal açıyoruz bu sayede o todonun tüm yazısına erişebiliyoruz
+      setSelectedTodo(todo);
+      toggle();
+  }
+
+  const toggle = () => setModal(!modal);
+
   useEffect(() => {
     handleGetTodos();
   }, []);
@@ -96,7 +106,7 @@ const Todo: React.FC = () => {
                   <div className="todoItem" key={item._id}>
                     <p>{item.description}</p>
                     <div className="icon-container">
-                      <RxEyeOpen className="iconEye" />
+                    <RxEyeOpen className="iconEye" onClick={() => { handleViewTodo(item) }} />
                       <MdDelete
                         className="iconDelete"
                         onClick={() => handleDeleteTodo(item._id)}
@@ -108,6 +118,21 @@ const Todo: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+        <ModalBody className="modal-body">
+              { selectedTodo?.description }
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={toggle}>
+            Do Something
+          </Button>{' '}
+          <Button color="secondary" onClick={toggle}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
     </>
   );
 };
