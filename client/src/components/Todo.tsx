@@ -5,7 +5,7 @@ import Header from "./Header";
 import axios from "axios";
 import { RxEyeOpen } from "react-icons/rx";
 import { MdDelete } from "react-icons/md";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter } from "reactstrap";
 
 interface TodoItem {
   // veri tabanına eklenen veriler çekilirken bu interface göre geliyor
@@ -54,7 +54,7 @@ const Todo: React.FC = () => {
     }
   };
 
-  const handleDeleteTodo = async (id:string) => {
+  const handleDeleteTodo = async (id: string) => {
     try {
       await axios.delete(`http://localhost:3000/deleteTodo/${id}`, {
         withCredentials: true,
@@ -66,10 +66,35 @@ const Todo: React.FC = () => {
     }
   };
 
-  const handleViewTodo = (todo: TodoItem) => { // bu fonksiyonun kullanıldığı yerde tıklanan todonun tüm verisini alıyoruz ve state içine ekliyoruz ve modal açıyoruz bu sayede o todonun tüm yazısına erişebiliyoruz
-      setSelectedTodo(todo);
-      toggle();
-  }
+  const handleSaveChange = async () => {
+    if (selectedTodo) {
+      // seçili todo varsa kodlar çalışır
+      try {
+        const changeData = axios.put(
+          `http://localhost:3000/updateTodo/${selectedTodo._id}`,
+          { description: selectedTodo.description },
+          { withCredentials: true }
+        ); // put isteği ie var olan bir veriyi güncellemek için kullanılır endPoint olarak seçili todonun id değeri gönderiliyor sunucuya
+        // payload olarak gönderilen veride description key olarak içerisinde seçili todunun description alanını gönderiyoruz en sonda kimlik bilgilerini gönderimine izin veriyoruz
+        setTodos(
+          todos.map((todo) => // tüm todolar dönülüyor
+            todo._id === selectedTodo._id // seçilen todonun id si ile tüm todolar içinde eşleşen olursa kodlar çalışır
+              ? { ...todo, description: selectedTodo.description } // spread operatörü ile todo adlı statin bir kopyası alınır ve seçili todonun description alanını güncellenir yenisi ile 
+              : todo // eğer eşleşme olmazsa tüm state olduğu gibi kalır
+          )
+        );
+        toggle(); // modal kapatılır
+      } catch (err) {
+        console.log("todo.tsx: güncellenirken hata oluştur hata:", err);
+      }
+    }
+  };
+
+  const handleViewTodo = (todo: TodoItem) => {
+    // bu fonksiyonun kullanıldığı yerde tıklanan todonun tüm verisini alıyoruz ve state içine ekliyoruz ve modal açıyoruz bu sayede o todonun tüm yazısına erişebiliyoruz
+    setSelectedTodo(todo);
+    toggle();
+  };
 
   const toggle = () => setModal(!modal);
 
@@ -101,35 +126,52 @@ const Todo: React.FC = () => {
           </form>
 
           <div className="todo-todoList">
-            {todos.length > 0 
-              ? todos.map((item) => (
-                  <div className="todoItem" key={item._id}>
-                    <p>{item.description}</p>
-                    <div className="icon-container">
-                    <RxEyeOpen className="iconEye" onClick={() => { handleViewTodo(item) }} />
-                      <MdDelete
-                        className="iconDelete"
-                        onClick={() => handleDeleteTodo(item._id)}
-                      />
-                    </div>
+            {todos.length > 0 ? (
+              todos.map((item) => (
+                <div className="todoItem" key={item._id}>
+                  <p>{item.description}</p>
+                  <div className="icon-container">
+                    <RxEyeOpen
+                      className="iconEye"
+                      onClick={() => {
+                        handleViewTodo(item);
+                      }}
+                    />
+                    <MdDelete
+                      className="iconDelete"
+                      onClick={() => handleDeleteTodo(item._id)}
+                    />
                   </div>
-                ))
-              : <p>herhangi bir todo yok ekleyin !</p>}
+                </div>
+              ))
+            ) : (
+              <p>herhangi bir todo yok ekleyin !</p>
+            )}
           </div>
         </div>
       </div>
 
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+      
         <ModalBody className="modal-body">
-              { selectedTodo?.description }
+          <textarea
+            className="todo-edit-textarea"
+            value={selectedTodo ? selectedTodo.description : ""}
+            onChange={(e) =>
+              setSelectedTodo(
+                selectedTodo
+                  ? { ...selectedTodo, description: e.target.value }
+                  : null
+              )
+            }
+          />
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggle}>
-            Do Something
-          </Button>{' '}
+          <Button color="primary" onClick={handleSaveChange}>
+            güncelle
+          </Button>{" "}
           <Button color="secondary" onClick={toggle}>
-            Cancel
+            kapat
           </Button>
         </ModalFooter>
       </Modal>

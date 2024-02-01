@@ -62,7 +62,7 @@ const Header: React.FC = () => {
               id="dropdown-basic"
               className="profile-photo-header"
             >
-                {userInfo ? userInfo.name : "err"}
+                {userInfo ? userInfo.name.charAt(0) : "err"}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
@@ -91,14 +91,14 @@ const Header: React.FC = () => {
                 id="dropdown-basic"
                 className="profile-photo-header"
               >
-                a
+                   {userInfo ? userInfo.name.charAt(0) : "err"}
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
                 <Dropdown.Item href="#/profil-duzenle">
                   Profil Düzenle
                 </Dropdown.Item>
-                <Dropdown.Item href="#/cikis-yap">Çıkış Yap</Dropdown.Item>
+                <Dropdown.Item onClick={handleShowModal}>Çıkış Yap</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
             {/* Diğer menü öğeleri */}

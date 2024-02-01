@@ -145,4 +145,15 @@
     overflow-y: auto; // Yatayda kaydırma çubuğu ekler
     max-height: 400px; 
     word-wrap: break-word; // Uzun metinleri kırar ve alt satıra taşır
+
+    .todo-edit-textarea {
+        width: 100%;
+        border: none;
+        height: 150px;
+
+        &:focus {
+            border:none;
+            outline: none;
+        }
+    }
 }
