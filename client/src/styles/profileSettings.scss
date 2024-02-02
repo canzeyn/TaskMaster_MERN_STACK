@@ -1,0 +1,40 @@
+@import 'index.scss';
+
+// Tam ekran arka planı ve diğer stilleri içeren profile-setting-container sınıfınızı genişletiyoruz.
+.profile-setting-container {
+    @include full-screen-background; // Arka planı tam ekran yapacak mixin.
+    padding: 50px; // İçerik etrafında boşluk bırakmak için padding ekliyoruz.
+    box-sizing: border-box; // padding'i dahili olarak hesaba katmak için box-sizing ekliyoruz.
+
+    form {
+        @include container-style; // Form'un kendi arka planını ve gölgelerini uygulayacak mixin.
+        width: 100%; // Formun genişliğini ayarlıyoruz.
+        max-width: 500px; // Formun maksimum genişliğini sınırlıyoruz.
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+
+            label {
+                margin-bottom: 5px;
+            }
+
+            input[type="text"],
+            input[type="password"],
+            input[type="file"] {
+                @include input-style;
+            }
+
+            input[type="file"] {
+                border: 1px solid $black;
+                padding: 5px;
+                cursor: pointer; // Dosya seç butonunun imleci.
+            }
+        }
+
+        button {
+            @include button-style;
+        }
+    }
+}

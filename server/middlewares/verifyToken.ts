@@ -17,6 +17,7 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
       return res.status(403).send({ message: " (veriyToken.ts) Token geçerli değil." });
     }
     (req as any).userId = Buffer.from(decoded.id).toString('hex'); // Buffer.from ile içine girilen nesneyi alır ve buffer tipine çevirir ardından bu tipide hex stirngine çevirir ve istek nesnesine eklenir kullanıcın id değeri bu sayede diğer middlewarelerden de ulaşılabilir bu değere
+    
     console.log("Decoded JWT:", decoded); // çözülen tokeni console a yazdırır
     next();
   } catch (err) {

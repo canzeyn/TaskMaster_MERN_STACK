@@ -4,6 +4,7 @@ import SignUp from './components/SignUp';
 import SignIn from "./components/SignIn";
 import Todo from "./components/Todo";
 import PrivateRoute from "./PrivetRoute";
+import ProfileSetting from "./components/ProfileSetting";
 
 function App() {
   
@@ -17,6 +18,11 @@ function App() {
             <Route path='todo' element={<PrivateRoute>
               <Todo />
             </PrivateRoute>} />
+
+            <Route path='profileSettings' element={<PrivateRoute>
+              <ProfileSetting />
+            </PrivateRoute>} />
+
           </Routes>
         </Router>
      

@@ -14,6 +14,8 @@ import verifyToken from './middlewares/verifyToken';
 import getTodosRoutes from "./routes/getTodosRoutes";
 import deleteTodoRoutes from "./routes/deleteTodoRoutes";
 import updateTodoRoutes from "./routes/updateTodoRoutes";
+import uploadPhotoRoutes from "./routes/uploadPhotoRoutes";
+import updatePasswordRoutes from "./routes/updatePasswordRoutes"
 
 const app: Express = express(); //express frameworkunun tüm özelliklerinib ir değişkene atar ve oradan kullanırız
 
@@ -53,6 +55,10 @@ app.use('/getTodos' , getTodosRoutes);
 app.use('/deleteTodo' , deleteTodoRoutes);
 
 app.use('/updateTodo' , updateTodoRoutes);
+
+app.use('upload-photo' , uploadPhotoRoutes)
+
+app.use('update-password' , updatePasswordRoutes)
 
 
 // Statik dosyaları sunmadan önce tüm API rotaları tanımlanmalıdır
