@@ -44,6 +44,10 @@ const Header: React.FC = () => {
     fetchUsername();
   },[]);
 
+   const navigateToProfileSettings = () => {
+    navigate("/profileSettings");
+   }
+
 
   return (
     <>
@@ -66,7 +70,7 @@ const Header: React.FC = () => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item href="#/profil-duzenle">
+              <Dropdown.Item onClick={navigateToProfileSettings}>
                 Profil Düzenle
               </Dropdown.Item>
               <Dropdown.Item onClick={handleShowModal}>Çıkış Yap</Dropdown.Item>
@@ -95,7 +99,7 @@ const Header: React.FC = () => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item href="#/profil-duzenle">
+                <Dropdown.Item onClick={navigateToProfileSettings}>
                   Profil Düzenle
                 </Dropdown.Item>
                 <Dropdown.Item onClick={handleShowModal}>Çıkış Yap</Dropdown.Item>

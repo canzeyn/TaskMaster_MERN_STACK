@@ -1,12 +1,8 @@
 // controllers/uploadController.ts
 import { Request, Response } from 'express';
 import cloudinaryV2 from '../config/cloudinaryConfig';
-import multer from 'multer';
+import User from '../models/userModel';
 
-
-// interface MulterRequest extends Request { // burada expressin normal request nesnesine belirlediğimiz interface özelliğinide ekler 
-//     file: Express.Multer.File; // multer paketinin dosya özelliğini ekliyoruz yani yüklenen dosyanın bilgilerini içeriyor
-// }
 
  const uploadFile = async (req: Request, res: Response) => {
   try {
@@ -19,8 +15,12 @@ import multer from 'multer';
     // file.path nesnesi multer tarafandın işlenen dosyadır path ise sunucudaki geçici yerdir eklenecek dosyanın
     // upload işlemi asenkrondur ve uzun sürebilir bunun için await ile bekletiliyor
     // son olarak yüklenen dosyanın tüm bilgisi nesne olarak result değişkenine atılıyor 
+    
+    const userId = (req as any).user.id;
 
-    res.status(200).json({ url: result.secure_url }); 
+    await User.findByIdAndUpdate(userId, { profilePictureUrl: result.secure_url }); // kullanıcının veri tabanındaki users adlı collection içinden bulunuyor id değeri ile ve o kullanıcının profilePictureUrl e güncelleme yapılarak eklediği fotoğrafın cloudinary adresi geliyor
+
+    res.status(200).json({ url: result.secure_url }); // eklenen fotoğrafın cloudinarydeki güvenli adresi bulunuyor secure_url de bu adresi mongodb içine ekleyeceğiz ve bu adres üzerinden cloudinaryden kullanılacak fotoğraf
   } catch (error) {
     res.status(500).send(`Dosya yükleme hatası: ${error}`);
   }

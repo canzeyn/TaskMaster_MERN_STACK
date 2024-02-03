@@ -26,7 +26,7 @@ const User = require('../models/userModel');
 
    
     user.password = hashedPassword; // kullanıcının eski şifresi yerine yeni haskenen şifre ekleniyor
-    await user.save();
+    await user.save(); // ve user kaydedilir veri tababnına
 
     res.status(200).json({ message: "Şifre başarıyla güncellendi" });
   } catch (error) {
