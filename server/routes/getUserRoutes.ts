@@ -10,6 +10,7 @@ const getUserRouter = Router();
     res.json({
       name: user.name,
       email: user.email,
+      profilePictureUrl: user.profilePictureUrl,
     })
  })
 

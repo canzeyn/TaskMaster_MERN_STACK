@@ -1,13 +1,15 @@
 import {Request ,Response} from "express";
-const bcrypt = require('bcryptjs');
-const User = require('../models/userModel'); 
+import User from "../models/userModel";
+import bcrypt from "bcrypt";
+
 
  const updatePasswordController = async (req: Request, res: Response) => {
-  const { currentPassword, newPassword } = req.body;
+  const { currentPassword, newPassword  } = req.body;
+  console.log(req.body);
   
   try {
    
-    const user = await User.findById((req as any).user._id); // istek nesnesi içinde gelen user nesnesi içindeki _id değerine erişiliyor bu benzersiz bir id her kullanıcıya özel bu sayede hangi kullanıcının şifresinin değiştirileceği bulunuyor
+    const user = await User.findById((req as any).userId); // istek nesnesi içinde gelen user nesnesi içindeki _id değerine erişiliyor bu benzersiz bir id her kullanıcıya özel bu sayede hangi kullanıcının şifresinin değiştirileceği bulunuyor
 
     if (!user) { // kullanıcı bulunamazsa kodlar çalışır
       return res.status(404).json({ message: "updatePasswordController: Kullanıcı bulunamadı" });

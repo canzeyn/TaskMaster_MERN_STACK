@@ -11,6 +11,8 @@ const Header: React.FC = () => {
 
   type UserInfo = {
     name: string;
+    profilePictureUrl?: string;
+
   }
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -44,9 +46,30 @@ const Header: React.FC = () => {
     fetchUsername();
   },[]);
 
+  console.log(userInfo);
+
    const navigateToProfileSettings = () => {
-    navigate("/profileSettings");
-   }
+    navigate("/profileSettings"); }
+
+    const renderUserProfile = () => {
+      try {
+        // Eğer profil fotoğrafı varsa, URL'sini döndür
+        if (userInfo && userInfo.profilePictureUrl) {
+          return <img src={userInfo.profilePictureUrl} alt="Profil" className="profile-photo" />;
+        }
+        // Eğer profil fotoğrafı yoksa, kullanıcının adını döndür
+        // else if (userInfo && userInfo.name) {
+        //   return <div className="profile-initial">{userInfo.name.charAt(0)}</div>;
+        // }
+        // Eğer userInfo boşsa veya beklenmedik bir durum varsa
+        // else {
+        //   return 'Kullanıcı bilgisi mevcut değil';
+        // }
+      } catch (error) {
+        console.error('renderUserProfile fonksiyonunda hata:', error);
+        return 'Bir hata oluştu.';
+      }
+    };
 
 
   return (
@@ -66,7 +89,7 @@ const Header: React.FC = () => {
               id="dropdown-basic"
               className="profile-photo-header"
             >
-                {userInfo ? userInfo.name.charAt(0) : "err"}
+                {renderUserProfile()}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
@@ -94,8 +117,9 @@ const Header: React.FC = () => {
               <Dropdown.Toggle
                 id="dropdown-basic"
                 className="profile-photo-header"
+                
               >
-                   {userInfo ? userInfo.name.charAt(0) : "err"}
+                  {renderUserProfile()}
               </Dropdown.Toggle>
 
               <Dropdown.Menu>

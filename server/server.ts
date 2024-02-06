@@ -56,9 +56,9 @@ app.use('/deleteTodo' , deleteTodoRoutes);
 
 app.use('/updateTodo' , updateTodoRoutes);
 
-app.use('upload-photo' , uploadPhotoRoutes)
+app.use('/upload-photo' , uploadPhotoRoutes)
 
-app.use('update-password' , updatePasswordRoutes)
+app.use('/updatePassword' , updatePasswordRoutes)
 
 
 // Statik dosyaları sunmadan önce tüm API rotaları tanımlanmalıdır

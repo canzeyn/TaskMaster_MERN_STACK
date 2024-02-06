@@ -50,8 +50,15 @@
 
         .profile-photo-header {
             background-color: $black;
-            padding: 10px 20px;
+            
             border-radius: 100%;
+              
+            .profile-photo {
+                width: 64px;
+                height: 64px;
+                border-radius: 100%; // Daire şeklinde bir profil fotoğrafı için
+                object-fit: cover; // Resmin boyutlarına göre kırpılmasını sağlar
+              }
 
           
         }

@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect } from "react";
 
 interface User {
+  userId:string;
   username: string;
   email: string;
   // Diğer gerekli alanlar...
@@ -16,6 +17,7 @@ const ProfileSetting: React.FC = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [file, setFile] = useState<File | null>(null); // burada statin file titpşnde veya null tipinde olabilecğini belirtiyoruz
+  const [userId , setUserId] = useState<User | null>(null);
 
   const fetchUserData = async () => {
     try {
@@ -25,12 +27,12 @@ const ProfileSetting: React.FC = () => {
       });
       setDatas(response.data); // state içine ekleniyor getirlien veriler
       setSettingUsername(response.data.name);
+      setUserId(response.data._id);
     } catch (error) {
       console.error("Kullanıcı bilgileri alınamadı", error);
     }
   };
 
-  console.log(settingUsername);
 
   useEffect(() => {
     fetchUserData();
@@ -44,9 +46,9 @@ const ProfileSetting: React.FC = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post(
+      const response = await axios.patch(
         // şifrelere gönderiliyor sunucuya post isteği ile
-        "http://localhost:3000/update-password",
+        "http://localhost:3000/updatePassword",
         {
           currentPassword,
           newPassword,
@@ -58,7 +60,7 @@ const ProfileSetting: React.FC = () => {
 
       console.log("profileSetting:", response);
     } catch (error) {
-      console.log("ProfileSetting.tsx: hata var:", error);
+      console.log("ProfileSetting.tsx: şifre değiştirme hata var:", error);
     }
   };
 
@@ -71,12 +73,13 @@ const ProfileSetting: React.FC = () => {
       try {
         const response = await axios.post(
           "http://localhost:3000/upload-photo", // sunucuya gönderilir formData orada işlenerek cloudinary ve mongodb içine eklenecek
-          formData,
+          formData, 
           {
             headers: {
               // burada gönderilen verilerin ne verisi oldupunu belirtiyoruz sunucya
               "Content-Type": "multipart/form-data",
             },
+            withCredentials: true 
           }
         );
         // Sunucudan dönen URL'i kullanarak kullanıcı bilgilerini güncelleyebilirsiniz.
@@ -105,6 +108,7 @@ const ProfileSetting: React.FC = () => {
           <input
             type="text"
             id="settingUsername"
+            name="username"
             value={settingUsername}
             onChange={(e) => setSettingUsername(e.target.value)}
           />
@@ -114,6 +118,7 @@ const ProfileSetting: React.FC = () => {
           <input
             type="password"
             id="current-password"
+            name="currentPassword"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
           />
@@ -123,6 +128,7 @@ const ProfileSetting: React.FC = () => {
           <input
             type="password"
             id="new-password"
+            name="newPassword"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
           />
