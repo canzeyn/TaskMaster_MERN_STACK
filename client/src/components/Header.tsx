@@ -26,11 +26,11 @@ const Header: React.FC = () => {
 
   const handleLogOut = async () => {
     try {
-      await axios.get("http://localhost:3000/logout", {
+      await axios.get("http://localhost:3000/logout", {  // sunucuya istek atılıyor
         withCredentials: true,
       });
       
-      navigate("/");
+      navigate("/");  // çıkış işlemi başarılı olursa anasayfaya yönlendiriliyor
     } catch (err) {
       console.log("(Header.tsx) çıkış yapma işleminde hata var", err);
     }
@@ -58,18 +58,22 @@ const Header: React.FC = () => {
           return <img src={userInfo.profilePictureUrl} alt="Profil" className="profile-photo" />;
         }
         // Eğer profil fotoğrafı yoksa, kullanıcının adını döndür
-        // else if (userInfo && userInfo.name) {
-        //   return <div className="profile-initial">{userInfo.name.charAt(0)}</div>;
-        // }
+        else if (userInfo && userInfo.name) {
+          return <div className="profile-initial">{userInfo.name.charAt(0)}</div>;
+        }
         // Eğer userInfo boşsa veya beklenmedik bir durum varsa
-        // else {
-        //   return 'Kullanıcı bilgisi mevcut değil';
-        // }
+        else {
+          return 'Kullanıcı bilgisi mevcut değil';
+        }
       } catch (error) {
         console.error('renderUserProfile fonksiyonunda hata:', error);
         return 'Bir hata oluştu.';
       }
     };
+
+       const navigateToFinishedWorks = () => {
+        navigate("/finishedWorks");
+       }
 
 
   return (
@@ -80,14 +84,14 @@ const Header: React.FC = () => {
         </div>
 
         <div className="menu">
-          <p>New Todo</p>
+         
           <p>all Todos</p>
-          <p>finished Works</p>
+          <p onClick={navigateToFinishedWorks}>finished Works</p>
 
           <Dropdown>
             <Dropdown.Toggle
               id="dropdown-basic"
-              className="profile-photo-header"
+              className="profile-photo-header bg-transparent border-0"
             >
                 {renderUserProfile()}
             </Dropdown.Toggle>
@@ -110,13 +114,12 @@ const Header: React.FC = () => {
             <Offcanvas.Title>Menü</Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body className="bg-dark">
-            <p className="text-white">New Todo</p>
             <p className="text-white">All Todos</p>
-            <p className="text-white">Finished Works</p>
+            <p onClick={navigateToFinishedWorks} className="text-white">Finished Works</p>
             <Dropdown>
               <Dropdown.Toggle
                 id="dropdown-basic"
-                className="profile-photo-header"
+                className="profile-photo-header bg-transparent"
                 
               >
                   {renderUserProfile()}

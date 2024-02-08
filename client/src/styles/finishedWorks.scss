@@ -1,0 +1,55 @@
+@import "./index.scss";
+
+.works-container {
+   background-image: url('images/arkaplanTodoList.png');
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: start;
+   height: 100vh;
+   width: 100%;
+
+   .worksIcon {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-top: 10px;
+
+      .iconBack {
+         font-size: 24px;
+         cursor: pointer; 
+         margin-left: 10px;
+         color: $light-beige;
+      }
+
+       h4 {
+      
+         font-weight: 800;
+         font-size: 36px;
+         color: $light-beige;
+       }
+
+   }
+
+   .deltedTodos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      width: 100%;
+      max-width: 1200px; // Maksimum genişlik
+      padding: 20px;
+
+      .todoItemWorks {
+         background-color: $light-beige; // Arka plan rengi
+         padding: 10px; // İç boşluk
+         border-radius: 5px; // Kenar yuvarlaklığı
+         overflow: hidden; // Taşan içeriği gizle
+         text-overflow: ellipsis; // Taşan metni "..." ile göster
+         white-space: nowrap; // Metni tek satırda tut
+         cursor: pointer; 
+      }
+   }
+
+}

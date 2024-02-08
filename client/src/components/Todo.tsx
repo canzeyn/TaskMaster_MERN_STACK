@@ -7,6 +7,7 @@ import { RxEyeOpen } from "react-icons/rx";
 import { MdDelete } from "react-icons/md";
 import { Button, Modal, ModalBody, ModalFooter } from "reactstrap";
 
+
 interface TodoItem {
   // veri tabanına eklenen veriler çekilirken bu interface göre geliyor
   _id: string;
@@ -19,6 +20,8 @@ const Todo: React.FC = () => {
   const [loading, setLoading] = useState(true); // yükleme durumu buradan kontrol ediliyor
   const [modal, setModal] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<TodoItem | null>(null); // Seçili todo'yu tutacak
+
+ 
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -56,11 +59,11 @@ const Todo: React.FC = () => {
 
   const handleDeleteTodo = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:3000/deleteTodo/${id}`, {
+      await axios.delete(`http://localhost:3000/deleteTodo/${id}`, { // silinecek olan todonun id değeri gönderiliyor
         withCredentials: true,
       });
 
-      await handleGetTodos();
+      await handleGetTodos(); // silinme işlemi sunucu tarafında gerçekleştikten sonra tüm todolar tekrar getirliyor
     } catch (err) {
       console.log("todo.tsx silme işlemi hata var:", err);
     }
@@ -71,8 +74,8 @@ const Todo: React.FC = () => {
       // seçili todo varsa kodlar çalışır
       try {
         const changeData = axios.put(
-          `http://localhost:3000/updateTodo/${selectedTodo._id}`,
-          { description: selectedTodo.description },
+          `http://localhost:3000/updateTodo/${selectedTodo._id}`, // seçilen todonun id değeri gönderiliyor sunucuya
+          { description: selectedTodo.description }, //  seçili todonun description alanı gönderiliyor payload olarak
           { withCredentials: true }
         ); // put isteği ie var olan bir veriyi güncellemek için kullanılır endPoint olarak seçili todonun id değeri gönderiliyor sunucuya
         // payload olarak gönderilen veride description key olarak içerisinde seçili todunun description alanını gönderiyoruz en sonda kimlik bilgilerini gönderimine izin veriyoruz
@@ -102,6 +105,7 @@ const Todo: React.FC = () => {
     handleGetTodos();
   }, []);
 
+ 
   return (
     <>
       <div className="todo-container">
@@ -134,12 +138,12 @@ const Todo: React.FC = () => {
                     <RxEyeOpen
                       className="iconEye"
                       onClick={() => {
-                        handleViewTodo(item);
+                        handleViewTodo(item); // todo nesnesinin tüm bilgileri burada var gönderiliyor id değeri description ve diğerleri
                       }}
                     />
                     <MdDelete
                       className="iconDelete"
-                      onClick={() => handleDeleteTodo(item._id)}
+                      onClick={() => handleDeleteTodo(item._id)} // todonun id değeri gönderiliyor
                     />
                   </div>
                 </div>
@@ -160,7 +164,7 @@ const Todo: React.FC = () => {
             onChange={(e) =>
               setSelectedTodo(
                 selectedTodo
-                  ? { ...selectedTodo, description: e.target.value }
+                  ? { ...selectedTodo, description: e.target.value } // seçili todonun bir kopyası alınıyor ve alınan kopyaya girilen yazı ekleniyor
                   : null
               )
             }

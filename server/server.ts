@@ -16,6 +16,7 @@ import deleteTodoRoutes from "./routes/deleteTodoRoutes";
 import updateTodoRoutes from "./routes/updateTodoRoutes";
 import uploadPhotoRoutes from "./routes/uploadPhotoRoutes";
 import updatePasswordRoutes from "./routes/updatePasswordRoutes"
+import getDeleteTodosRoutes from "./routes/getDeleteTodosRoutes"
 
 const app: Express = express(); //express frameworkunun tüm özelliklerinib ir değişkene atar ve oradan kullanırız
 
@@ -59,6 +60,8 @@ app.use('/updateTodo' , updateTodoRoutes);
 app.use('/upload-photo' , uploadPhotoRoutes)
 
 app.use('/updatePassword' , updatePasswordRoutes)
+
+app.use('/getDeleteTodos' , getDeleteTodosRoutes)
 
 
 // Statik dosyaları sunmadan önce tüm API rotaları tanımlanmalıdır
