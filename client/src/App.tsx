@@ -6,6 +6,7 @@ import Todo from "./components/Todo";
 import PrivateRoute from "./PrivetRoute";
 import ProfileSetting from "./components/ProfileSetting";
 import FinishedWorks from "./components/FinishedWorks";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   
@@ -26,6 +27,10 @@ function App() {
 
             <Route path='/finishedWorks' element={<PrivateRoute>
               <FinishedWorks />
+            </PrivateRoute>} />
+
+            <Route path='/dashboard' element={<PrivateRoute>
+              <Dashboard />
             </PrivateRoute>} />
 
           </Routes>

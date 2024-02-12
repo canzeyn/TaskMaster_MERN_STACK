@@ -1,0 +1,16 @@
+@import "./index.scss";
+
+.dashboardContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    background-color: $light-beige;
+
+    .menuIconDashboard {
+        font-size: 32px; 
+        color: #333; 
+        cursor: pointer;
+        margin: 10px;
+    }
+}

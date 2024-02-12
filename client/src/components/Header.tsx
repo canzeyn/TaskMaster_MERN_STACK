@@ -8,16 +8,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Header: React.FC = () => {
-
   type UserInfo = {
     name: string;
     profilePictureUrl?: string;
-
-  }
+  };
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [userInfo , setUserInfo] = useState<UserInfo  | null> (null);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -26,55 +24,64 @@ const Header: React.FC = () => {
 
   const handleLogOut = async () => {
     try {
-      await axios.get("http://localhost:3000/logout", {  // sunucuya istek atılıyor
+      await axios.get("http://localhost:3000/logout", {
+        // sunucuya istek atılıyor
         withCredentials: true,
       });
-      
-      navigate("/");  // çıkış işlemi başarılı olursa anasayfaya yönlendiriliyor
+
+      navigate("/"); // çıkış işlemi başarılı olursa anasayfaya yönlendiriliyor
     } catch (err) {
       console.log("(Header.tsx) çıkış yapma işleminde hata var", err);
     }
   };
 
   const fetchUsername = async () => {
-    const response = await axios.get("http://localhost:3000/get-user" , {withCredentials:true})
+    const response = await axios.get("http://localhost:3000/get-user", {
+      withCredentials: true,
+    });
     setUserInfo(response.data);
     console.log(userInfo);
-  }
+  };
 
   useEffect(() => {
     fetchUsername();
-  },[]);
+  }, []);
 
   console.log(userInfo);
 
-   const navigateToProfileSettings = () => {
-    navigate("/profileSettings"); }
+  const navigateToProfileSettings = () => {
+    navigate("/profileSettings");
+  };
 
-    const renderUserProfile = () => {
-      try {
-        // Eğer profil fotoğrafı varsa, URL'sini döndür
-        if (userInfo && userInfo.profilePictureUrl) {
-          return <img src={userInfo.profilePictureUrl} alt="Profil" className="profile-photo" />;
-        }
-        // Eğer profil fotoğrafı yoksa, kullanıcının adını döndür
-        else if (userInfo && userInfo.name) {
-          return <div className="profile-initial">{userInfo.name.charAt(0)}</div>;
-        }
-        // Eğer userInfo boşsa veya beklenmedik bir durum varsa
-        else {
-          return 'Kullanıcı bilgisi mevcut değil';
-        }
-      } catch (error) {
-        console.error('renderUserProfile fonksiyonunda hata:', error);
-        return 'Bir hata oluştu.';
+  const renderUserProfile = () => {
+    try {
+      // Eğer profil fotoğrafı varsa, URL'sini döndür
+      if (userInfo && userInfo.profilePictureUrl) {
+        return (
+          <img
+            src={userInfo.profilePictureUrl}
+            alt="Profil"
+            className="profile-photo"
+          />
+        );
       }
-    };
+      // Eğer profil fotoğrafı yoksa, kullanıcının adını döndür
+      else if (userInfo && userInfo.name) {
+        return <div className="profile-initial">{userInfo.name.charAt(0)}</div>;
+      }
+      // Eğer userInfo boşsa veya beklenmedik bir durum varsa
+      else {
+        return "Kullanıcı bilgisi mevcut değil";
+      }
+    } catch (error) {
+      console.error("renderUserProfile fonksiyonunda hata:", error);
+      return "Bir hata oluştu.";
+    }
+  };
 
-       const navigateToFinishedWorks = () => {
-        navigate("/finishedWorks");
-       }
-
+  const navigateToFinishedWorks = () => {
+    navigate("/finishedWorks");
+  };
 
   return (
     <>
@@ -84,8 +91,7 @@ const Header: React.FC = () => {
         </div>
 
         <div className="menu">
-         
-          <p>all Todos</p>
+          <p>dashboard</p>
           <p onClick={navigateToFinishedWorks}>finished Works</p>
 
           <Dropdown>
@@ -93,7 +99,7 @@ const Header: React.FC = () => {
               id="dropdown-basic"
               className="profile-photo-header bg-transparent border-0"
             >
-                {renderUserProfile()}
+              {renderUserProfile()}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
@@ -115,21 +121,24 @@ const Header: React.FC = () => {
           </Offcanvas.Header>
           <Offcanvas.Body className="bg-dark">
             <p className="text-white">All Todos</p>
-            <p onClick={navigateToFinishedWorks} className="text-white">Finished Works</p>
+            <p onClick={navigateToFinishedWorks} className="text-white">
+              Finished Works
+            </p>
             <Dropdown>
               <Dropdown.Toggle
                 id="dropdown-basic"
                 className="profile-photo-header bg-transparent"
-                
               >
-                  {renderUserProfile()}
+                {renderUserProfile()}
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
                 <Dropdown.Item onClick={navigateToProfileSettings}>
                   Profil Düzenle
                 </Dropdown.Item>
-                <Dropdown.Item onClick={handleShowModal}>Çıkış Yap</Dropdown.Item>
+                <Dropdown.Item onClick={handleShowModal}>
+                  Çıkış Yap
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
             {/* Diğer menü öğeleri */}
@@ -148,7 +157,7 @@ const Header: React.FC = () => {
             <Button
               variant="primary"
               onClick={() => {
-               handleLogOut();
+                handleLogOut();
               }}
             >
               Çıkış Yap

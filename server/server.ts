@@ -15,8 +15,12 @@ import getTodosRoutes from "./routes/getTodosRoutes";
 import deleteTodoRoutes from "./routes/deleteTodoRoutes";
 import updateTodoRoutes from "./routes/updateTodoRoutes";
 import uploadPhotoRoutes from "./routes/uploadPhotoRoutes";
-import updatePasswordRoutes from "./routes/updatePasswordRoutes"
-import getDeleteTodosRoutes from "./routes/getDeleteTodosRoutes"
+import updatePasswordRoutes from "./routes/updatePasswordRoutes";
+import getDeleteTodosRoutes from "./routes/getDeleteTodosRoutes";
+import getAllUserRoutes from "./routes/getAllUserRoutes";
+import deleteUserRoutes from "./routes/deleteUserRoutes"
+import updateUserNameRoutes from "./routes/updateUserNameRoutes";
+import makeAdminRoutes from "./routes/makeAdminRoutes";
 
 const app: Express = express(); //express frameworkunun tüm özelliklerinib ir değişkene atar ve oradan kullanırız
 
@@ -57,11 +61,19 @@ app.use('/deleteTodo' , deleteTodoRoutes);
 
 app.use('/updateTodo' , updateTodoRoutes);
 
-app.use('/upload-photo' , uploadPhotoRoutes)
+app.use('/upload-photo' , uploadPhotoRoutes);
 
-app.use('/updatePassword' , updatePasswordRoutes)
+app.use('/updatePassword' , updatePasswordRoutes);
 
-app.use('/getDeleteTodos' , getDeleteTodosRoutes)
+app.use('/getDeleteTodos' , getDeleteTodosRoutes);
+
+app.use('/getAllUser' , getAllUserRoutes);
+
+app.use('/deleteUser' , deleteUserRoutes);
+
+app.use('/updateUser' , updateUserNameRoutes);
+
+app.use('/makeAdmin' , makeAdminRoutes)
 
 
 // Statik dosyaları sunmadan önce tüm API rotaları tanımlanmalıdır

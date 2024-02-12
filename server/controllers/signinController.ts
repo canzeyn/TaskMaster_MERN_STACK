@@ -24,7 +24,7 @@ export const signinController = async (req: Request, res: Response) => {
   
     const token = generateToken(user._id);
 
-    res.cookie("token", token, {
+    res.cookie("token", token, { // bu token tüm isteklerle gönderilir sunucya tekrar client taraftan ilk olarak web içinde cookies e kaydedilir ardından bu token aktif olduğu sürece her istek ile client taraftan sunucuya gönderilir
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // HTTPS üzerinde çalışırken true olmalı
       maxAge: 3600000, // 1 saat (milisaniye cinsinden)

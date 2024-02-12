@@ -10,7 +10,6 @@ export const authorize = (roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization; //req kısmı http isteğinin tamamıdır
     // http isteğinin headers adlı kısım http isteğinin başlığıdır
-  
 
     if (!authHeader) {
       // eğer başlıkta authorizatio n  yoksa çalışır kodlar
@@ -18,8 +17,6 @@ export const authorize = (roles: string[]) => {
     }
 
     const token = authHeader.split(' ')[1];  // split ile bearer <token> ile arasındaki boşlupğu alır ve ondan sonra gelen tokeni alır orada kullanıcın yetkisi bulunur
-
-  
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET as string); // gelen tokeni doğrulamak için verfy adlı fonksiyon kullanılır
@@ -32,7 +29,7 @@ export const authorize = (roles: string[]) => {
       (req as any).user = decoded; // gelen isteğe token içindeki bilgileri ekler
       next(); // bir sonraki middleware geçilmesini sağlar
     } catch (error) {
-      return res.status(401).json({ message: " (suthorizeMiddleware.ts) geçersiz token" });
+      return res.status(401).json({ message: " (authorizeMiddleware.ts) geçersiz token" });
     }
   };
 };
