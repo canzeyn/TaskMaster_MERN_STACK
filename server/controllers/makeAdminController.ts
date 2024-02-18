@@ -7,6 +7,7 @@ const makeAdmin = async (req: Request, res: Response) => {
 
   try {
     // Kullanıcıyı bul ve rolünü 'admin' olarak güncelle
+    console.log("admin olacak olan kişi idsi:" , userId)
     const updatedUser = await User.findByIdAndUpdate( // id değeri ile bunuyor kullanıcı ve değiştirilecek olan alan değiştiriliyor
       userId,  // client taraftan gelen id değeri
       { role: "admin" }, // payload olarak role değerine admin değeri atanıyor o kullanıcıya

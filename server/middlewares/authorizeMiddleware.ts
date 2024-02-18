@@ -3,7 +3,7 @@ import express, { Request, Response, NextFunction } from "express";
 
 require('dotenv').config();
 
-export const authorize = (roles: string[]) => {
+ const authorize = (roles: string[]) => {
   // bu middleware ile jwt kısmında yetkilendirme yapıyoruz admin gibi basic user gibi kimlerin nereye geçebileceğini ve ne görebileceğini ayarlaması yapılıyor bu fonksiyon ile
   // hangi rollerin geçebielceğini roles adlı dizi içinde tutuyoruz
 
@@ -33,6 +33,8 @@ export const authorize = (roles: string[]) => {
     }
   };
 };
+
+export default authorize;
 
 
 

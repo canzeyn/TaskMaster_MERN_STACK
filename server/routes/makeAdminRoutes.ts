@@ -1,10 +1,11 @@
 import express from 'express';
 import  makeAdmin  from '../controllers/makeAdminController';
-import { authorize } from '../middlewares/authorizeMiddleware';
+import  authorize  from '../middlewares/authorizeMiddleware';
+import verifyToken from '../middlewares/verifyToken';
 
-const router = express.Router();
+const makeAdminRouter = express.Router();
 
 // Yönetici yapma rotası
-router.patch('/:id', authorize(['admin']), makeAdmin);  
+makeAdminRouter.patch('/:id', makeAdmin);  
 
-export default router;
+export default makeAdminRouter;

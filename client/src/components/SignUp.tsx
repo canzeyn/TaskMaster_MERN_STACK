@@ -9,19 +9,23 @@ const SignUp: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const [role, setRole] = useState("user");
 
   const navigate: NavigateFunction = useNavigate();
 
-  const handleSubmit = async ( event: FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
 
     interface UserData {
       name: string;
       email: string;
       password: string;
+      // role: string;
     }
 
-    const userData: UserData = { name, email, password };
+    const userData: UserData = { name, email, password  };
 
     try {
       const response = await axios.post(

@@ -13,6 +13,7 @@ interface User {
   name: string;
   email: string;
   createdAt: string;
+  role:string;
 }
 
 const Users = () => {
@@ -23,12 +24,14 @@ const Users = () => {
   const [sortOrder, setSortOrder] = useState<string>("asc");
   const [editUserId, setEditUserId] = useState<string | null>(null);
   const [newName, setNewName] = useState<string>("");
-  const [adminUserSelectId, setAdminSelectUserId] = useState<string | null>(null);
+  const [adminId, setAdminId] = useState<string | null>(
+    null
+  );
 
   const toggleAdmin = () => setModalAdmin(!modalAdmin);
 
   const handleAdminClick = (userId: string) => {
-    setAdminSelectUserId(userId);
+    setAdminId(userId);
     toggleAdmin();
   };
 
@@ -94,16 +97,16 @@ const Users = () => {
     }
   };
 
-  const makeAdmin = async (adminUserSelectId: string) => {
+  const makeAdmin = async (adminId: string) => {
     try {
-      await axios.patch(
-        `http://localhost:3000/makeAdmin/${adminUserSelectId}`,
+       await axios.patch(
+        `http://localhost:3000/makeAdmin/${adminId}`,
         {},
         {
           withCredentials: true,
         }
       );
-      alert("Kullanıcı başarıyla admin yapıldı.");
+      alert(`Kullanıcı başarıyla admin yapıldı: ${adminId}`);
       fetchData(); // Kullanıcı listesini güncelle
     } catch (error) {
       console.error("Admin yapılırken bir hata oluştu:", error);
@@ -190,7 +193,7 @@ const Users = () => {
                   <td>
                     {new Date(item.createdAt).toLocaleDateString("en-CA")}
                   </td>
-                  <td>user</td>
+                  <td>{item.role}</td>
                   <td className="usersOperation">
                     <p>
                       <MdDelete
@@ -228,8 +231,8 @@ const Users = () => {
             <Button
               color="primary"
               onClick={() => {
-                if (adminUserSelectId) {
-                  makeAdmin(adminUserSelectId);
+                if (adminId) {
+                  makeAdmin(adminId);
                   toggleAdmin(); // Modalı kapat
                 }
               }}

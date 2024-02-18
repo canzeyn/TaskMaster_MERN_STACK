@@ -29,7 +29,7 @@ function App() {
               <FinishedWorks />
             </PrivateRoute>} />
 
-            <Route path='/dashboard' element={<PrivateRoute>
+            <Route path='/dashboard' element={<PrivateRoute allowedRoles={["admin"]}>
               <Dashboard />
             </PrivateRoute>} />
 

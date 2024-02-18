@@ -6,7 +6,7 @@ import { generateToken } from "../middlewares/authMiddleware";
 
 export const userController = async (req: Request, res: Response) => {
   try {
-    const { name, email, password } = req.body; //burada client tarafta form etiketleri içinde olan veriler json formatında req.body içinde yer alır
+    const { name, email, password  } = req.body; //burada client tarafta form etiketleri içinde olan veriler json formatında req.body içinde yer alır
 
     const existingUser = await User.findOne({ email }); // burada findone metodu ile email in var olup olmadığı yani önceden bu email ile hesap oluşturulup oluşturulmadığına bakılıyor findone metodu veri tabanında istenilen koşulu sağlayan ilk veriyi bulur ve getirir
     if (existingUser) {
@@ -24,15 +24,15 @@ export const userController = async (req: Request, res: Response) => {
       name,
       email,
       password: hashedPassword,
-      role: "user",
     }); // userModel sayfasında tanımlanan modele göre bir model oluşturur req.body ile client tarafından gelen veriler bu modele gönderirlr ve bir tane oluşturulur
 
     console.log("Kullanıcı kaydetmeden önce:", newUser); // Kaydetmeden önceki durum
     await newUser.save(); // mongoose kütüphanseinde gelen save metodu ile oluşturulan model mongodb içine kaydedilir
     console.log("Kullanıcı başarıyla kaydedildi:", newUser); // Başarılı kayıttan sonra
 
-    const userId = newUser._id.toString();
-    const token = generateToken({ id: userId, role: newUser.role }); // authMiddlewareden gelen generateToken adlı fonksiyon ile her kullanıcı oluşturulduktan sonra o kullanıcıya bir token üretir
+    const userId = newUser._id;
+
+    const token = generateToken( userId ); // authMiddlewareden gelen generateToken adlı fonksiyon ile her kullanıcı oluşturulduktan sonra o kullanıcıya bir token üretir
     //biz burada bu token içine kullanıcın benzersiz idsini ve yetkisini tanımlıyoruz her kullanıcı ilk oluşturduğu zaman hesabını yetkisi default olarak user olacak
 
     res.cookie("token", token, {
@@ -47,7 +47,6 @@ export const userController = async (req: Request, res: Response) => {
       message: "Kullanıcı başarıyla oluşturuldu",
       user: newUser,
       token: token,
-      role: "user",
     });
   } catch (err) {
     res.status(500).json({
