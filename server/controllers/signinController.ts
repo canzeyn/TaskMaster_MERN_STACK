@@ -22,7 +22,7 @@ export const signinController = async (req: Request, res: Response) => {
       return res.status(401).json({ message: " (signinController.ts) yanlış şifre" });
     }
   
-    const token = generateToken(user._id);
+    const token = generateToken(user._id); // giriş yapan kullanıcın id değeri ile token üretiliyor token içierisine id değeri ekleniyor
 
     res.cookie("token", token, { // bu token tüm isteklerle gönderilir sunucya tekrar client taraftan ilk olarak web içinde cookies e kaydedilir ardından bu token aktif olduğu sürece her istek ile client taraftan sunucuya gönderilir
       httpOnly: true,

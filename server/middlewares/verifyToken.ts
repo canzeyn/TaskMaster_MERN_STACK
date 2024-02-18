@@ -3,7 +3,8 @@ import { Request, Response, NextFunction } from "express";
 import User from "../models/userModel";
 import mongoose from "mongoose";
 
-interface CustomJwtPayload extends JwtPayload { // JwtPayload ile token içinde verilrin gönderileciğini belirtiyoruz 
+interface CustomJwtPayload extends JwtPayload {
+  // jwt paketinden gelen JwtPayload tipini kullanıyoruz ve bu tip ekstra olarak CustonJwtPayload inmterfaceinide kapsıyor ekleniyor yani id değeri ekleniyopr string olarak
   id: string;
 }
 
@@ -23,6 +24,8 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
       token,
       process.env.JWT_SECRET || ""
     ) as JwtPayload; // verify fonksiyonu ile token çözülür ve içindeki bilgiler alınır çözülürkne sunucudaki key kullanılır eğer keyde hata varsa token çözülmez
+    // döndürülen değerin tipi JwtPayload tipindedir
+
     console.log("Decoded ID:", decoded.id);
     if (!decoded || typeof decoded !== "object" || !decoded.id) {
       // decoded false değer döndğrğse kodlar çalışır eğer tru ise bir sonraki dğer olan decoded tipinine bakılır eğer tipi object değilse kodlar çalışır son olarakda decoded içinden id değerine bakılır eğer false dönerse kodlar çalışır

@@ -53,6 +53,10 @@ const Header: React.FC = () => {
     navigate("/profileSettings");
   };
 
+  const navigateToDashboard = () => {
+    navigate("/dashboard");
+  }
+
   const renderUserProfile = () => {
     try {
       // Eğer profil fotoğrafı varsa, URL'sini döndür
@@ -91,7 +95,7 @@ const Header: React.FC = () => {
         </div>
 
         <div className="menu">
-          <p>dashboard</p>
+          <p onClick={navigateToDashboard}>dashboard</p>
           <p onClick={navigateToFinishedWorks}>finished Works</p>
 
           <Dropdown>

@@ -31,8 +31,17 @@ const PrivateRoute: React.FC<{ children: React.ReactNode , allowedRoles?: string
   }
 
 
+
   const isAuthorized = allowedRoles ? allowedRoles.includes(userRole) : true; // allowedRoles tanımlıysa yani parametre olarak girilmişse bu girilen parametre değeri ile sunucudan gelen role değerini karşılaştırı eğer parametre olarak girlien role içeriyorsa bu state içindeki değeri eşleşme olursa true değer döner ve kullanıcı o sayfaya yönlendirilir eğer parametre girilmemişse role değeri olarak direkt olarak true değer alır ve kullanıcı erişir yani bakılmaz yetki durumuna herkes tarafından erişilebilir
 
+
+  if (isAuth && !isAuthorized) {
+    const from = location.state?.from?.pathname || "/todo"; // burada location nesnesinden state ile kullanıcın bilgileri gelir istersek bu bilgileri bizde doldurabilir başka bir rotaya gönderilecek oln bilgileri daha güvenli olması için state içinde taşınır
+    // from ile state içindeki from bilgisi alınır bu kullanıcın geldiği adresdit burada taşınır from ile erişilir
+    // pathname ile url kısmındaki yoldur en sonra bulunana rotadır urldeki eğer bunların hiçbir yoksa kişiyi todo rotasına yönlendirir 
+    return <Navigate to={from} replace />; // kullanıcıyı from değişkeninden dönen sonuca yönlendirir
+  }
+  
   return isAuth && isAuthorized ? children : <Navigate to='/signin' state={{ from: location }} replace />; // eğer isAuth true bir ifade ise children döndürülür bu sayede app.tsx sayfasında belilenen rotaya gidilir eğer false değer ise isAuth değeri kullanıcı signin rotasına yönlendirilir geldiği yol yani giriş sayfasına yönlendirilmeden önceki sayfa location nesnesi içinde tutulur ve replace ile bu yol geçmişten silinir giriş yaptığı zaman location nesnesi içinde tutulan yere tekrardan yönlendirilir 
   // iki değerde true ise  kodlar çalışıyor 
 };

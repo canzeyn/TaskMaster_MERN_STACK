@@ -29,7 +29,8 @@ function App() {
               <FinishedWorks />
             </PrivateRoute>} />
 
-            <Route path='/dashboard' element={<PrivateRoute allowedRoles={["admin"]}>
+            {/* bu rotaya istek gelince privetRoutes sayfasında parametre olarak admin değeri gönderiliyor bu sayede giriş yapan kullanıcın role değeri admin değilse giriş yapamıyor */}
+            <Route path='/dashboard' element={<PrivateRoute allowedRoles={["admin"]}> 
               <Dashboard />
             </PrivateRoute>} />
 
