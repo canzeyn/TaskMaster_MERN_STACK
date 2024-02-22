@@ -13,7 +13,7 @@ interface User {
   name: string;
   email: string;
   createdAt: string;
-  role:string;
+  role: string;
 }
 
 const Users = () => {
@@ -24,9 +24,7 @@ const Users = () => {
   const [sortOrder, setSortOrder] = useState<string>("asc");
   const [editUserId, setEditUserId] = useState<string | null>(null);
   const [newName, setNewName] = useState<string>("");
-  const [adminId, setAdminId] = useState<string | null>(
-    null
-  );
+  const [adminId, setAdminId] = useState<string | null>(null);
 
   const toggleAdmin = () => setModalAdmin(!modalAdmin);
 
@@ -99,7 +97,7 @@ const Users = () => {
 
   const makeAdmin = async (adminId: string) => {
     try {
-       await axios.patch(
+      await axios.patch(
         `http://localhost:3000/makeAdmin/${adminId}`,
         {},
         {

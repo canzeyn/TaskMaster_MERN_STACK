@@ -21,6 +21,8 @@ import getAllUserRoutes from "./routes/getAllUserRoutes";
 import deleteUserRoutes from "./routes/deleteUserRoutes"
 import updateUserNameRoutes from "./routes/updateUserNameRoutes";
 import makeAdminRoutes from "./routes/makeAdminRoutes";
+import getAllTodosRoutes from "./routes/getAllTodosRoutes";
+import adminDeleteTodoRoutes from "./routes/adminDeleteTodoRoutes";
 
 const app: Express = express(); //express frameworkunun tüm özelliklerinib ir değişkene atar ve oradan kullanırız
 
@@ -73,7 +75,11 @@ app.use('/deleteUser' , deleteUserRoutes);
 
 app.use('/updateUser' , updateUserNameRoutes);
 
-app.use('/makeAdmin' , makeAdminRoutes)
+app.use('/makeAdmin' , makeAdminRoutes);
+
+app.use('/getAllTodos' , getAllTodosRoutes);
+
+app.use('/adminDeleteTodo' , adminDeleteTodoRoutes);
 
 
 // Statik dosyaları sunmadan önce tüm API rotaları tanımlanmalıdır
