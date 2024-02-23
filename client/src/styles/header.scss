@@ -52,12 +52,15 @@
             background-color: $black;
             padding: 0 !important;
             border-radius: 100%;
+            margin-right: 10px;
+            border: 1px solid;
               
             .profile-photo {
                 width: 64px;
                 height: 64px;
                 border-radius: 100%; // Daire şeklinde bir profil fotoğrafı için
                 object-fit: cover; // Resmin boyutlarına göre kırpılmasını sağlar
+                
               }
 
           

@@ -25,6 +25,7 @@ const Users = () => {
   const [editUserId, setEditUserId] = useState<string | null>(null);
   const [newName, setNewName] = useState<string>("");
   const [adminId, setAdminId] = useState<string | null>(null);
+  const [searchQuery , setSearchQuery] = useState("");
 
   const toggleAdmin = () => setModalAdmin(!modalAdmin);
 
@@ -134,6 +135,10 @@ const Users = () => {
     setUser(sortedUsers);
   }, [sortOrder]);
 
+  const filteredUser = user.filter((item) => {
+      return item.name.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
   return (
     <>
       <div className="usersContainer">
@@ -151,6 +156,10 @@ const Users = () => {
           </select>
         </div>
 
+        <div className="usersSearchInputArea">
+          <input onChange={e => setSearchQuery(e.target.value)} type="text" className="usersSearchInput" />
+        </div>
+
         {/* table */}
         <div className="usersTableArea">
           <Table className="usersTable" hover>
@@ -165,7 +174,7 @@ const Users = () => {
               </tr>
             </thead>
             <tbody>
-              {user.map((item, index) => (
+              {filteredUser.length > 0 ?  filteredUser.map((item, index) => (
                 <tr key={item._id}>
                   <th scope="row">{index + 1}</th>
                   <td>
@@ -213,7 +222,13 @@ const Users = () => {
                     </p>
                   </td>
                 </tr>
-              ))}
+              )) : (
+                <tr>
+                  <td colSpan={5} style={{ textAlign: "center" }}>
+                    hiç veri yok
+                  </td>
+                </tr>
+              )}
             </tbody>
           </Table>
         </div>

@@ -13,9 +13,10 @@ const Header: React.FC = () => {
     profilePictureUrl?: string;
   };
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [show, setShow] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [userRoleData , setUserRoleData] = useState<string>("")
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -43,9 +44,23 @@ const Header: React.FC = () => {
     console.log(userInfo);
   };
 
-  useEffect(() => {
+ useEffect(() => {
     fetchUsername();
   }, []);
+
+  const fetchRoleData = async () => {
+    const roleData =  await axios.get("http://localhost:3000/auth/check", {
+      withCredentials: true,
+    });
+    setUserRoleData(roleData.data.role);
+  };
+
+  useEffect(() => {
+       fetchRoleData();
+  },[])
+
+ 
+
 
   console.log(userInfo);
 
@@ -55,7 +70,7 @@ const Header: React.FC = () => {
 
   const navigateToDashboard = () => {
     navigate("/dashboard");
-  }
+  };
 
   const renderUserProfile = () => {
     try {
@@ -71,7 +86,7 @@ const Header: React.FC = () => {
       }
       // Eğer profil fotoğrafı yoksa, kullanıcının adını döndür
       else if (userInfo && userInfo.name) {
-        return <div className="profile-initial">{userInfo.name.charAt(0)}</div>;
+        return <div className="profile-initial" style={{color:"black" , fontSize:"20px" , marginTop:"7px" , fontWeight:"700" , border:"1px solid", padding:"10px" , borderRadius:"80%"}}>{userInfo.name.charAt(0)}</div>;
       }
       // Eğer userInfo boşsa veya beklenmedik bir durum varsa
       else {
@@ -95,7 +110,10 @@ const Header: React.FC = () => {
         </div>
 
         <div className="menu">
-          <p onClick={navigateToDashboard}>dashboard</p>
+          {
+           userRoleData === "admin" &&  <p onClick={navigateToDashboard}>dashboard</p>
+          }
+         
           <p onClick={navigateToFinishedWorks}>finished Works</p>
 
           <Dropdown>

@@ -22,10 +22,14 @@ interface Todo {
 
 const AllTodos: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentTodoDescription, setCurrentTodoDescription] = useState("");
-  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [currentTodoDescription, setCurrentTodoDescription] = useState<string>("");
+  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState<boolean>(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<string>("asc");
+  const [searchQuery , setSearchQuery] = useState<string>("");
+
+
 
   const getAllTodos = async () => {
     const response = await axios.get("http://localhost:3000/getAllTodos", {
@@ -40,7 +44,7 @@ const AllTodos: React.FC = () => {
   }, []);
 
   const toggleDescription = (description: string) => {
-    setCurrentTodoDescription(description);
+    setCurrentTodoDescription(description); 
     setIsOpen(!isOpen);
   };
 
@@ -75,11 +79,40 @@ const AllTodos: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const sortedTodos = [...todos].sort((a, b) => {
+      if (sortOrder === "asc") {
+        return (
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
+      } else {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      }
+    });
+    setTodos(sortedTodos);
+  }, [sortOrder]);
+
+  const filteredTodos = todos.filter((todo) => { // burada todo adlı state içindeki tüm veriler filtrelenecek bu sayede istenen veriye göre arama yapılacak ve sadece o veriler getirelecek
+    return todo.userId?.email.toLowerCase().includes(searchQuery.toLowerCase()); // userId değeri yoksa yani false veya undefined değeri dönüyorsa email değerine erişilemez
+    // email değerini küçük harfe indiriyoruz ki büyük küük harf farkı olmasın ve bu email değerlerinden hangisi searchQuery state içindeki değer ile eşleşirse onlar döndürülür ve değişken içine atılır ve bu değişken tablo içinde listelenir
+  })
+
   return (
     <>
       <div className="allTodosContainer">
         <div className="allTodosTitleArea">
           <h3 className="allTodosTitle">All Todos</h3>
+
+          <select onChange={(e) => setSortOrder(e.target.value) } value={sortOrder} className="allTodosSelect">
+            <option value="asc">asc</option>
+            <option value="desc">desc</option>
+          </select>
+        </div>
+
+        <div className="allTodosSearchArea">
+          <input onChange={(e) => setSearchQuery(e.target.value)} type="text" className="allTodosSearchInput" placeholder="email ile arama yap..." />
         </div>
 
         <div className="allTodosTableArea">
@@ -94,23 +127,25 @@ const AllTodos: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {todos.length > 0 ? (
-                todos.map((item, index) => (
+              {filteredTodos.length > 0 ? (
+                filteredTodos.map((item, index) => (
                   <tr key={item._id}>
                     <th>{index + 1}</th>
                     <td>{item.userId ? item.userId.email : "Kullanıcı yok"}</td>
+                    {/* userId değeri yoksa kullanıcı yok yazılıyor  */}
                     <td className="todoDescription">{item.description}</td>
                     <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                    {/* yeni date nesnesi oluşturuluyor ve yerel tarih şekline çevriliyor */}
                     <td className="allTodosOperatingArea">
                       <p>
                         <MdDelete
-                          onClick={() => openModalDelete(item._id)}
+                          onClick={() => openModalDelete(item._id)} // silinecek olan verinin id değerini state içine ekliyor ve modalı açıyor bu fonksiyon
                           className="allTodosIconDelete"
                         />
                       </p>
                       <p>
                         <RxEyeOpen
-                          onClick={() => toggleDescription(item.description)}
+                          onClick={() => toggleDescription(item.description)} // description alanını state içine ekliyor ve modal açıyor bu fonksiyon 
                           className="allTodosIconEye"
                         />
                       </p>
@@ -124,26 +159,6 @@ const AllTodos: React.FC = () => {
                   </td>
                 </tr>
               )}
-              <tr>
-                <th>#</th>
-                <td>a@mailcom</td>
-                <td>
-                  {" "}
-                  <div className="todoDescription">
-                    Çok uzun metin buraya
-                    gelecekvksnvdsnvıdsnvjnsjvnjsdnvjdnsjvnjnbjvfdjvnjd...
-                  </div>
-                </td>
-                <td>date area</td>
-                <td className="allTodosOperatingArea">
-                  <p>
-                    <MdDelete className="allTodosIconDelete" />
-                  </p>
-                  <p>
-                    <RxEyeOpen className="allTodosIconEye" />
-                  </p>
-                </td>
-              </tr>
             </tbody>
           </Table>
         </div>
@@ -151,7 +166,8 @@ const AllTodos: React.FC = () => {
 
       <Modal isOpen={isOpen} toggle={toggleModal}>
         <ModalHeader toggle={toggleModal}>Todo İçerik Alanı</ModalHeader>
-        <ModalBody>{currentTodoDescription}</ModalBody>
+        <ModalBody>{currentTodoDescription}</ModalBody> 
+        {/* seçili todo state içine atıldıktan sonra burada gösteriliyor state */}
         <ModalFooter>
           <Button color="secondary" onClick={toggleModal}>
             kapat

@@ -1,8 +1,8 @@
-import {Request , Response , Router} from "express";
+import { Request, Response, Router } from "express";
 import adminDeleteTodoController from "../controllers/adminDeleteTodoController";
 
- const adminDeleteTodoRouter = Router();
+const adminDeleteTodoRouter = Router();
 
-  adminDeleteTodoRouter.delete("/:id" , adminDeleteTodoController);
+adminDeleteTodoRouter.delete("/:id", adminDeleteTodoController);
 
-  export default adminDeleteTodoController;
+export default adminDeleteTodoRouter;

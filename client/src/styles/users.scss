@@ -22,21 +22,43 @@
 
         .usersSelect {
             padding: 10px 15px;
-
             border: 1px solid #ccc;
-
             border-radius: 5px;
-
             background-color: white;
-
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
             font-size: 16px;
-
             color: #333;
-
             cursor: pointer;
+        }
+    }
 
+    .usersSearchInputArea {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 10px;
+
+        .usersSearchInput {
+            padding: 10px 20px;
+            border: 2px solid #ccc; // Daha belirgin bir kenarlık
+            border-radius: 20px; // Yuvarlak kenarlar
+            background-color: #f9f9f9; // Hafif gri bir arka plan rengi
+            font-size: 16px; // Okunabilir bir font boyutu
+            width: 50%; // Input genişliği
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Hafif bir gölge efekti
+            transition: border-color 0.3s, box-shadow 0.3s; // Pürüzsüz geçiş efektleri
+
+            &:focus {
+                border-color: black; // Fokuslandığında kenarlık rengi
+                box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); // Fokuslandığında gölge efekti
+                outline: none; // Tarayıcı varsayılan fokus çerçevesini kaldır
+            }
+
+            &::placeholder {
+                color: #aaa; // Placeholder metni için renk
+            }
         }
     }
 
