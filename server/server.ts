@@ -55,7 +55,7 @@ app.use('/get-user' , getUserRoutes);
 
 app.use('/auth/check' , isAuthenticatedRoutes);
 
-app.use('/addTodo' , verifyToken ,  todoRoutes );
+app.use('/addTodo' , todoRoutes );
 
 app.use('/getTodos' , getTodosRoutes);
 

@@ -37,7 +37,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
 
     //(req as any).userId = Buffer.from(decoded.id).toString("hex"); // Buffer.from ile içine girilen nesneyi alır ve buffer tipine çevirir ardından bu tipide hex stirngine çevirir ve istek nesnesine eklenir kullanıcın id değeri bu sayede diğer middlewarelerden de ulaşılabilir bu değere
 
-    (req as any).userId = decoded.id.toString("hex");
+    (req as any).userId = decoded.id
 
     if (!mongoose.Types.ObjectId.isValid(decoded._id)) {
       // return res.status(400).send({ message: "Geçersiz id formatı." });
