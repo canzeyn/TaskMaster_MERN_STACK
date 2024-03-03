@@ -6,6 +6,7 @@ interface IDeletedTodo extends Document {
   isCompleted: boolean;
   createdAt?: Date;
   deletedAt: Date; // Silme tarihi eklendi
+  role: string;
 }
 
 const deletedTodoSchema = new mongoose.Schema({
@@ -23,6 +24,11 @@ const deletedTodoSchema = new mongoose.Schema({
     type: Date,
     default: Date.now, // Silme anının zaman damgası
   },
+  role: {
+    type: String,
+    required: true,
+    default: 'user' // Kullanıcıdan bu alan için bir veri girilmediğinde otomatik olarak 'user' değerini atar.
+  }
 });
 
 const DeletedTodo = mongoose.model<IDeletedTodo>("DeletedTodo", deletedTodoSchema);

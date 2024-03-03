@@ -7,6 +7,9 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "reactstrap";
+import { BiBarChart } from "react-icons/bi";
+import UsersLogContent from "./LogContent/UsersLogContent";
+import { useLogData } from "../context/logContext";
 
 interface User {
   _id: string;
@@ -25,7 +28,9 @@ const Users = () => {
   const [editUserId, setEditUserId] = useState<string | null>(null);
   const [newName, setNewName] = useState<string>("");
   const [adminId, setAdminId] = useState<string | null>(null);
-  const [searchQuery , setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const { state, dispatch } = useLogData();
 
   const toggleAdmin = () => setModalAdmin(!modalAdmin);
 
@@ -113,6 +118,20 @@ const Users = () => {
     }
   };
 
+  const handleChartClick = async (userId: string) => {
+    try {
+      // Sunucuya kullanıcının loglarını getirmek için istek yap
+      const response = await axios.get(
+        `http://localhost:3000/getAllLogs?userId=${userId}`
+      );
+      // Logları burada alıp, bir modalda veya sayfanın bir bölümünde gösterebilirsiniz
+      console.log(response.data);
+      dispatch({ type: "SET_LOG_DATA", payload: response.data });
+    } catch (error) {
+      console.error("Logları getirirken bir hata oluştu:", error);
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -136,7 +155,7 @@ const Users = () => {
   }, [sortOrder]);
 
   const filteredUser = user.filter((item) => {
-      return item.name.toLowerCase().includes(searchQuery.toLowerCase());
+    return item.name.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
   return (
@@ -157,7 +176,11 @@ const Users = () => {
         </div>
 
         <div className="usersSearchInputArea">
-          <input onChange={e => setSearchQuery(e.target.value)} type="text" className="usersSearchInput" />
+          <input
+            onChange={(e) => setSearchQuery(e.target.value)}
+            type="text"
+            className="usersSearchInput"
+          />
         </div>
 
         {/* table */}
@@ -174,55 +197,60 @@ const Users = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredUser.length > 0 ?  filteredUser.map((item, index) => (
-                <tr key={item._id}>
-                  <th scope="row">{index + 1}</th>
-                  <td>
-                    {editUserId === item._id ? ( // eğer seçilen id değeri ile o an dönen id değeri eşleşirse o kısımda bir input alanı çıkıyor
-                      <>
-                        <input
-                          type="text"
-                          value={newName} // girilen yeni isim state içine ekleniyor
-                          onChange={(e) => setNewName(e.target.value)}
+              {filteredUser.length > 0 ? (
+                filteredUser.map((item, index) => (
+                  <tr key={item._id}>
+                    <th scope="row">{index + 1}</th>
+                    <td>
+                      {editUserId === item._id ? ( // eğer seçilen id değeri ile o an dönen id değeri eşleşirse o kısımda bir input alanı çıkıyor
+                        <>
+                          <input
+                            type="text"
+                            value={newName} // girilen yeni isim state içine ekleniyor
+                            onChange={(e) => setNewName(e.target.value)}
+                          />
+                          <Button
+                            color="success"
+                            onClick={() => updateUser(item._id)} // yeni girilen name değeri kaydediliyor
+                          >
+                            Kaydet
+                          </Button>
+                        </>
+                      ) : (
+                        item.name // veri tabanından gelen isim gösteriliyor ilk olarak
+                      )}
+                    </td>
+                    <td>{item.email}</td>
+                    <td>
+                      {new Date(item.createdAt).toLocaleDateString("en-CA")}
+                    </td>
+                    <td>{item.role}</td>
+                    <td className="usersOperation">
+                      <p>
+                        <MdDelete
+                          className="usersIconDelete"
+                          onClick={() => confirmDelete(item._id)}
                         />
-                        <Button
-                          color="success"
-                          onClick={() => updateUser(item._id)} // yeni girilen name değeri kaydediliyor
-                        >
-                          Kaydet
-                        </Button>
-                      </>
-                    ) : (
-                      item.name // veri tabanından gelen isim gösteriliyor ilk olarak
-                    )}
-                  </td>
-                  <td>{item.email}</td>
-                  <td>
-                    {new Date(item.createdAt).toLocaleDateString("en-CA")}
-                  </td>
-                  <td>{item.role}</td>
-                  <td className="usersOperation">
-                    <p>
-                      <MdDelete
-                        className="usersIconDelete"
-                        onClick={() => confirmDelete(item._id)}
-                      />
-                    </p>{" "}
-                    <p>
-                      <VscRequestChanges
-                        className="usersIconChange"
-                        onClick={() => handleEditClick(item._id, item.name)} // fonksiyona id ve name değerleri gönderiliyor argüman olarak
-                      />
-                    </p>{" "}
-                    <p>
-                      <MdAdminPanelSettings
-                        className="usersIconAdmin"
-                        onClick={() => handleAdminClick(item._id)}
-                      />
-                    </p>
-                  </td>
-                </tr>
-              )) : (
+                      </p>{" "}
+                      <p>
+                        <VscRequestChanges
+                          className="usersIconChange"
+                          onClick={() => handleEditClick(item._id, item.name)} // fonksiyona id ve name değerleri gönderiliyor argüman olarak
+                        />
+                      </p>{" "}
+                      <p>
+                        <MdAdminPanelSettings
+                          className="usersIconAdmin"
+                          onClick={() => handleAdminClick(item._id)}
+                        />
+                      </p>
+                      <p>
+                        <BiBarChart onClick={() => handleChartClick(item._id)} className="usersIconChart" />
+                      </p>
+                    </td>
+                  </tr>
+                ))
+              ) : (
                 <tr>
                   <td colSpan={5} style={{ textAlign: "center" }}>
                     hiç veri yok

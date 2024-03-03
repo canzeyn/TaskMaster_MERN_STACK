@@ -15,6 +15,7 @@ import DeleteTodo from "../models/deleteTodoModel";
           isCompleted: true, 
           createdAt: todo.createdAt,   
           deletedAt: new Date(),
+          role:"user",
         })
 
         await deletedTodo.save(); // veri tabanına kayıt edilir

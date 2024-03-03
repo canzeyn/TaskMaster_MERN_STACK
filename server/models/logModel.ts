@@ -1,21 +1,25 @@
 import mongoose, { Schema, Document } from "mongoose";
+import User from "./userModel";
 
 interface ILog extends Document {
-  userId: mongoose.Schema.Types.ObjectId; // Kullanıcı ID'si
-  action: string; // Yapılan işlem (örneğin, 'Todo Eklendi', 'Todo Silindi')
-  timestamp: Date; // İşlemin zaman damgası
-  details: string; // İşlem detayları
+  userId: mongoose.Schema.Types.ObjectId;
+  level: string;
+  time: Date;
+  pid: number;
+  hostname: string;
+  description: string;
+  action: string;
 }
 
-// Log Schema'sı, veritabanında log kayıtlarının nasıl saklanacağını tanımlar
 const LogSchema: Schema = new Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
+  userId: { type: mongoose.Schema.Types.ObjectId,ref: "User" , required: true,  },
+  level: { type: String, required: true },
+  time: { type: Date, required: true },
+  pid: { type: Number, required: true },
+  hostname: { type: String, required: true },
+  description: { type: String, required: true },
   action: { type: String, required: true },
-  timestamp: { type: Date, required: true, default: Date.now },
-  details: { type: String, required: true },
-  bişeyler: { type: String, required: true, default: "bu alan default" },
 });
 
-// Mongoose modelini oluştur ve dışa aktar
 const Log = mongoose.model<ILog>("Log", LogSchema);
 export default Log;

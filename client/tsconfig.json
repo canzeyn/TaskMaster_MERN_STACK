@@ -5,6 +5,11 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "allowJs": true, // JS dosyalarına izin ver
+    "checkJs": false, // JS dosyalarındaki hataları görmezden gel
+    "declaration": true, // .d.ts dosyalarını işle
+    "declarationDir": "./types", // .d.ts dosyalarını nereye koyacağını belirt
+    
 
     /* Bundler mode */
     "moduleResolution": "bundler",

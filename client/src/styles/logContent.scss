@@ -1,0 +1,32 @@
+@import "./index.scss";
+
+.logContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+     .logTitleArea {
+        display: flex;
+        flex: row;
+        width: 100%;
+        justify-content: center;
+        margin-top: 30px;
+              
+        .logTitle {
+            font-size: 32px;
+            font-weight: 800;
+        }
+     }
+
+     .logTableArea {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 30px;
+
+          .logTable {
+            width: 75%;
+          }
+     }
+  
+}
