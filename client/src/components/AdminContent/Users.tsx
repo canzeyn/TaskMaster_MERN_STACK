@@ -10,6 +10,7 @@ import { Button } from "reactstrap";
 import { BiBarChart } from "react-icons/bi";
 import UsersLogContent from "./LogContent/UsersLogContent";
 import { useLogData } from "../context/logContext";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   _id: string;
@@ -29,6 +30,8 @@ const Users = () => {
   const [newName, setNewName] = useState<string>("");
   const [adminId, setAdminId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const navigate = useNavigate();
 
   const { state, dispatch } = useLogData();
 
@@ -118,15 +121,15 @@ const Users = () => {
     }
   };
 
-  const handleChartClick = async (userId: string) => {
+  const handleChartClick = async (userId: string , username:string) => {
     try {
       // Sunucuya kullanıcının loglarını getirmek için istek yap
-      const response = await axios.get(
-        `http://localhost:3000/getAllLogs?userId=${userId}`
-      );
+      const response = await axios.get(`http://localhost:3000/getAllLogs/${userId}` , {withCredentials:true})
       // Logları burada alıp, bir modalda veya sayfanın bir bölümünde gösterebilirsiniz
       console.log(response.data);
       dispatch({ type: "SET_LOG_DATA", payload: response.data });
+      dispatch({ type: "SET_SELECTED_USERNAME", payload: username });
+      navigate("/usersLogContent")
     } catch (error) {
       console.error("Logları getirirken bir hata oluştu:", error);
     }
@@ -245,7 +248,7 @@ const Users = () => {
                         />
                       </p>
                       <p>
-                        <BiBarChart onClick={() => handleChartClick(item._id)} className="usersIconChart" />
+                        <BiBarChart onClick={() => handleChartClick(item._id , item.name)} className="usersIconChart" />
                       </p>
                     </td>
                   </tr>

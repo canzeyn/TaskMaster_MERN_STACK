@@ -8,13 +8,13 @@ const mongoConnectionString = process.env.MONGODB_URI;
 const logger = pino({
   level: "info",
   transport: {
-    targets: [
+    targets: [ // targets ile logların çeşitli hedeflere yani console kısmına dosyalara veya veri tabanlarına gönderim işlemleri ayarlanır
       {
-        target: "pino-mongodb",
-        level: "info",
+        target: "pino-mongodb", // veri tabanına yazılacağını ayarlıyoruz
+        level: "info", // log leveli info olarak ayarlanıyor
         options: {
-          uri: mongoConnectionString,
-          collection: "logs",
+          uri: mongoConnectionString, // veri tabanına bağlanmak için gerekli bağlantı ayarlanıyor
+          collection: "logs", // logs collection içine gönderileceği ayarlanıyor
         },
       },
       {
@@ -26,8 +26,8 @@ const logger = pino({
         },
       },
       {
-        target: "pino/file", // Dosyaya loglama için
-        options: { destination: "./logs/info.log", mkdir: true }, // Logların yazılacağı dosya ve klasör
+        target: "pino/file", // logu hangi dosyaya kaydedilceğini gösteriyor
+        options: { destination: "./logs/info.log", mkdir: true }, // logların yazılacağı klasör ayarlanıyor burada destination ile mkdir ilede dosya yoksa böyel bir oluşturması izni veriliyor bu sayede manuel olarak oluşturmak zorunda kalmıyor
       },
     ],
   },
