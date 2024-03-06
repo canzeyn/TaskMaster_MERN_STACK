@@ -19,7 +19,7 @@ function logDataReducer(state, action) {
         ...state, // spread operatörü ile tüm state kopyalanıyor ve yenisi oluşturuluyor 
         logData: action.payload, // burada fonksşyondan gelen paylaod değeri logData adlı state içine ekleniyor ve sadece bu state güncelleniyor diğer stateler aynı kalıyor
         // ve içindeki veriler her seferinde yeni gelen verilerle değişir çünkü sürekli olarak loglar veri tabanından tümü çekilecek
-        
+
       }
     case ActionTypes.SET_SELECTED_USERNAME:
       return {

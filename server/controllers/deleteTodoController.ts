@@ -1,6 +1,7 @@
 import Todo from "../models/todoModel";
 import { Request , Response } from 'express';
 import DeleteTodo from "../models/deleteTodoModel";
+import logger from "../services/logger";
 
   const deleteTodoController = async (req: Request , res: Response) => {
     try{
@@ -19,6 +20,13 @@ import DeleteTodo from "../models/deleteTodoModel";
         })
 
         await deletedTodo.save(); // veri tabanına kayıt edilir
+
+        logger.info({
+          userId:  (req as any).userId,
+          description: todo.description,
+          deletedAt: new Date(),
+          action:"todo deleted",
+        })
 
         await Todo.findByIdAndDelete(req.params.id); // findByIdAndDelete ile benzersiz olan id değerini bulur ve siler yani ilk eşleşen değeri buur ve siler her todo için kendine ait bir _id değeri olduğu için onu bulur ve siler
 

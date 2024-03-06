@@ -43,9 +43,10 @@ const UsersLogContent: React.FC = () => {
     return item.level === logLevels[selectedLogLevel];
   });
 
-  const finalFiltered = filteredLogData.filter((item:any) => {
-        return item.description.toLowerCase().includes(search.toLowerCase())
-  })
+  const finalFiltered = filteredLogData.filter((item: any) => {
+    const description = item.description || "";
+    return description.toLowerCase().includes(search.toLowerCase());
+  });
 
   return (
     <>
@@ -66,7 +67,12 @@ const UsersLogContent: React.FC = () => {
             <option value="error">Error</option>
           </select>
 
-          <input className="logInput" type="text" onChange={handleSearchLogChange} value={search} />
+          <input
+            className="logInput"
+            type="text"
+            onChange={handleSearchLogChange}
+            value={search}
+          />
         </div>
         <div className="logTableArea">
           <Table className="logTable" hover>
@@ -76,6 +82,7 @@ const UsersLogContent: React.FC = () => {
                 <th>Action</th>
                 <th>Level</th>
                 <th>Details</th>
+                <th>time</th>
                 <th>hostName</th>
               </tr>
             </thead>
@@ -88,6 +95,7 @@ const UsersLogContent: React.FC = () => {
                     <td>{item.level}</td>
                     <td className="logDescription">{item.description}</td>
                     <td>{item.hostname}</td>
+                    <td>{ new Date( item.time).toLocaleDateString()}</td>
                   </tr>
                 ))
               ) : (

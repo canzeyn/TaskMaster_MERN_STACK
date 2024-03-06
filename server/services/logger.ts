@@ -8,7 +8,8 @@ const mongoConnectionString = process.env.MONGODB_URI;
 const logger = pino({
   level: "info",
   transport: {
-    targets: [ // targets ile logların çeşitli hedeflere yani console kısmına dosyalara veya veri tabanlarına gönderim işlemleri ayarlanır
+    targets: [
+      // targets ile logların çeşitli hedeflere yani console kısmına dosyalara veya veri tabanlarına gönderim işlemleri ayarlanır
       {
         target: "pino-mongodb", // veri tabanına yazılacağını ayarlıyoruz
         level: "info", // log leveli info olarak ayarlanıyor

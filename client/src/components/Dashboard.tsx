@@ -6,6 +6,7 @@ import { useState } from "react";
 import Users from "./AdminContent/Users";
 import "../styles/Dashboard.scss";
 import AllTodos from "./AdminContent/AllTodos";
+import axios from "axios";
 
 const Dashboard: React.FC = () => {
   const [selectedComponent, setSelectedComponent] = useState<String | null>(
@@ -15,10 +16,25 @@ const Dashboard: React.FC = () => {
 
   const toggle = () => setIsOpen(!isOpen);
 
-  const selectComponent = (selectComponent: string) => {
-    // seçili seçenek burada işleniyor
+  const selectComponent = async (selectComponent: string) => {
     setSelectedComponent(selectComponent); // state içine atılıyor
     setIsOpen(false); // menü kapatılıyor
+
+    try {
+      // Sunucuya loglama isteği gönder
+      await axios.post(
+        "http://localhost:3000/dashboard",
+        {
+          path: selectComponent,
+          timestamp: new Date().toISOString(),
+        },
+        { withCredentials: true }
+      );
+
+      console.log("Component selection logged successfully");
+    } catch (error) {
+      console.error("Error logging component selection:", error);
+    }
   };
 
   const renderComponent = () => {

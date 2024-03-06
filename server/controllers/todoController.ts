@@ -1,8 +1,6 @@
 import Todo from "../models/todoModel";
 import { Request, Response } from "express";
 import logger from "../services/logger";
-import Log from "../models/logModel";
-import mongoose from "mongoose";
 
 const todoController = async (req: Request, res: Response) => {
   try {
@@ -19,15 +17,12 @@ const todoController = async (req: Request, res: Response) => {
     const savedTodo = await newTodo.save(); // bu yeni tanımlanan nesen mongodb içie kaydediliyor
     res.status(201).json(savedTodo); // işlem doğru bir biçimde gerçekleşirse 201 durum kodu gönderiliyor client tarafa
 
-    // const logMessage = {
-    //   userId: (req as any).userId, // Örnek kullanıcı ID'si
-    //   message: `Todo detayı: ${req.body.description}`, // Gerçek log mesajı
-    // };
 
-    logger.info({
+    logger.info({ // logger ile info seviyesinde bir log alıyoruz ekleme işleminden sonra 
       userId: (req as any).userId,
       description: (req as any).body.description,
       action: "Todo Added",
+      time: new Date(),
     });
 
     //  logger.info(JSON.stringify(logMessage)); // loggerın leveli info  olan yere gönderiyor oluşturulan nesneyi bunu yaparkende json formatına çeviriliyor

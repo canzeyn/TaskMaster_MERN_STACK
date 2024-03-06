@@ -24,6 +24,7 @@ import makeAdminRoutes from "./routes/makeAdminRoutes";
 import getAllTodosRoutes from "./routes/getAllTodosRoutes";
 import adminDeleteTodoRoutes from "./routes/adminDeleteTodoRoutes";
 import getAllLogsRoutes from "./routes/getAllLogsRoutes";
+import dashboardPathLogRoutes from "./routes/dashboardPathLogRoutes";
 
 const app: Express = express(); //express frameworkunun tüm özelliklerinib ir değişkene atar ve oradan kullanırız
 
@@ -83,6 +84,8 @@ app.use('/getAllTodos' , getAllTodosRoutes);
 app.use('/adminDeleteTodo' , adminDeleteTodoRoutes);
 
 app.use('/getAllLogs' , getAllLogsRoutes);
+
+app.use('/dashboard' , dashboardPathLogRoutes)
 
 
 // Statik dosyaları sunmadan önce tüm API rotaları tanımlanmalıdır
