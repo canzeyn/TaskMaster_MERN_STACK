@@ -2,9 +2,11 @@ import React, { useState, FormEvent } from "react";
 import "../styles/profileSettings.scss";
 import axios from "axios";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "../i18n";
 
 interface User {
-  userId:string;
+  userId: string;
   username: string;
   email: string;
   // Diğer gerekli alanlar...
@@ -17,7 +19,9 @@ const ProfileSetting: React.FC = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [file, setFile] = useState<File | null>(null); // burada statin file titpşnde veya null tipinde olabilecğini belirtiyoruz
-  const [userId , setUserId] = useState<User | null>(null);
+  const [userId, setUserId] = useState<User | null>(null);
+
+  const { t } = useTranslation(); // t ile çevrilecek olan metinlerin anahtar kelimeleri girilir ve i18n ilede bu değerlerin gerekli dile olan çevirileri yapılır
 
   const fetchUserData = async () => {
     try {
@@ -33,7 +37,7 @@ const ProfileSetting: React.FC = () => {
     }
   };
 
-
+  
   useEffect(() => {
     fetchUserData();
   }, []);
@@ -73,13 +77,13 @@ const ProfileSetting: React.FC = () => {
       try {
         const response = await axios.post(
           "http://localhost:3000/upload-photo", // sunucuya gönderilir formData orada işlenerek cloudinary ve mongodb içine eklenecek
-          formData, 
+          formData,
           {
             headers: {
               // burada gönderilen verilerin ne verisi oldupunu belirtiyoruz sunucya
               "Content-Type": "multipart/form-data",
             },
-            withCredentials: true 
+            withCredentials: true,
           }
         );
         // Sunucudan dönen URL'i kullanarak kullanıcı bilgilerini güncelleyebilirsiniz.
@@ -104,7 +108,7 @@ const ProfileSetting: React.FC = () => {
     <div className="profile-setting-container">
       <form onSubmit={handleSubmit}>
         <div className="input-group">
-          <label htmlFor="username">Kullanıcı Adı</label>
+          <label htmlFor="username">{t("username")}</label>
           <input
             type="text"
             id="settingUsername"
@@ -114,7 +118,7 @@ const ProfileSetting: React.FC = () => {
           />
         </div>
         <div className="input-group">
-          <label htmlFor="password">Şifre</label>
+          <label htmlFor="password">{t("password")}</label>
           <input
             type="password"
             id="current-password"
@@ -124,7 +128,7 @@ const ProfileSetting: React.FC = () => {
           />
         </div>
         <div className="input-group">
-          <label htmlFor="new-password">Yeni Şifre</label>
+          <label htmlFor="new-password">{t("new_password")}</label>
           <input
             type="password"
             id="new-password"
@@ -134,10 +138,10 @@ const ProfileSetting: React.FC = () => {
           />
         </div>
         <div className="input-group">
-          <label htmlFor="profile-image">Profil Fotoğrafı</label>
+          <label htmlFor="profile-image">{t("profile_photo")}</label>
           <input type="file" id="profile-image" onChange={handleFileChange} />
         </div>
-        <button type="submit">Ayarları Kaydet</button>
+        <button type="submit">{t("save_settings")}</button>
       </form>
     </div>
   );

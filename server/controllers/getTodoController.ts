@@ -1,5 +1,6 @@
 import Todo from "../models/todoModel";
 import { Request, Response } from "express";
+import errorLogger from "../services/errorLogger"
 
 export const getTodosController = async (req: Request, res: Response) => {
   try {

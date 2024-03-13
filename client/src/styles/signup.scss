@@ -3,6 +3,7 @@
 
 
 .container {
+
    @include full-screen-background;
 
 
@@ -30,6 +31,28 @@
             @include input-style;
             box-sizing: border-box;
          }
+      }
+
+      .signupErrorArea {
+         width: 100%;
+         border-radius: 10px;
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: start;
+         padding-top:5px;
+         padding-bottom: 5px;
+         background-color: rgb(222, 16, 16);
+         
+
+          .signupError {
+            font-size:20px;
+            font-weight: 500;
+            border: none;
+            margin: 0;
+            color: white;
+            margin-left: 10px;
+          }
       }
 
   .InputsPassword {

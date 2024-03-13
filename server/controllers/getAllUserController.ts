@@ -1,5 +1,6 @@
 import User from '../models/userModel';
 import express, { Request, Response } from 'express';
+import errorLogger from "../services/errorLogger"
  
  const allUser = async (req: Request, res: Response) => {
     try {

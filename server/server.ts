@@ -25,6 +25,9 @@ import getAllTodosRoutes from "./routes/getAllTodosRoutes";
 import adminDeleteTodoRoutes from "./routes/adminDeleteTodoRoutes";
 import getAllLogsRoutes from "./routes/getAllLogsRoutes";
 import dashboardPathLogRoutes from "./routes/dashboardPathLogRoutes";
+import signupValidateRoutes from "./routes/signupValidateRoutes";
+import helmet from 'helmet';
+
 
 const app: Express = express(); //express frameworkunun tüm özelliklerinib ir değişkene atar ve oradan kullanırız
 
@@ -32,6 +35,7 @@ const app: Express = express(); //express frameworkunun tüm özelliklerinib ir 
 app.use(cors(corsOptions)); // cors ile başka kaynaklardan sunucuya gelen istekleri yönetiriz bir politika ayarlanır ve bu politikaya uymayan istekler sunucuya gelmez 
 app.use(express.json()); //json olarak gelen verileri javascript objesine çeviri
 app.use(cookieParser());
+app.use(helmet()); // standart güvenlik önlemlerini etkinleştiri ve uygulamayı korur
 
 require('dotenv').config(); //.env dosyasından gereken bilgileri getirir ve kullanıma izin verir
 
@@ -87,14 +91,18 @@ app.use('/getAllLogs' , getAllLogsRoutes);
 
 app.use('/dashboard' , dashboardPathLogRoutes)
 
+app.use('/signupValidate' , signupValidateRoutes);
+
 
 // Statik dosyaları sunmadan önce tüm API rotaları tanımlanmalıdır
 app.use(express.static(path.join(__dirname, '..', 'client', 'dist')));
+
 
 //  bu sayede tüm yollara gelen istekler için React uygulamasının index.html dosyasını sunar
 app.get('*', (req: Request, res: Response) => {
     res.sendFile(path.resolve(__dirname, '..', 'client', 'dist', 'index.html'));
 });
+
 
 
 const port: string | number = process.env.PORT  || 3000; // sunucu hangi portta başlayacağını belirliyoruz

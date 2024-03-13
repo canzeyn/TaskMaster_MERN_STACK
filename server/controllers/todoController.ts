@@ -1,6 +1,10 @@
 import Todo from "../models/todoModel";
 import { Request, Response } from "express";
 import logger from "../services/logger";
+import errorLogger from "../services/errorLogger";
+import User from "../models/userModel";
+import nodemailer from "nodemailer";
+import sendEmail from "../services/nodemailer";
 
 const todoController = async (req: Request, res: Response) => {
   try {
@@ -17,16 +21,23 @@ const todoController = async (req: Request, res: Response) => {
     const savedTodo = await newTodo.save(); // bu yeni tanımlanan nesen mongodb içie kaydediliyor
     res.status(201).json(savedTodo); // işlem doğru bir biçimde gerçekleşirse 201 durum kodu gönderiliyor client tarafa
 
-
-    logger.info({ // logger ile info seviyesinde bir log alıyoruz ekleme işleminden sonra 
+    logger.info({
+      // logger ile info seviyesinde bir log alıyoruz ekleme işleminden sonra
       userId: (req as any).userId,
       description: (req as any).body.description,
       action: "Todo Added",
       time: new Date(),
     });
 
-    //  logger.info(JSON.stringify(logMessage)); // loggerın leveli info  olan yere gönderiyor oluşturulan nesneyi bunu yaparkende json formatına çeviriliyor
-    // json formatına çevrilmesinin sebebi log mesajlarının standart olarak json formatında saklanmasıdır
+    const users = await User.find().select("email -_id");
+
+    users.forEach((user) => {
+      sendEmail(
+        user.email,
+        "Yeni Todo Eklendi",
+        "Merhaba, yeni bir todo eklendi. Göz atmayı unutmayın!"
+      );
+    });
   } catch (error: any) {
     res.status(400).json({ message: error.message });
   }

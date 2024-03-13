@@ -1,5 +1,6 @@
 import User from '../models/userModel';
 import { Request, Response } from 'express';
+import errorLogger from "../services/errorLogger"
 
  const deleteUser = async (req: Request, res: Response) => {
   try {

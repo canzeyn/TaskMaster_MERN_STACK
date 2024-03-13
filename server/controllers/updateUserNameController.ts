@@ -1,5 +1,6 @@
 import User from '../models/userModel';
 import { Request , Response } from 'express';
+import errorLogger from "../services/errorLogger"
 
 export const updateUser = async (req:Request, res:Response) => {
   try {
@@ -9,5 +10,6 @@ export const updateUser = async (req:Request, res:Response) => {
     res.status(200).json(updatedUser);
   } catch (err) {
     res.status(500).json({ message: "Kullanıcı güncellenirken bir hata oluştu", error: err });
+    errorLogger.error("updateUserNameController.ts:" , err);
   }
 };

@@ -2,6 +2,7 @@ import Todo from "../models/todoModel";
 import { Request , Response } from 'express';
 import DeleteTodo from "../models/deleteTodoModel";
 import logger from "../services/logger";
+import errorLogger from "../services/errorLogger"
 
   const deleteTodoController = async (req: Request , res: Response) => {
     try{
@@ -33,7 +34,8 @@ import logger from "../services/logger";
         
         res.status(200).send("todo başarıyla silindi");
     } catch (err) {
-        res.status(500).send(err)
+        res.status(500).send(err);
+        errorLogger.error("deleteTodoController.ts" , err);
     }
   }
 

@@ -1,7 +1,6 @@
 import React from "react";
 import "../styles/signup.scss";
 import axios from "axios";
-import { AxiosError } from "axios";
 import { useState, FormEvent } from "react";
 import { useNavigate, NavigateFunction } from "react-router-dom";
 
@@ -9,7 +8,7 @@ const SignUp: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [role, setRole] = useState("user");
+  const [errors, setErrors] = useState<string[]>([]);
 
   const navigate: NavigateFunction = useNavigate();
 
@@ -42,12 +41,24 @@ const SignUp: React.FC = () => {
       } else {
         console.log("kullanıcı kaydıyla ilgili hata var");
       }
-    } catch (error) {
-      const axiosError = error as AxiosError;
-      console.error(
-        "Kayıt sırasında hata oluştu:",
-        axiosError.response ? axiosError.response.data : axiosError
-      );
+    } catch (error:any) {
+      if (error.response && error.response.data && error.response.data.errors) { // error.response sunudan bir response olup olmadığına bakılır error nesnesi içinde 
+        // error.response.data ile dönen bu nesnein içieriğine bakılır var olup olmadığına 
+        //error.response.data.errors ile dönen nesne içindeki verierlde errors adına bir nesne arar
+        // Sunucudan gelen hata mesajlarını errors state'ine ata
+        setErrors(error.response.data.errors);
+
+        setTimeout(() => {
+          setErrors([]);
+        }, 3000); 
+      } else {
+        // Genel bir hata mesajı göster
+        setErrors(["Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin."]);
+
+        setTimeout(() => {
+          setErrors([]);
+        }, 3000); 
+      }
     }
   };
   return (
@@ -99,6 +110,10 @@ const SignUp: React.FC = () => {
             </div>
 
             <button>Sign Up</button>
+
+            {errors.length > 0 && <div className="signupErrorArea">
+              <p className="signupError">{errors +" " +  "3sn..."}</p>
+            </div>}
           </form>
         </div>
       </div>

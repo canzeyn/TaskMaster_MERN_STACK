@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
+import errorLogger from "../services/errorLogger"
 
 const LogSchema = new mongoose.Schema({}, { collection: "logs", strict: false });
 const LogModel = mongoose.model("Log", LogSchema);

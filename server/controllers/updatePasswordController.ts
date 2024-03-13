@@ -1,6 +1,7 @@
 import {Request ,Response} from "express";
 import User from "../models/userModel";
 import bcrypt from "bcrypt";
+import errorLogger from "../services/errorLogger"
 
 
  const updatePasswordController = async (req: Request, res: Response) => {

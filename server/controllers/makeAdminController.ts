@@ -1,5 +1,6 @@
 import User from "../models/userModel";
 import { Request, Response } from "express";
+import errorLogger from "../services/errorLogger"
 
 // Kullanıcı rolünü 'admin' olarak güncelleyen controller fonksiyonu
 const makeAdmin = async (req: Request, res: Response) => {

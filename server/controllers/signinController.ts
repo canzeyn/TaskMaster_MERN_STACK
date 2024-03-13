@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import User from "../models/userModel";
 import jwt from "jsonwebtoken";
 import { generateToken } from "../middlewares/authMiddleware";
+import errorLogger from "../services/errorLogger"
 
 export const signinController = async (req: Request, res: Response) => {
   try {

@@ -2,6 +2,7 @@
 import { Request, Response } from "express";
 import cloudinaryV2 from "../config/cloudinaryConfig";
 import User from "../models/userModel";
+import errorLogger from "../services/errorLogger"
 
 const uploadPhotoController = async (req: Request, res: Response) => {
   try {
@@ -27,6 +28,7 @@ const uploadPhotoController = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).send(`Dosya yükleme hatası: ${error}`);
+    errorLogger.error("uploadPhotoController:" , error);
   }
 };
 

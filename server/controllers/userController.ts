@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 import User from "../models/userModel";
 import bcrypt from "bcrypt";
 import { generateToken } from "../middlewares/authMiddleware";
+import errorLogger from "../services/errorLogger"
 
 export const userController = async (req: Request, res: Response) => {
   try {
@@ -54,5 +55,6 @@ export const userController = async (req: Request, res: Response) => {
       message: "Kullanıcı oluşturulurken hata oldu",
       error: err,
     });
+    errorLogger.error("userController.ts:" , err);
   }
 };

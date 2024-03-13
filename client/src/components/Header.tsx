@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { MdOutlineLanguage } from "react-icons/md";
 
 const Header: React.FC = () => {
   type UserInfo = {
@@ -128,6 +129,15 @@ const Header: React.FC = () => {
               <Dropdown.Item onClick={navigateToProfileSettings}>
                 Profil Düzenle
               </Dropdown.Item>
+              <Dropdown.Item className="headerLanguageArea" onClick={navigateToProfileSettings}>
+              <MdOutlineLanguage className="headerLanguageIcon" />  <p className="headerLanguageSelect">TR</p>
+              </Dropdown.Item>
+
+              <Dropdown.Item className="headerLanguageArea" onClick={navigateToProfileSettings}>
+              <MdOutlineLanguage className="headerLanguageIcon" />  <p className="headerLanguageSelect">EN</p>
+              </Dropdown.Item>
+
+              
               <Dropdown.Item onClick={handleShowModal}>Çıkış Yap</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
