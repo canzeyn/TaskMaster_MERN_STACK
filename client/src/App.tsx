@@ -8,11 +8,10 @@ import FinishedWorks from "./components/FinishedWorks";
 import Dashboard from "./components/Dashboard";
 import UsersLogContent from "./components/AdminContent/LogContent/UsersLogContent";
 import { LogDataProvider } from "./components/context/logContext.jsx";
-import { useTranslation } from 'react-i18next';
-import i18n from "./i18n.tsx";
+import Chart from "./components/Chart.tsx"
 
 function App() {
-  const { t } = useTranslation();
+  
   return (
     <>
       <LogDataProvider>
@@ -62,6 +61,14 @@ function App() {
               element={
                 <PrivateRoute allowedRoles={["admin"]}>
                   <UsersLogContent />
+                </PrivateRoute>
+              }
+            />
+           <Route
+              path="/chart"
+              element={
+                <PrivateRoute>
+                  <Chart />
                 </PrivateRoute>
               }
             />

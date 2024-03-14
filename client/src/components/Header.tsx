@@ -103,6 +103,10 @@ const Header: React.FC = () => {
     navigate("/finishedWorks");
   };
 
+  const navigateToChart = () => {
+    navigate("/chart")
+  }
+
   return (
     <>
       <div className="header-box">
@@ -115,7 +119,9 @@ const Header: React.FC = () => {
            userRoleData === "admin" &&  <p onClick={navigateToDashboard}>dashboard</p>
           }
          
-          <p onClick={navigateToFinishedWorks}>finished Works</p>
+          <p onClick={navigateToFinishedWorks}>Finished Works</p>
+
+          <p onClick={navigateToChart}>Reports</p>
 
           <Dropdown>
             <Dropdown.Toggle
@@ -152,7 +158,7 @@ const Header: React.FC = () => {
             <Offcanvas.Title>Menü</Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body className="bg-dark">
-            <p className="text-white">All Todos</p>
+           
             <p onClick={navigateToFinishedWorks} className="text-white">
               Finished Works
             </p>
