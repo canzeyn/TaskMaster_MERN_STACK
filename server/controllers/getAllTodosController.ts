@@ -3,12 +3,13 @@ import Todo from "../models/todoModel";
 import errorLogger from "../services/errorLogger"
 
 const allTodos = async (req: Request, res: Response) => {
+  const { page = 1, limit = 10 } = req.query;
   try {
-    const todos = await Todo.find().populate("userId", "email _id"); // burada iki collection içindeki bilgiler tek sorgu içinde getiriliyor populate ile
+    // const todos = await Todo.find().populate("userId", "email _id"); // burada iki collection içindeki bilgiler tek sorgu içinde getiriliyor populate ile
     // Todo.Find() ile Todo adlı collection içindeki tüm veriler çekiliyor
     // populate ile userId değeri ilişkili değer olarak kullanılıyor populate iki tabloyu birleştirir ve istenen verilerin getirilmesini sağlar burada userId her iki tabloda var ve bu userId değerinin ref değeri user adşı collectiondan geliyor
     // bu gelen değer ile yani id değeri ile o todoyu hangi kullanıcının yaptığını anlayabiliyoruz bu sayede tek sorguda hem todoalrı hemde o todoyu yapan kullanıcının email değeri getirliyor   
-
+    const todos = await Todo.paginate({}, { page: Number(page), limit: Number(limit), populate: 'userId' });
     res.status(200).json(todos);
   } catch (err: any) {
     console.error(err);

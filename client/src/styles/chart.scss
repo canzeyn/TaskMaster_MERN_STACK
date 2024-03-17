@@ -1,0 +1,30 @@
+@import "./index.scss";
+
+.chartContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    align-items: center;
+    background-image: url('images/arkaplanTodoList.png');
+
+    .chartTitleArea {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        .chartTitle {
+            font-size: 32px;
+            color: $light-beige;
+        }
+    }
+
+    .chartArea {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        margin-top: 30px;
+    }
+}

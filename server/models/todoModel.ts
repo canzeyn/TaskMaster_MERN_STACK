@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
-import User from "./userModel";
+import mongoosePaginate from 'mongoose-paginate-v2';
 
-interface Itodo extends Document {
+interface ITodo extends Document {
   // tip belirlemesi yapılıyor Document ile mongoose ile gelen fonksiyonların bu Itodo tipindeki modellerin kullanmasına izin veriyor
   userId: mongoose.Schema.Types.ObjectId;
   description: string;
@@ -29,6 +29,13 @@ const todoSchema = new mongoose.Schema({
   },
 });
 
-const Todo = mongoose.model<Itodo>("Todo", todoSchema);
+todoSchema.plugin(mongoosePaginate);
+
+interface ITodoModel<T extends Document> extends mongoose.PaginateModel<T> {}
+
+
+const Todo: ITodoModel<ITodo> = mongoose.model<ITodo>('Todo', todoSchema) as ITodoModel<ITodo>;
+
+
 
 export default Todo;

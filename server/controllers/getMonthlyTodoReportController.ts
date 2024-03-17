@@ -1,24 +1,30 @@
 import Todo from "../models/todoModel";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
+import {LogModel} from "./getAllLogsController";
+
+// const LogSchema = new mongoose.Schema({}, { collection: "logs", strict: false });
+// const LogModel = mongoose.model("Log", LogSchema);
+
 
 // Aylık Todo Raporu için yeni bir controller fonksiyonu
 const getMonthlyTodoReport = async (req: Request, res: Response) => {
     const userId = (req as any).userId
     console.log('UserId for report:', userId);
   try {
-    const report = await Todo.aggregate([ // raporlama için mongodb frameworkü olan aggregate kullanımı başlıoyr todo modeli için
+    const report = await LogModel.aggregate([ // raporlama için mongodb frameworkü olan aggregate kullanımı başlıoyr todo modeli için
       {
         $match: { // aşamalar ile raporlama yapılır burada ilk olarak filtreleme yapılıyor bu sayede kişilere özel raporlama yapılabilir
-             userId: new mongoose.Types.ObjectId(userId)
+             userId: userId,
+             action: "Todo Added"
           // Burada, isteğe bağlı olarak belirli bir kullanıcıya göre filtreleme yapabilirsiniz.
           // Örneğin: userId: mongoose.Types.ObjectId(req.params.userId)
         }
       },
       {
         $project: { // veri tabnaından yani raporlanacak olan collectiondan hangi bilgiinin alınması gerektiğini burada ayarlıyoruz
-          month: { $month: "$createdAt" }, // dolar işaraeti ile belirtilen yerler operatörlerdir buradaki operatör ayı temsil eder ayrıca dolar ile collection içinden hangi verinin getireleceği ayarlanır $month ile creadetAt alanındaki ay bilgisi çıkarılır sadece 
-          year: { $year: "$createdAt" },
+          month: { $month: "$time" }, // dolar işaraeti ile belirtilen yerler operatörlerdir buradaki operatör ayı temsil eder ayrıca dolar ile collection içinden hangi verinin getireleceği ayarlanır $month ile creadetAt alanındaki ay bilgisi çıkarılır sadece 
+          year: { $year: "$time" },
           userId: 1 // userId nin raporlamaya dahil edilceği ayarlanıyor burada 1 ile
         }
       },
