@@ -28,6 +28,8 @@ import dashboardPathLogRoutes from "./routes/dashboardPathLogRoutes";
 import signupValidateRoutes from "./routes/signupValidateRoutes";
 import helmet from 'helmet';
 import getMonthlyTodoReportRoutes from "./routes/getMonthlyTodoReportRoutes";
+import backupRoutes from "./routes/backupRoutes";
+import restoreRoutes from "./routes/restoreRoutes";
 
 
 const app: Express = express(); //express frameworkunun tüm özelliklerinib ir değişkene atar ve oradan kullanırız
@@ -95,6 +97,10 @@ app.use('/dashboard' , dashboardPathLogRoutes)
 app.use('/signupValidate' , signupValidateRoutes);
 
 app.use('/todo/report' , getMonthlyTodoReportRoutes);
+
+app.use("/backup" , backupRoutes);
+
+app.use("/restore" , restoreRoutes);
 
 
 // Statik dosyaları sunmadan önce tüm API rotaları tanımlanmalıdır

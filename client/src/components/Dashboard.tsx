@@ -7,6 +7,7 @@ import Users from "./AdminContent/Users";
 import "../styles/Dashboard.scss";
 import AllTodos from "./AdminContent/AllTodos";
 import axios from "axios";
+import BackupRestore from "./AdminContent/BackupRestore";
 
 const Dashboard: React.FC = () => {
   const [selectedComponent, setSelectedComponent] = useState<String | null>(
@@ -46,6 +47,8 @@ const Dashboard: React.FC = () => {
         return <Users />;
       case "AllTodos":
         return <AllTodos />;
+      case "BackupRestore":
+        return <BackupRestore />;
 
       default:
         return <p>bir sayfa seçiniz menüden</p>;
@@ -71,7 +74,9 @@ const Dashboard: React.FC = () => {
             <div className="canvasBodyMenu">
               <p onClick={() => selectComponent("Users")}>Users</p>
               <p onClick={() => selectComponent("AllTodos")}>Todos</p>
-              <p>Deleted Todos</p>
+              <p onClick={() => selectComponent("BackupRestore")}>
+                Backup Data
+              </p>
             </div>
           </OffcanvasBody>
         </Offcanvas>

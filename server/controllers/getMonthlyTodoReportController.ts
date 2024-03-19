@@ -24,7 +24,7 @@ const getMonthlyTodoReport = async (req: Request, res: Response) => {
       {
         $project: { // veri tabnaından yani raporlanacak olan collectiondan hangi bilgiinin alınması gerektiğini burada ayarlıyoruz
           month: { $month: "$time" }, // dolar işaraeti ile belirtilen yerler operatörlerdir buradaki operatör ayı temsil eder ayrıca dolar ile collection içinden hangi verinin getireleceği ayarlanır $month ile creadetAt alanındaki ay bilgisi çıkarılır sadece 
-          year: { $year: "$time" },
+          year: { $year: "$time " },
           userId: 1 // userId nin raporlamaya dahil edilceği ayarlanıyor burada 1 ile
         }
       },

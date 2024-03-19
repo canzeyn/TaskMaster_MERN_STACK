@@ -1,0 +1,60 @@
+@import "./index.scss";
+
+
+ .backupContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    justify-content: start;
+    align-items: center;
+    gap: 100px;
+    margin-top: 20px;
+
+     .backupArea {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+         
+           .backupTitle {
+            font-size: 32px;
+            color: $black;
+           }
+
+           .backupInput {
+            @include input-style;
+            width: 30%
+           }
+
+           .backupButton {
+            @include button-style;
+           
+           }
+     }
+
+      .restoreArea {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+
+              .restoreTitle {
+                font-size: 32px;
+                color:$black;
+              }
+
+              .restoreInput {
+                @include input-style;
+                width:30%;
+              }
+
+              .restoreButton {
+                @include button-style;
+              }
+      }
+ }
