@@ -30,6 +30,7 @@ import helmet from 'helmet';
 import getMonthlyTodoReportRoutes from "./routes/getMonthlyTodoReportRoutes";
 import backupRoutes from "./routes/backupRoutes";
 import restoreRoutes from "./routes/restoreRoutes";
+import backupFileListRoutes from "./routes/backupFileListRoutes";
 
 
 const app: Express = express(); //express frameworkunun tüm özelliklerinib ir değişkene atar ve oradan kullanırız
@@ -102,6 +103,7 @@ app.use("/backup" , backupRoutes);
 
 app.use("/restore" , restoreRoutes);
 
+app.use("/backupFileList" , backupFileListRoutes);
 
 // Statik dosyaları sunmadan önce tüm API rotaları tanımlanmalıdır
 app.use(express.static(path.join(__dirname, '..', 'client', 'dist')));

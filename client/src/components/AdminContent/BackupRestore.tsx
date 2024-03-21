@@ -1,32 +1,47 @@
 import "../../styles/backupRestore.scss";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
+// yedek alma işlemi sadece client tarafta hata veriyor sunucu tarafaı çalılıyıor ve yedek dosya alınıyor
+// yedek alma işlemi için homebrew kuruldu
+//homebrew ile  mongodb kuruldu bilgisyara
 const BackupRestore = () => {
   const [backupName, setBackupName] = useState<string>("");
   const [restoreBackupName, setRestoreBackupName] = useState<string>("");
-  const handleBackup = async () => {
+  const [fileName, setFileName] = useState<string[]>([]);
+  const [modal, setModal] = useState(false);
+  const [modal2, setModal2] = useState(false);
+  const [backupPassword, setBackupPassword] = useState("");
+
+  const toggle = () => setModal(!modal);
+  const toggle2 = () => setModal2(!modal2);
+
+  const handleBackup = async (password: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/backup/${backupName}`,
+        `http://localhost:3000/backup/${backupName}?password=${password}`,
         { withCredentials: true }
       );
       console.log(response.data);
       alert("Yedekleme işlemi başarılı.");
+      setBackupName("");
     } catch (err: any) {
       console.log("BackupRestore yedek alırkne hata:", err);
+      setBackupName("");
+      setModal(!modal);
       alert("Yedekleme işlemi başarısız.");
     }
   };
 
-  const handleRestore = async () => {
+  const handleRestore = async (password: string) => {
     if (!backupName) {
       alert("Lütfen bir yedek dosya adı giriniz.");
       return;
     }
     try {
       const response = await axios.get(
-        `http://localhost:3000/restore/${restoreBackupName}`
+        `http://localhost:3000/restore/${restoreBackupName}?password=${password}`
       );
       console.log(response.data);
       alert("Geri yükleme işlemi başarılı.");
@@ -35,6 +50,20 @@ const BackupRestore = () => {
       alert("Geri yükleme işlemi başarısız.");
     }
   };
+
+  const getFileNames = async () => {
+    try {
+      const fileNames = await axios.get("http://localhost:3000/backupFileList");
+      console.log(fileNames.data);
+      setFileName(fileNames.data);
+    } catch (err) {
+      console.log("backupRestore.tsx dosya isimleri alınırken hata:", err);
+    }
+  };
+
+  useEffect(() => {
+    getFileNames();
+  }, []);
   return (
     <>
       <div className="backupContainer">
@@ -51,7 +80,7 @@ const BackupRestore = () => {
             }}
             placeholder="alınacak yedegin ismini giriniz"
           />
-          <button className="backupButton" onClick={handleBackup}>
+          <button className="backupButton" onClick={toggle}>
             verileri yedekle
           </button>
         </div>
@@ -60,18 +89,65 @@ const BackupRestore = () => {
           <h3 className="restoreTitle">
             Butona Tıklayarak Yedeklenen Verileri Tekrardan Yükleyin
           </h3>
-          <input
-            type="text"
-            className="restoreInput"
+          <select
+            className="restoreSelect"
             value={restoreBackupName}
             onChange={(e) => setRestoreBackupName(e.target.value)}
-            placeholder="yüklencek dosya adı"
-          />
-          <button className="restoreButton" onClick={handleRestore}>
+          >
+            <option value="" disabled>
+              Bir dosya seçiniz
+            </option>
+            {fileName.map((backup) => (
+              <option key={backup} value={backup}>
+                {backup}
+              </option>
+            ))}
+          </select>
+          <button className="restoreButton" onClick={toggle2}>
             verileri geri yükle
           </button>
         </div>
       </div>
+
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalBody>
+          <input
+            className="modalPassword"
+            type="password"
+            value={backupPassword}
+            onChange={(e) => setBackupPassword(e.target.value)}
+            placeholder="password"
+          />
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={() => handleBackup(backupPassword)}>
+            Backup
+          </Button>{" "}
+          <Button color="secondary" onClick={toggle}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal isOpen={modal2} toggle={toggle2}>
+        <ModalBody>
+          <input
+            className="modalPassword"
+            type="password"
+            value={backupPassword}
+            onChange={(e) => setBackupPassword(e.target.value)}
+            placeholder="password"
+          />
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={() => handleRestore(backupPassword)}>
+            Backup
+          </Button>{" "}
+          <Button color="secondary" onClick={toggle2}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
     </>
   );
 };

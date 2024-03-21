@@ -57,6 +57,7 @@
     "@types/multer": "^1.4.11",
     "@types/node": "^20.11.25",
     "@types/nodemailer": "^6.4.14",
+    "@types/punycode": "^2.1.4",
     "@types/validator": "^13.11.9",
     "nodemon": "^3.0.2",
     "ts-node": "^10.9.2",
