@@ -3,6 +3,6 @@ import backupController from "../controllers/backupController";
 
 const backupRouter = Router();
 
-backupRouter.get("/:backupName", backupController);
+backupRouter.post("/:backupName", backupController);
 
 export default backupRouter;

@@ -23,28 +23,48 @@ interface Todo {
 const AllTodos: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [currentTodoDescription, setCurrentTodoDescription] = useState<string>("");
+  const [currentTodoDescription, setCurrentTodoDescription] =
+    useState<string>("");
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState<boolean>(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<string>("asc");
-  const [searchQuery , setSearchQuery] = useState<string>("");
-
-
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(1); // o an ki gösterilern verilerin sayfa numarası burada tutuluyor
+  const [totalPages, setTotalPages] = useState(0); // toplam sayfa sayısı burada tutuluyor
 
   const getAllTodos = async () => {
-    const response = await axios.get("http://localhost:3000/getAllTodos", {
-      withCredentials: true,
-    });
-    console.log(response.data);
-    setTodos(response.data);
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/getAllTodos?page=${currentPage}&limit=10`,
+        {
+          // sunucuya istek atılıyor page ile gösterilemek istenen sayfa numarası gönderiliyor limit ile toplam kaç veri geleceği gönderiliyor
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+      setTodos(response.data.docs || []); // gelen cevap içindeki docs kısmı atılıyor state içine eğer yoksa boş dizi atılıyor state içine busayede hata alınmıyor
+      setTotalPages(response.data.totalPages); // gelen cevap ile totalPages kısmındaki toplam sayfa sayısı state içine atılıyor
+    } catch (err) {
+      console.error("Veriler alınırken bir hata oluştu: ", err);
+      setTodos([]);
+    }
   };
 
   useEffect(() => {
     getAllTodos();
-  }, []);
+  }, [currentPage]); // bakılan sayfa değişince tekrardan veriler çekiliyor
+
+  const handlePrevPage = () => {
+    setCurrentPage((currentPage) => Math.max(currentPage - 1, 1)); // kişi önceki sayfaya gitmesi için kullanıyor bu fonksyion amaç kullanıcı her  bir önce sayfaya gitmek için tıkladığında o an ki sayfadan bir çıkarıyor ve önceki sayfaya gidiyor kullanıcı
+    // max ilede iki sayı arasından büyük olanı alır burada 1 den küçük bir numara olmaması için kullanıyoruz max methodunu
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((currentPage) => Math.min(currentPage + 1, totalPages)); // kullanıcı bir sonraki sayfaya gitmesi için kullanılır bu fonksiyon min ile iki değer arasından en küçük olan alınır bu sayede toplam sayfa sayısından büyük sayı gelmez
+  };
 
   const toggleDescription = (description: string) => {
-    setCurrentTodoDescription(description); 
+    setCurrentTodoDescription(description);
     setIsOpen(!isOpen);
   };
 
@@ -94,10 +114,11 @@ const AllTodos: React.FC = () => {
     setTodos(sortedTodos);
   }, [sortOrder]);
 
-  const filteredTodos = todos.filter((todo) => { // burada todo adlı state içindeki tüm veriler filtrelenecek bu sayede istenen veriye göre arama yapılacak ve sadece o veriler getirelecek
+  const filteredTodos = todos.filter((todo) => {
+    // burada todo adlı state içindeki tüm veriler filtrelenecek bu sayede istenen veriye göre arama yapılacak ve sadece o veriler getirelecek
     return todo.userId?.email.toLowerCase().includes(searchQuery.toLowerCase()); // userId değeri yoksa yani false veya undefined değeri dönüyorsa email değerine erişilemez
     // email değerini küçük harfe indiriyoruz ki büyük küük harf farkı olmasın ve bu email değerlerinden hangisi searchQuery state içindeki değer ile eşleşirse onlar döndürülür ve değişken içine atılır ve bu değişken tablo içinde listelenir
-  })
+  });
 
   return (
     <>
@@ -105,14 +126,23 @@ const AllTodos: React.FC = () => {
         <div className="allTodosTitleArea">
           <h3 className="allTodosTitle">All Todos</h3>
 
-          <select onChange={(e) => setSortOrder(e.target.value) } value={sortOrder} className="allTodosSelect">
+          <select
+            onChange={(e) => setSortOrder(e.target.value)}
+            value={sortOrder}
+            className="allTodosSelect"
+          >
             <option value="asc">asc</option>
             <option value="desc">desc</option>
           </select>
         </div>
 
         <div className="allTodosSearchArea">
-          <input onChange={(e) => setSearchQuery(e.target.value)} type="text" className="allTodosSearchInput" placeholder="email ile arama yap..." />
+          <input
+            onChange={(e) => setSearchQuery(e.target.value)}
+            type="text"
+            className="allTodosSearchInput"
+            placeholder="email ile arama yap..."
+          />
         </div>
 
         <div className="allTodosTableArea">
@@ -145,7 +175,7 @@ const AllTodos: React.FC = () => {
                       </p>
                       <p>
                         <RxEyeOpen
-                          onClick={() => toggleDescription(item.description)} // description alanını state içine ekliyor ve modal açıyor bu fonksiyon 
+                          onClick={() => toggleDescription(item.description)} // description alanını state içine ekliyor ve modal açıyor bu fonksiyon
                           className="allTodosIconEye"
                         />
                       </p>
@@ -161,12 +191,39 @@ const AllTodos: React.FC = () => {
               )}
             </tbody>
           </Table>
+          <div className="paginationArea">
+            {/* Mevcut arayüz elemanları */}
+            <button className="prevButton" onClick={handlePrevPage} disabled={currentPage === 1}>
+              Önceki
+            </button>
+            <select className="selectList"
+              value={currentPage}
+              onChange={(e) => setCurrentPage(Number(e.target.value))}
+            >
+              {Array.from({ length: totalPages }, (_, index) => ( // array.from ile dizi olan bir yapıyı alıp dizi haline getirip liste şekilinde işleyebilirz burada toplam sayfa numarasını listeliyoruz
+              // uzunluğu totalPages adlı state içinden geliyor dizi ilk başta bu uzunluk kadar yer alır ama veri içermez
+              // ikinci kısımda _ ile geleneksel javascripte _ işareti ile bu alan atlanır ve kullanılamz ikinci kısım index kısmında her veri için baştan sona 1 den başlayara değer verir bir çeşit array.from ile map işlemi yapılır yani ikinci kısımda 
+                <option key={index + 1} value={index + 1}>
+                   {index + 1} 
+                </option>
+              ))}
+            </select>
+            <span>
+              Sayfa {currentPage} / {totalPages}
+            </span>
+            <button className="nextButton"
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            >
+              Sonraki
+            </button>
+          </div>
         </div>
       </div>
 
       <Modal isOpen={isOpen} toggle={toggleModal}>
         <ModalHeader toggle={toggleModal}>Todo İçerik Alanı</ModalHeader>
-        <ModalBody>{currentTodoDescription}</ModalBody> 
+        <ModalBody>{currentTodoDescription}</ModalBody>
         {/* seçili todo state içine atıldıktan sonra burada gösteriliyor state */}
         <ModalFooter>
           <Button color="secondary" onClick={toggleModal}>

@@ -11,7 +11,7 @@ require("dotenv").config();
 const exec = promisify(execCallback);
 
 const isPasswordCorrect = (req:Request , res:Response) => {
-  const  password  = req.query.password; // Client'tan gelen şifre
+  const  {password}   = req.body // Client'tan gelen şifre
   return password === process.env.DB_BACKUP_PASSWORD; // .env dosyasındaki şifre ile karşılaştırma
 };
 

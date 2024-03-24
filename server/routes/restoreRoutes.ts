@@ -4,6 +4,6 @@ import verifyToken from "../middlewares/verifyToken";
 
   const restoreRouter = Router();
 
-  restoreRouter.get("/:restoreBackupName" , verifyToken , restoreController);
+  restoreRouter.post("/:restoreBackupName" , verifyToken , restoreController);
 
   export default restoreRouter;

@@ -5,19 +5,20 @@ import { promisify } from "util";
 require("dotenv").config();
 const exec = promisify(execCallback);
 
-const isPasswordCorrect = (req: Request, res: Response) => {
-  const password = req.query.password; // Client'tan gelen şifre
+const isPasswordCorrect = (req: Request, res: Response): boolean => {
+  const { password } = req.body; // Client'tan gelen şifre
   return password === process.env.DB_BACKUP_PASSWORD; // .env dosyasındaki şifre ile karşılaştırma
 };
 
 const restoreBackup = async (req: Request, res: Response) => {
   try {
-    if (!isPasswordCorrect) {
+    const passwordCorrect = isPasswordCorrect(req, res);
+    if (!passwordCorrect) {
       return res.status(401).send("Yanlış şifre.");
     }
 
     const backupName = req.params.restoreBackupName; // yedek dosyanın adı alınıyor client taraftan
-    const restoreCommand = `mongorestore --uri="${process.env.MONGODB_URI}" ./backups/${backupName}`; // geri yükleneek olan dosya ve veri tabanı yolu burada aylarınyor
+    const restoreCommand = `mongorestore --drop --uri="${process.env.MONGODB_URI}" ./backups/${backupName}`; // geri yükleneek olan dosya ve veri tabanı yolu burada aylarınyor
 
     const { stdout, stderr } = await exec(restoreCommand);
 

@@ -1,9 +1,9 @@
 import "../../styles/backupRestore.scss";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Button, Modal,  ModalBody, ModalFooter } from "reactstrap";
 
-// yedek alma işlemi sadece client tarafta hata veriyor sunucu tarafaı çalılıyıor ve yedek dosya alınıyor
+// yedek alma veya yedek alınanı geri yükleme işlemleri sadece client tarafta hata veriyor sunucu tarafaı çalılıyıor ve yedek dosya alınıyor veya ekleniyor
 // yedek alma işlemi için homebrew kuruldu
 //homebrew ile  mongodb kuruldu bilgisyara
 const BackupRestore = () => {
@@ -19,13 +19,14 @@ const BackupRestore = () => {
 
   const handleBackup = async (password: string) => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/backup/${backupName}?password=${password}`,
+      const response = await axios.post(
+        `http://localhost:3000/backup/${backupName}`, {password} , 
         { withCredentials: true }
       );
       console.log(response.data);
       alert("Yedekleme işlemi başarılı.");
       setBackupName("");
+      setModal(!modal);
     } catch (err: any) {
       console.log("BackupRestore yedek alırkne hata:", err);
       setBackupName("");
@@ -35,18 +36,20 @@ const BackupRestore = () => {
   };
 
   const handleRestore = async (password: string) => {
-    if (!backupName) {
+    if (!restoreBackupName) {
       alert("Lütfen bir yedek dosya adı giriniz.");
       return;
     }
     try {
-      const response = await axios.get(
-        `http://localhost:3000/restore/${restoreBackupName}?password=${password}`
+      const response = await axios.post(
+        `http://localhost:3000/restore/${restoreBackupName}` , {password} , {withCredentials:true}
       );
       console.log(response.data);
       alert("Geri yükleme işlemi başarılı.");
+      setModal2(!modal2);
     } catch (err) {
       console.error("BackupRestore geri yükleme sırasında hata:", err);
+      setModal2(!modal2)
       alert("Geri yükleme işlemi başarısız.");
     }
   };
@@ -141,7 +144,7 @@ const BackupRestore = () => {
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={() => handleRestore(backupPassword)}>
-            Backup
+            restore 
           </Button>{" "}
           <Button color="secondary" onClick={toggle2}>
             Cancel

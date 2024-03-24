@@ -64,7 +64,7 @@
 
   .allTodosTableArea {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -89,6 +89,40 @@
         }
       }
     }
+          
+    .paginationArea {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
 
+      button, select {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 5px; // Kenarları yuvarlaklaştırır
+        background-color: $black; // Mavi arka plan rengi
+        color: white; // Beyaz metin rengi
+        font-weight: bold;
+        cursor: pointer; // Fare imlecini düğme üzerine getirildiğinde el simgesine dönüştürür
+    
+        &:hover {
+          background-color: $black; // Hover durumunda arka plan rengini koyulaştırır
+        }
+    
+        &:disabled {
+          background-color: #cccccc; // Disabled durumunda arka plan rengini gri yapar
+          cursor: not-allowed; // Disabled durumunda fare imlecini "izin verilmiyor" simgesine dönüştürür
+        }
+      }
+    
+      select {
+        appearance: none; // Tarayıcı tarafından sağlanan varsayılan select stilini kaldırır
+       // Açılır okun boyutunu ayarlar
+         // Sağ padding, açılır ok için yer bırakır
+      }
+    
+      
+    }
   }
 }
