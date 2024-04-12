@@ -1,0 +1,117 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.allTodosContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+}
+.allTodosContainer .allTodosTitleArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  gap: 15px;
+}
+.allTodosContainer .allTodosTitleArea .allTodosTitle {
+  font-size: 36px;
+  font-weight: 800;
+}
+.allTodosContainer .allTodosTitleArea .allTodosSelect {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+}
+.allTodosContainer .allTodosSearchArea {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.allTodosContainer .allTodosSearchArea .allTodosSearchInput {
+  padding: 10px 20px;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  background-color: #f9f9f9;
+  font-size: 16px;
+  width: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.allTodosContainer .allTodosSearchArea .allTodosSearchInput:focus {
+  border-color: black;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  outline: none;
+}
+.allTodosContainer .allTodosSearchArea .allTodosSearchInput::-moz-placeholder {
+  color: #aaa;
+}
+.allTodosContainer .allTodosSearchArea .allTodosSearchInput::placeholder {
+  color: #aaa;
+}
+.allTodosContainer .allTodosTableArea {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.allTodosContainer .allTodosTableArea .allTodosTable {
+  width: 75%;
+}
+.allTodosContainer .allTodosTableArea .allTodosTable .todoDescription {
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.allTodosContainer .allTodosTableArea .allTodosTable .allTodosOperatingArea {
+  display: flex;
+  gap: 10px;
+}
+.allTodosContainer .allTodosTableArea .allTodosTable .allTodosOperatingArea .allTodosIconDelete,
+.allTodosContainer .allTodosTableArea .allTodosTable .allTodosOperatingArea .allTodosIconEye {
+  cursor: pointer;
+}
+.allTodosContainer .allTodosTableArea .paginationArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.allTodosContainer .allTodosTableArea .paginationArea button, .allTodosContainer .allTodosTableArea .paginationArea select {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #000000;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.allTodosContainer .allTodosTableArea .paginationArea button:hover, .allTodosContainer .allTodosTableArea .paginationArea select:hover {
+  background-color: #000000;
+}
+.allTodosContainer .allTodosTableArea .paginationArea button:disabled, .allTodosContainer .allTodosTableArea .paginationArea select:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+.allTodosContainer .allTodosTableArea .paginationArea select {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}/*# sourceMappingURL=allTodos.css.map */

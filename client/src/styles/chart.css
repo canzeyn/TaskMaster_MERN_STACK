@@ -1,0 +1,32 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.chartContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items: center;
+  background-image: url("images/arkaplanTodoList.png");
+}
+.chartContainer .chartTitleArea {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.chartContainer .chartTitleArea .chartTitle {
+  font-size: 32px;
+  color: #F4EAE0;
+}
+.chartContainer .chartArea {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 30px;
+}/*# sourceMappingURL=chart.css.map */

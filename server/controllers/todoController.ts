@@ -1,9 +1,7 @@
 import Todo from "../models/todoModel";
 import { Request, Response } from "express";
 import logger from "../services/logger";
-import errorLogger from "../services/errorLogger";
 import User from "../models/userModel";
-import nodemailer from "nodemailer";
 import sendEmail from "../services/nodemailer";
 
 const todoController = async (req: Request, res: Response) => {

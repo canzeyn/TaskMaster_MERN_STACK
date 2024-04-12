@@ -1,0 +1,152 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.container {
+  background-image: url("images/SignUpPage2.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+}
+.container .box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background-color: #F4DFC8;
+  margin-top: 20px;
+  padding: 30px 40px;
+  gap: 20px;
+}
+@media (min-width: 180px) and (max-width: 719px) {
+  .container .box {
+    padding: 5px 8px;
+  }
+}
+.container .box h3 {
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 1px solid black;
+}
+@media (min-width: 180px) and (max-width: 719px) {
+  .container .box h3 {
+    font-size: 24px;
+  }
+}
+@media (min-width: 720px) and (max-width: 900px) {
+  .container .box h3 {
+    font-size: 36px;
+  }
+}
+@media (min-width: 1051px) and (max-width: 1500px) {
+  .container .box h3 {
+    font-size: 48px;
+  }
+}
+.container .box div {
+  width: 100%;
+}
+.container .box div label {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+.container .box div input {
+  width: 100%;
+  height: 32px;
+  padding-left: 10px;
+  border-radius: 3px;
+  outline: none;
+  border: none;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+}
+.container .box .signupErrorArea {
+  width: 100%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: rgb(222, 16, 16);
+}
+.container .box .signupErrorArea .signupError {
+  font-size: 20px;
+  font-weight: 500;
+  border: none;
+  margin: 0;
+  color: white;
+  margin-left: 10px;
+}
+.container .box .InputsPassword {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+@media (min-width: 180px) and (max-width: 719px) {
+  .container .box .InputsPassword {
+    display: flex;
+    flex-direction: column;
+  }
+}
+@media (min-width: 720px) and (max-width: 900px) {
+  .container .box .InputsPassword {
+    display: flex;
+    flex-direction: row;
+  }
+}
+@media (min-width: 901px) and (max-width: 1050px) {
+  .container .box .InputsPassword {
+    display: flex;
+    flex-direction: row;
+  }
+}
+@media (min-width: 1051px) and (max-width: 1500px) {
+  .container .box .InputsPassword {
+    display: flex;
+    flex-direction: row;
+  }
+}
+.container .box .InputsPassword .passwordInput,
+.container .box .InputsPassword .passwordAgainInput {
+  width: 100%;
+}
+.container .box .InputsPassword .passwordInput label,
+.container .box .InputsPassword .passwordAgainInput label {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+.container .box .InputsPassword .passwordInput input,
+.container .box .InputsPassword .passwordAgainInput input {
+  width: 100%;
+  height: 32px;
+  padding-left: 10px;
+  border-radius: 3px;
+  outline: none;
+  border: none;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+}
+.container .box button {
+  background-color: #000000;
+  color: white;
+  font-size: 18px;
+  border-radius: 5px;
+  padding: 12px 42px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 15px;
+}/*# sourceMappingURL=signup.css.map */

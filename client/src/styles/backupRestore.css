@@ -1,0 +1,96 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.backupContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  justify-content: start;
+  align-items: center;
+  gap: 100px;
+  margin-top: 20px;
+}
+.backupContainer .backupArea {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.backupContainer .backupArea .backupTitle {
+  font-size: 32px;
+  color: #000000;
+}
+.backupContainer .backupArea .backupInput {
+  width: 100%;
+  height: 32px;
+  padding-left: 10px;
+  border-radius: 3px;
+  outline: none;
+  border: none;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  width: 30%;
+}
+.backupContainer .backupArea .backupButton {
+  background-color: #000000;
+  color: white;
+  font-size: 18px;
+  border-radius: 5px;
+  padding: 12px 42px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+.backupContainer .restoreArea {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.backupContainer .restoreArea .restoreTitle {
+  font-size: 32px;
+  color: #000000;
+}
+.backupContainer .restoreArea .restoreSelect {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+}
+.backupContainer .restoreArea .restoreButton {
+  background-color: #000000;
+  color: white;
+  font-size: 18px;
+  border-radius: 5px;
+  padding: 12px 42px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.modalPassword {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
+}
+.modalPassword:focus {
+  outline: none;
+  border-color: #000;
+}/*# sourceMappingURL=backupRestore.css.map */

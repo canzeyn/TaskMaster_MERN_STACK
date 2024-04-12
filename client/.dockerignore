@@ -1,0 +1,12 @@
+node_modules/
+npm-debug.log
+.git/
+.svn/
+*.log
+Dockerfile
+.dockerignore
+tests/
+spec/
+*.md
+.DS_Store
+Thumbs.db

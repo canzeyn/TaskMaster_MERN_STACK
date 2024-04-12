@@ -1,0 +1,52 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.works-container {
+  background-image: url("images/arkaplanTodoList.png");
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  height: 100vh;
+  width: 100%;
+}
+.works-container .worksIcon {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+}
+.works-container .worksIcon .iconBack {
+  font-size: 24px;
+  cursor: pointer;
+  margin-left: 10px;
+  color: #F4EAE0;
+}
+.works-container .worksIcon h4 {
+  font-weight: 800;
+  font-size: 36px;
+  color: #F4EAE0;
+}
+.works-container .deltedTodos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+}
+.works-container .deltedTodos .todoItemWorks {
+  background-color: #F4EAE0;
+  padding: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}/*# sourceMappingURL=finishedWorks.css.map */

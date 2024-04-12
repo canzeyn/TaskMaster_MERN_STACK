@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "reactstrap";
 import { BiBarChart } from "react-icons/bi";
-import UsersLogContent from "./LogContent/UsersLogContent";
 import { useLogData } from "../context/logContext";
 import { useNavigate } from "react-router-dom";
 
@@ -33,7 +32,7 @@ const Users = () => {
 
   const navigate = useNavigate();
 
-  const { state, dispatch } = useLogData();
+  const {  dispatch } = useLogData();
 
   const toggleAdmin = () => setModalAdmin(!modalAdmin);
 

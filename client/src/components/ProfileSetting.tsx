@@ -3,7 +3,6 @@ import "../styles/profileSettings.scss";
 import axios from "axios";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import i18n from "../i18n";
 
 interface User {
   userId: string;
@@ -22,7 +21,7 @@ const ProfileSetting: React.FC = () => {
   const [userId, setUserId] = useState<User | null>(null);
 
   const { t } = useTranslation(); // t ile çevrilecek olan metinlerin anahtar kelimeleri girilir ve i18n ilede bu değerlerin gerekli dile olan çevirileri yapılır
-
+  console.log(userId);
   const fetchUserData = async () => {
     try {
       const response = await axios.get("http://localhost:3000/get-user", {
@@ -37,7 +36,6 @@ const ProfileSetting: React.FC = () => {
     }
   };
 
-  
   useEffect(() => {
     fetchUserData();
   }, []);

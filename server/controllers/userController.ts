@@ -1,7 +1,7 @@
 // userController.ts
 import express, { Request, Response } from "express";
 import User from "../models/userModel";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { generateToken } from "../middlewares/authMiddleware";
 import errorLogger from "../services/errorLogger"
 

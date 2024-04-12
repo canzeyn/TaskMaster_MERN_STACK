@@ -1,0 +1,78 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.logContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #F4EAE0;
+}
+.logContainer .logTitleArea {
+  display: flex;
+  flex: row;
+  width: 100%;
+  justify-content: center;
+  margin-top: 30px;
+}
+.logContainer .logTitleArea .logTitle {
+  font-size: 32px;
+  font-weight: 800;
+}
+.logContainer .logSelectBoxArea {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.logContainer .logSelectBoxArea .logSelectBox {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+}
+.logContainer .logSelectBoxArea .logInput {
+  padding: 10px 20px;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  background-color: #f9f9f9;
+  font-size: 16px;
+  width: 30%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.logContainer .logSelectBoxArea .logInput:focus {
+  border-color: black;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  outline: none;
+}
+.logContainer .logSelectBoxArea .logInput::-moz-placeholder {
+  color: #aaa;
+}
+.logContainer .logSelectBoxArea .logInput::placeholder {
+  color: #aaa;
+}
+.logContainer .logTableArea {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 30px;
+}
+.logContainer .logTableArea .logTable {
+  width: 75%;
+}
+.logContainer .logTableArea .logTable .logDescription {
+  max-width: 50px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}/*# sourceMappingURL=logContent.css.map */

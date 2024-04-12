@@ -86,6 +86,8 @@ const Todo: React.FC = () => {
               : todo // eğer eşleşme olmazsa tüm state olduğu gibi kalır
           )
         );
+
+        console.log(changeData);
         toggle(); // modal kapatılır
       } catch (err) {
         console.log("todo.tsx: güncellenirken hata oluştur hata:", err);

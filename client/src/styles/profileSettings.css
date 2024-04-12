@@ -1,0 +1,68 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.profile-setting-container {
+  background-image: url("images/SignUpPage2.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 50px;
+  box-sizing: border-box;
+}
+.profile-setting-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background-color: #F4DFC8;
+  margin-top: 20px;
+  padding: 30px 40px;
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+}
+.profile-setting-container form .input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.profile-setting-container form .input-group label {
+  margin-bottom: 5px;
+}
+.profile-setting-container form .input-group input[type=text],
+.profile-setting-container form .input-group input[type=password],
+.profile-setting-container form .input-group input[type=file] {
+  width: 100%;
+  height: 32px;
+  padding-left: 10px;
+  border-radius: 3px;
+  outline: none;
+  border: none;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+.profile-setting-container form .input-group input[type=file] {
+  border: 1px solid #000000;
+  padding: 5px;
+  cursor: pointer;
+}
+.profile-setting-container form button {
+  background-color: #000000;
+  color: white;
+  font-size: 18px;
+  border-radius: 5px;
+  padding: 12px 42px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 15px;
+}/*# sourceMappingURL=profileSettings.css.map */

@@ -1,7 +1,8 @@
 @import "./index.scss";
 
 .todo-container {
-    background-image: url('images/arkaplanTodoList.png');
+    //background-image: url('/images/arkaplanTodoList.png');
+    background-color: black;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,6 +12,7 @@
 
     .todo-todoArea {
         display: flex;
+        background-color: black;
         flex-direction: column;
         justify-content: center;
         align-items: center;

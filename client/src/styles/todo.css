@@ -1,0 +1,173 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.todo-container {
+  background-image: url("images/arkaplanTodoList.png");
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  height: 100vh;
+  width: 100%;
+}
+.todo-container .todo-todoArea {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #F4EAE0;
+  width: 92%;
+  margin-top: 30px;
+  border-radius: 8px;
+  padding: 12px;
+}
+.todo-container .todo-todoArea h3 {
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 1px solid black;
+  border: none;
+}
+@media (min-width: 180px) and (max-width: 719px) {
+  .todo-container .todo-todoArea h3 {
+    font-size: 24px;
+  }
+}
+@media (min-width: 720px) and (max-width: 900px) {
+  .todo-container .todo-todoArea h3 {
+    font-size: 36px;
+  }
+}
+@media (min-width: 1051px) and (max-width: 1500px) {
+  .todo-container .todo-todoArea h3 {
+    font-size: 48px;
+  }
+}
+.todo-container .todo-todoArea .todo-todoTextarea {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.todo-container .todo-todoArea .todo-todoTextarea textarea {
+  width: 420px;
+  height: 70px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+.todo-container .todo-todoArea .todo-todoTextarea textarea:focus {
+  border-color: #000000;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  outline: none;
+}
+.todo-container .todo-todoArea .todo-todoTextarea button {
+  background-color: #000000;
+  color: white;
+  font-size: 18px;
+  border-radius: 5px;
+  padding: 12px 42px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 15px;
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+@media (min-width: 180px) and (max-width: 719px) {
+  .todo-container .todo-todoArea .todo-todoTextarea button {
+    width: 30px;
+  }
+}
+@media (min-width: 180px) and (max-width: 719px) {
+  .todo-container .todo-todoArea .todo-todoTextarea textarea {
+    width: 200px;
+  }
+}
+@media (min-width: 720px) and (max-width: 900px) {
+  .todo-container .todo-todoArea .todo-todoTextarea textarea {
+    width: 350px;
+  }
+}
+@media (min-width: 1051px) and (max-width: 1500px) {
+  .todo-container .todo-todoArea .todo-todoTextarea textarea {
+    width: 400px;
+  }
+}
+.todo-container .todo-todoArea .todo-todoList {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 20px;
+  width: 100%;
+  margin-top: 30px;
+  justify-items: center;
+  align-items: center;
+}
+@media (min-width: 720px) and (max-width: 900px) {
+  .todo-container .todo-todoArea .todo-todoList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 901px) and (max-width: 1050px) {
+  .todo-container .todo-todoArea .todo-todoList {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 1051px) and (max-width: 1500px) {
+  .todo-container .todo-todoArea .todo-todoList {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.todo-container .todo-todoArea .todo-todoList .todoItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 8px 15px;
+  border-radius: 8px;
+  width: 230px;
+}
+.todo-container .todo-todoArea .todo-todoList .todoItem .icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 4px;
+  margin: 3px 5px;
+}
+.todo-container .todo-todoArea .todo-todoList .todoItem .icon-container .iconEye {
+  margin-bottom: 3px;
+  cursor: pointer;
+}
+.todo-container .todo-todoArea .todo-todoList .todoItem .icon-container .iconDelete {
+  margin-top: 3px;
+  cursor: pointer;
+}
+.todo-container .todo-todoArea .todo-todoList .todoItem p {
+  white-space: nowrap;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.modal-body {
+  overflow-y: auto;
+  max-height: 400px;
+  word-wrap: break-word;
+}
+.modal-body .todo-edit-textarea {
+  width: 100%;
+  border: none;
+  height: 150px;
+}
+.modal-body .todo-edit-textarea:focus {
+  border: none;
+  outline: none;
+}/*# sourceMappingURL=todo.css.map */

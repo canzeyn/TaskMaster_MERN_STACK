@@ -106,13 +106,13 @@ app.use("/restore" , restoreRoutes);
 app.use("/backupFileList" , backupFileListRoutes);
 
 // Statik dosyaları sunmadan önce tüm API rotaları tanımlanmalıdır
-app.use(express.static(path.join(__dirname, '..', 'client', 'dist')));
+// app.use(express.static(path.join(__dirname, '..', 'client', 'dist')));
 
 
 //  bu sayede tüm yollara gelen istekler için React uygulamasının index.html dosyasını sunar
-app.get('*', (req: Request, res: Response) => {
-    res.sendFile(path.resolve(__dirname, '..', 'client', 'dist', 'index.html'));
-});
+// app.get('*', (req: Request, res: Response) => {
+//     res.sendFile(path.resolve(__dirname, '..', 'client', 'dist', 'index.html'));
+// });
 
 
 

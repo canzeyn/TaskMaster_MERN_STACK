@@ -1,0 +1,20 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.dashboardContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background-color: #F4EAE0;
+}
+.dashboardContainer .menuIconDashboard {
+  font-size: 32px;
+  color: #333;
+  cursor: pointer;
+  margin: 10px;
+}/*# sourceMappingURL=Dashboard.css.map */

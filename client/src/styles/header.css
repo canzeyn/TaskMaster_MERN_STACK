@@ -1,0 +1,115 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.header-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #F4EAE0;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  width: 100%;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.header-box .title-header {
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 1px solid black;
+  margin: 0;
+  padding: 0;
+  border: none;
+  margin-left: 15px;
+  cursor: pointer;
+}
+@media (min-width: 180px) and (max-width: 719px) {
+  .header-box .title-header {
+    font-size: 24px;
+  }
+}
+@media (min-width: 720px) and (max-width: 900px) {
+  .header-box .title-header {
+    font-size: 36px;
+  }
+}
+@media (min-width: 1051px) and (max-width: 1500px) {
+  .header-box .title-header {
+    font-size: 48px;
+  }
+}
+@media (min-width: 180px) and (max-width: 719px) {
+  .header-box .title-header {
+    margin-left: 0;
+    padding-left: 15px;
+  }
+}
+.header-box .menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (min-width: 180px) and (max-width: 719px) {
+  .header-box .menu {
+    display: none;
+  }
+}
+.header-box .menu .headerLanguageArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+.header-box .menu .headerLanguageArea .headerLanguageSelect {
+  font-size: 16px !important;
+  margin: 0;
+  padding: 0;
+}
+.header-box .menu .headerLanguageArea .headerLanguageIcon {
+  font-size: 16px;
+}
+.header-box .menu p {
+  font-size: 20px;
+  cursor: pointer;
+  margin-right: 15px;
+  font-weight: 600;
+}
+.header-box .menu p:hover {
+  border-bottom: 2px solid #000000;
+  box-sizing: border-box;
+}
+.header-box .menu .profile-photo-header {
+  background-color: #000000;
+  padding: 0 !important;
+  border-radius: 100%;
+  margin-right: 10px;
+  border: 1px solid;
+}
+.header-box .menu .profile-photo-header .profile-photo {
+  width: 64px;
+  height: 64px;
+  border-radius: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.header-box .menu .profile-photo-header:hover {
+  border: none;
+}
+.header-box .hamburger-menu {
+  display: none;
+  cursor: pointer;
+}
+@media (min-width: 180px) and (max-width: 719px) {
+  .header-box .hamburger-menu {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+}
+.header-box Offcanvas Offcanvas.body p {
+  font-size: 100px;
+}/*# sourceMappingURL=header.css.map */
