@@ -29,3 +29,13 @@ services:
       - ./client/dist:/usr/share/nginx/html  # React build dosyalarını Nginx konteynerine bağla
     depends_on:
       - frontend  # Nginx, frontend servisi build edildikten sonra başlatılır
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:

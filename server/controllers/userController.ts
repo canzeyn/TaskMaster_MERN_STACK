@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import { generateToken } from "../middlewares/authMiddleware";
 import errorLogger from "../services/errorLogger"
 
+
 export const userController = async (req: Request, res: Response) => {
   try {
     const { name, email, password  } = req.body; //burada client tarafta form etiketleri içinde olan veriler json formatında req.body içinde yer alır
@@ -49,6 +50,8 @@ export const userController = async (req: Request, res: Response) => {
       user: newUser,
       token: token,
     });
+
+    
   } catch (err) {
     res.status(500).json({
       //burada 500 durum kodu beklenmeyen hatalarda kullanılır

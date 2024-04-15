@@ -107,7 +107,9 @@
     "skipLibCheck": true,
     "outDir": "./dist",  // Derlenmiş dosyaların kaydedileceği dizin
     "rootDir": "./",  // Kaynak TypeScript dosyalarının bulunduğu dizin   
-    "typeRoots": ["./types", "./node_modules/@types"]                        /* Skip type checking all .d.ts files. */
+    "typeRoots": ["./types", "./node_modules/@types"], 
+    "moduleResolution": "node",
+                      
   },
   "include": ["server.ts"]  // Derlemek istediğiniz dosyalar
 }

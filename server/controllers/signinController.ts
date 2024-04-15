@@ -4,6 +4,7 @@ import User from "../models/userModel";
 import jwt from "jsonwebtoken";
 import { generateToken } from "../middlewares/authMiddleware";
 import errorLogger from "../services/errorLogger"
+import redisClient from '../config/redisConfig'; 
 
 export const signinController = async (req: Request, res: Response) => {
   try {
@@ -24,6 +25,15 @@ export const signinController = async (req: Request, res: Response) => {
     }
   
     const token = generateToken(user._id); // giriş yapan kullanıcın id değeri ile token üretiliyor token içierisine id değeri ekleniyor
+
+    await redisClient.set(`userSession:${user._id}`, token, { EX: 3600 });
+
+    const userProfile = {
+      id: user._id.toString(), // MongoDB'den gelen _id, bir ObjectId olduğu için string'e çevrilir
+      email: user.email,
+  };
+
+  await redisClient.set(`userProfile:${user._id}`, JSON.stringify(userProfile), { EX: 3600 }); // ilk kısım anahtar userProfile:user._id kısmı ikinci kısım değer json tipine çevrilen kısım
 
     res.cookie("token", token, { // bu token tüm isteklerle gönderilir sunucya tekrar client taraftan ilk olarak web içinde cookies e kaydedilir ardından bu token aktif olduğu sürece her istek ile client taraftan sunucuya gönderilir
       httpOnly: true,

@@ -2,6 +2,7 @@ import jwt, { Jwt, JwtPayload } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import User from "../models/userModel";
 import mongoose from "mongoose";
+import redisClient from "../config/redisConfig";
 
 interface CustomJwtPayload extends JwtPayload {
   // jwt paketinden gelen JwtPayload tipini kullanıyoruz ve bu tip ekstra olarak CustonJwtPayload inmterfaceinide kapsıyor ekleniyor yani id değeri ekleniyopr string olarak
@@ -27,6 +28,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
     // döndürülen değerin tipi JwtPayload tipindedir
 
     console.log("Decoded ID:", decoded.id);
+
     if (!decoded || typeof decoded !== "object" || !decoded.id) {
       // decoded false değer döndğrğse kodlar çalışır eğer tru ise bir sonraki dğer olan decoded tipinine bakılır eğer tipi object değilse kodlar çalışır son olarakda decoded içinden id değerine bakılır eğer false dönerse kodlar çalışır
       // hata yakalama için yapılır bu kısım
@@ -35,9 +37,18 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
         .send({ message: " (veriyToken.ts) Token geçerli değil." });
     }
 
+    const sessionToken = await redisClient.get(`userSession:${decoded.id}`);
+
+    if (token !== sessionToken) {
+      // Eğer tokenlar uyuşmuyorsa, başka bir cihazdan giriş yapılmıştır
+      return res
+        .status(401)
+        .json({ message: "Bu hesap başka bir cihazda aktif." });
+    }
+
     //(req as any).userId = Buffer.from(decoded.id).toString("hex"); // Buffer.from ile içine girilen nesneyi alır ve buffer tipine çevirir ardından bu tipide hex stirngine çevirir ve istek nesnesine eklenir kullanıcın id değeri bu sayede diğer middlewarelerden de ulaşılabilir bu değere
 
-    (req as any).userId = decoded.id
+    (req as any).userId = decoded.id;
 
     if (!mongoose.Types.ObjectId.isValid(decoded._id)) {
       // return res.status(400).send({ message: "Geçersiz id formatı." });
@@ -79,11 +90,24 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
       return res.status(500).send({ message: "Sunucu hatası." });
     }
     next();
-  } catch (err) {
-    console.error("Token doğrulanamadı:", err);
-    return res
-      .status(403)
-      .send({ message: " (verifyToken.ts) Token geçersiz." });
+  } catch (error) {
+    // jwt.JsonWebTokenError sınıfını kullanarak spesifik JWT hatalarını yakala
+    if (error instanceof jwt.JsonWebTokenError) { // bu hata genellikle token doğru bir şekilde oluşturulamadığını gösterir
+      // Token geçersiz ise
+      return res.status(403).json({ message: "Token geçersiz." });
+    } else if (error instanceof jwt.TokenExpiredError) { // tokeinin süresi dolunca bu hatayı verir
+      // Token süresi dolmuş ise
+      return res.status(401).json({ message: "Token süresi dolmuş." });
+    } else if (error instanceof jwt.NotBeforeError) { // tokenin henüz aktif olmadığını aktif olma süresinden önce yapıldığı anlamına gelir
+      // Token henüz aktif değilse (nbf claim)
+      return res.status(401).json({ message: "Token henüz aktif değil." });
+    } else {
+      // Diğer tüm JWT hataları için genel bir hata mesajı
+      console.error("JWT doğrulama hatası:", error);
+      return res
+        .status(500)
+        .json({ message: "JWT doğrulama sırasında bir hata oluştu." });
+    }
   }
 };
 
