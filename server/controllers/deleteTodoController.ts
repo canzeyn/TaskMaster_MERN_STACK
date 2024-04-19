@@ -2,7 +2,8 @@ import Todo from "../models/todoModel";
 import { Request , Response } from 'express';
 import DeleteTodo from "../models/deleteTodoModel";
 import logger from "../services/logger";
-import errorLogger from "../services/errorLogger"
+import errorLogger from "../services/errorLogger";
+import redisClient from "../config/redisConfig";
 
   const deleteTodoController = async (req: Request , res: Response) => {
     try{
@@ -30,7 +31,11 @@ import errorLogger from "../services/errorLogger"
         })
 
         await Todo.findByIdAndDelete(req.params.id); // findByIdAndDelete ile benzersiz olan id değerini bulur ve siler yani ilk eşleşen değeri buur ve siler her todo için kendine ait bir _id değeri olduğu için onu bulur ve siler
-
+        const todoCountKey = `userTodoCount:${todo.userId}:todoCount`; // redis cache içine anahtar olarak user:userıd değer olarak todoCount giriliyor
+        await redisClient.decr(todoCountKey).catch(err => {
+          errorLogger.error("Redis decrement error: ", err);
+          // Burada hatayı yönetebilir ve gerekiyorsa başka işlemler yapabilirsiniz.
+        }); // silme işleminden sonra redis cache içinde 1 azaltır sayıyı
         
         res.status(200).send("todo başarıyla silindi");
     } catch (err) {

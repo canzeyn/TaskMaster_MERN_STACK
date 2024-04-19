@@ -35,7 +35,26 @@ services:
     ports:
       - "6379:6379"
     volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
       - redis-data:/data
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+  rabbitmq:
+    image: "rabbitmq:3-management-alpine"  # Management plugin ile RabbitMQ
+    hostname: "rabbitmq" # network içinde hostname ile erişilir
+    environment: # çalışma ortamı için gerkli ayarlar  kullanıcı adı şifre gibi
+      - RABBITMQ_ERLANG_COOKIE=${RABBITMQ_ERLANG_COOKIE}   # Güvenlik için Erlang cookie env dosyasından getiriliyor
+      - RABBITMQ_DEFAULT_USER=user  # Varsayılan kullanıcı adı
+      - RABBITMQ_DEFAULT_PASS=password  # Varsayılan şifre
+    ports:
+      - "15672:15672"  # Management UI için port
+      - "5672:5672"    # Uygulamalar için AMQP portu
+    volumes:
+      - "rabbitmq-data:/var/lib/rabbitmq"  # RabbitMQ veri dizini
+    labels:
+      - "SERVICE_80_NAME=rabbitmq-management"  # Traefik için etiket (opsiyonel) 
+    command: ["rabbitmq-server", "-detached", "&&", "rabbitmq-plugins", "enable", "rabbitmq_management"]
 
 volumes:
   redis-data:
+  rabbitmq-data:

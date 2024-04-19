@@ -16,6 +16,7 @@ interface User {
   name: string;
   email: string;
   createdAt: string;
+  todoCount:string;
   role: string;
 }
 
@@ -195,6 +196,7 @@ const Users = () => {
                 <th>Email</th>
                 <th>Creadet At</th>
                 <th>role</th>
+                <th>todoCount</th>
                 <th>Operation</th>
               </tr>
             </thead>
@@ -227,6 +229,7 @@ const Users = () => {
                       {new Date(item.createdAt).toLocaleDateString("en-CA")}
                     </td>
                     <td>{item.role}</td>
+                    <td>{item.todoCount}</td>
                     <td className="usersOperation">
                       <p>
                         <MdDelete

@@ -6,12 +6,14 @@ import axios from "axios";
 import { RxEyeOpen } from "react-icons/rx";
 import { MdDelete } from "react-icons/md";
 import { Button, Modal, ModalBody, ModalFooter } from "reactstrap";
-
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
 
 interface TodoItem {
   // veri tabanına eklenen veriler çekilirken bu interface göre geliyor
   _id: string;
   description: string;
+  deadline: Date;
 }
 
 const Todo: React.FC = () => {
@@ -20,17 +22,18 @@ const Todo: React.FC = () => {
   const [loading, setLoading] = useState(true); // yükleme durumu buradan kontrol ediliyor
   const [modal, setModal] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<TodoItem | null>(null); // Seçili todo'yu tutacak
-
- 
+  const [deadline, setDeadline] = useState<Date | null>(null);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    const formattedDeadline = deadline ? deadline.toISOString() : null; // tarihi okunabilcek bir formata çeviriyor
 
     try {
       const response = await axios.post(
         // veriler post ile ekleniyor
         "http://localhost:3000/addTodo", // sunucu tarafındaki bu endpointe gönderiliyor veriler
-        { description: todoDescription }, //  textaredaki veri sunucuya gönderilince description olarak orada kullanılıyor
+        { description: todoDescription, deadline: formattedDeadline }, //  textaredaki veri sunucuya gönderilince description olarak orada kullanılıyor
         { withCredentials: true } // cookies kısmını kullanabilmek için kimlik bilgilerini aktif ediyoruz
       );
       console.log(response.data);
@@ -59,7 +62,8 @@ const Todo: React.FC = () => {
 
   const handleDeleteTodo = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:3000/deleteTodo/${id}`, { // silinecek olan todonun id değeri gönderiliyor
+      await axios.delete(`http://localhost:3000/deleteTodo/${id}`, {
+        // silinecek olan todonun id değeri gönderiliyor
         withCredentials: true,
       });
 
@@ -80,10 +84,13 @@ const Todo: React.FC = () => {
         ); // put isteği ie var olan bir veriyi güncellemek için kullanılır endPoint olarak seçili todonun id değeri gönderiliyor sunucuya
         // payload olarak gönderilen veride description key olarak içerisinde seçili todunun description alanını gönderiyoruz en sonda kimlik bilgilerini gönderimine izin veriyoruz
         setTodos(
-          todos.map((todo) => // tüm todolar dönülüyor
-            todo._id === selectedTodo._id // seçilen todonun id si ile tüm todolar içinde eşleşen olursa kodlar çalışır
-              ? { ...todo, description: selectedTodo.description } // spread operatörü ile todo adlı statin bir kopyası alınır ve seçili todonun description alanını güncellenir yenisi ile 
-              : todo // eğer eşleşme olmazsa tüm state olduğu gibi kalır
+          todos.map(
+            (
+              todo // tüm todolar dönülüyor
+            ) =>
+              todo._id === selectedTodo._id // seçilen todonun id si ile tüm todolar içinde eşleşen olursa kodlar çalışır
+                ? { ...todo, description: selectedTodo.description } // spread operatörü ile todo adlı statin bir kopyası alınır ve seçili todonun description alanını güncellenir yenisi ile
+                : todo // eğer eşleşme olmazsa tüm state olduğu gibi kalır
           )
         );
 
@@ -107,7 +114,6 @@ const Todo: React.FC = () => {
     handleGetTodos();
   }, []);
 
- 
   return (
     <>
       <div className="todo-container">
@@ -115,20 +121,30 @@ const Todo: React.FC = () => {
         <div className="todo-todoArea">
           <h3>Todo Content.</h3>
           {
-            loading ? <div>Veriler yükleniyor...</div> : "" // Yükleme durumu true iken bir yükleme göstergesi göster
+            loading ? <div>Veriler yükleniyor...</div> : null // Yükleme durumu true iken bir yükleme göstergesi göster
           }
 
           <form onSubmit={handleSubmit} className="todo-todoTextarea">
-            <textarea
-              onChange={(e) => {
-                setTodoDescription(e.target.value);
-              }}
-              value={todoDescription}
-              name="todoDescription"
-            />
-            <button>
-              <IoEnter className="ikonButton" />
-            </button>
+            <div className="formArea">
+              <textarea
+                onChange={(e) => {
+                  setTodoDescription(e.target.value);
+                }}
+                value={todoDescription}
+                name="todoDescription"
+              />
+              <button>
+                <IoEnter className="ikonButton" />
+              </button>
+            </div>
+            <div className="dateArea">
+              <DatePicker
+                className="dateTimePicker"
+                selected={deadline}
+                onChange={(date) => setDeadline(date)}
+                dateFormat="dd/MM/yyyy" // Tarih formatını belirle
+              />
+            </div>
           </form>
 
           <div className="todo-todoList">
@@ -136,6 +152,7 @@ const Todo: React.FC = () => {
               todos.map((item) => (
                 <div className="todoItem" key={item._id}>
                   <p>{item.description}</p>
+                  <p>deadline:{item.deadline ? new Date(item.deadline).toLocaleDateString() : "no deadline"}</p>
                   <div className="icon-container">
                     <RxEyeOpen
                       className="iconEye"
@@ -148,7 +165,9 @@ const Todo: React.FC = () => {
                       onClick={() => handleDeleteTodo(item._id)} // todonun id değeri gönderiliyor
                     />
                   </div>
+                  
                 </div>
+                
               ))
             ) : (
               <p>herhangi bir todo yok ekleyin !</p>
@@ -158,7 +177,6 @@ const Todo: React.FC = () => {
       </div>
 
       <Modal isOpen={modal} toggle={toggle}>
-      
         <ModalBody className="modal-body">
           <textarea
             className="todo-edit-textarea"
@@ -173,6 +191,7 @@ const Todo: React.FC = () => {
           />
         </ModalBody>
         <ModalFooter>
+          <Button> {selectedTodo ? (selectedTodo.deadline ? new Date(selectedTodo.deadline).toLocaleDateString() : "no deadline") : "Loading..."}</Button>
           <Button color="primary" onClick={handleSaveChange}>
             güncelle
           </Button>{" "}

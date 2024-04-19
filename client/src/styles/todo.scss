@@ -1,8 +1,8 @@
 @import "./index.scss";
 
 .todo-container {
-    //background-image: url('/images/arkaplanTodoList.png');
-    background-color: black;
+    background-image: url('/images/arkaplanTodoList.png');
+    // background-color: black;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -29,52 +29,116 @@
 
         .todo-todoTextarea {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
 
-            textarea {
-                width: 420px;
-                height: 70px;
-                padding: 10px 15px;
-                border-radius: 10px;
-                font-family: Arial, sans-serif;
-                font-size: 16px;
-            }
+            .formArea {
+                display: flex;
+                flex-direction: row;
 
-            textarea:focus {
-                border-color: #000000;
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-                outline: none;
-            }
+                textarea {
+                    width: 420px;
+                    height: 70px;
+                    padding: 10px 15px;
+                    border-radius: 10px;
+                    font-family: Arial, sans-serif;
+                    font-size: 16px;
+                }
 
-            button {
-                @include button-style;
-                margin-bottom: 0;
-                margin-left: 10px;
+                textarea:focus {
+                    border-color: #000000;
+                    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+                    outline: none;
+                }
+
+                button {
+                    @include button-style;
+                    margin-bottom: 0;
+                    margin-left: 10px;
+
+                    @include for-mobile {
+                        width: 30px;
+                    }
+                }
+
 
                 @include for-mobile {
-                    width: 30px;
+                    textarea {
+                        width: 200px;
+                    }
+                }
+
+                @include for-tablet {
+                    textarea {
+                        width: 350px;
+                    }
+                }
+
+                @include for-desktop {
+                    textarea {
+                        width: 400px; // Masaüstü cihazlarda genişlik ayarı
+                    }
+                }
+
+
+            }
+
+            .dateArea {
+                padding: 10px;
+                .dateTimePicker {
+                    margin-top: 10px;
+
+                    // Tarih seçici için genel konteyner stilini ayarla
+                    .react-datepicker {
+                        font-family: 'Arial', sans-serif;
+                        background-color: #ffffff;
+                        border: 1px solid #ccc;
+                        border-radius: 8px;
+                        padding: 10px;
+                        margin-top: 20px;
+                    }
+
+                    .react-datepicker__header {
+                        background-color: #f0f0f0;
+                        border-bottom: 1px solid #ccc;
+                    }
+
+                    .react-datepicker__month-container {
+                        padding: 10px;
+                    }
+
+                    .react-datepicker__day-name,
+                    .react-datepicker__day,
+                    .react-datepicker__time-name {
+                        color: #333;
+                    }
+
+                    .react-datepicker__day--selected,
+                    .react-datepicker__day--keyboard-selected {
+                        background-color: #4a90e2;
+                        color: #fff;
+                    }
+
+                    .react-datepicker__day--today {
+                        font-weight: bold;
+                    }
+
+                    .react-datepicker__day:hover {
+                        background-color: #f0f0f0;
+                    }
+
+                    .react-datepicker__close-icon::after {
+                        background-color: #c00;
+                    }
                 }
             }
 
-            @include for-mobile {
-                textarea {
-                    width: 200px;
-                }
-            }
 
-            @include for-tablet {
-                textarea {
-                    width: 350px;
-                }
-            }
 
-            @include for-desktop {
-                textarea {
-                    width: 400px; // Masaüstü cihazlarda genişlik ayarı
-                }
-            }
+
+
+
         }
 
         .todo-todoList {
@@ -145,7 +209,7 @@
 
 .modal-body {
     overflow-y: auto; // Yatayda kaydırma çubuğu ekler
-    max-height: 400px; 
+    max-height: 400px;
     word-wrap: break-word; // Uzun metinleri kırar ve alt satıra taşır
 
     .todo-edit-textarea {
@@ -154,7 +218,7 @@
         height: 150px;
 
         &:focus {
-            border:none;
+            border: none;
             outline: none;
         }
     }

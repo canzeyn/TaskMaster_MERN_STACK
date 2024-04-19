@@ -1,11 +1,12 @@
 import mongoose, { Schema, Document } from "mongoose";
-import mongoosePaginate from 'mongoose-paginate-v2';
+import mongoosePaginate from "mongoose-paginate-v2";
 
 interface ITodo extends Document {
   // tip belirlemesi yapılıyor Document ile mongoose ile gelen fonksiyonların bu Itodo tipindeki modellerin kullanmasına izin veriyor
   userId: mongoose.Schema.Types.ObjectId;
   description: string;
   isCompleted: boolean;
+  deadline:Date;
   createdAt?: Date; // soru işareti ile bu Itodo tipindeki nesnelerde olmak zorunda olmadığını belirtiyoruz
 }
 
@@ -23,6 +24,10 @@ const todoSchema = new mongoose.Schema({
     default: false, // otomatik olarak false değer ile başlar
   },
 
+  deadline: {
+    type: Date,
+  },
+
   createdAt: {
     type: Date,
     default: Date.now,
@@ -33,9 +38,9 @@ todoSchema.plugin(mongoosePaginate);
 
 interface ITodoModel<T extends Document> extends mongoose.PaginateModel<T> {}
 
-
-const Todo: ITodoModel<ITodo> = mongoose.model<ITodo>('Todo', todoSchema) as ITodoModel<ITodo>;
-
-
+const Todo: ITodoModel<ITodo> = mongoose.model<ITodo>(
+  "Todo",
+  todoSchema
+) as ITodoModel<ITodo>;
 
 export default Todo;
