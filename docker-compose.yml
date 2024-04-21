@@ -43,7 +43,7 @@ services:
     image: "rabbitmq:3-management-alpine"  # Management plugin ile RabbitMQ
     hostname: "rabbitmq" # network içinde hostname ile erişilir
     environment: # çalışma ortamı için gerkli ayarlar  kullanıcı adı şifre gibi
-      - RABBITMQ_ERLANG_COOKIE=${RABBITMQ_ERLANG_COOKIE}   # Güvenlik için Erlang cookie env dosyasından getiriliyor
+      - RABBITMQ_ERLANG_COOKIE=key123   # Güvenlik için Erlang cookie env dosyasından getiriliyor
       - RABBITMQ_DEFAULT_USER=user  # Varsayılan kullanıcı adı
       - RABBITMQ_DEFAULT_PASS=password  # Varsayılan şifre
     ports:
@@ -53,7 +53,8 @@ services:
       - "rabbitmq-data:/var/lib/rabbitmq"  # RabbitMQ veri dizini
     labels:
       - "SERVICE_80_NAME=rabbitmq-management"  # Traefik için etiket (opsiyonel) 
-    command: ["rabbitmq-server", "-detached", "&&", "rabbitmq-plugins", "enable", "rabbitmq_management"]
+    command: ["rabbitmq-server"] 
+    #command: ["rabbitmq-server", "-detached", "&&", "rabbitmq-plugins", "enable", "rabbitmq_management"]
 
 volumes:
   redis-data:

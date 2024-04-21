@@ -6,6 +6,7 @@ import sendEmail from "../services/nodemailer";
 import redisClient from "../config/redisConfig";
 import { enqueueNewTodoNotification } from "../services/rabbitmq/producer";
 import { enqueueLog } from "../services/rabbitmq/producer";
+import { enqueueTodoCreate } from "../services/rabbitmq/producer";
 
 const todoController = async (req: Request, res: Response) => {
   const userId = (req as any).userId;
@@ -21,40 +22,48 @@ const todoController = async (req: Request, res: Response) => {
 
     console.log("req içindeki id değeri:", (req as any).userId);
 
-    
-    const savedTodo = await newTodo.save(); // bu yeni tanımlanan nesen mongodb içie kaydediliyor
-    try {
-      await enqueueNewTodoNotification(savedTodo);
-    } catch (notificationError) {
-      console.log("Failed to enqueue new todo notification: " + notificationError);
-    }
+     try {
+       await enqueueTodoCreate(newTodo);
+     } catch(err) {
+      console.log("todo eklenirken hata:" , err);
+     }
+   
 
-    try {
-      await enqueueLog(savedTodo, "Todo Added");
-    } catch (logError) {
-      console.log("Failed to log new todo: " + logError);
-    }
+    // const savedTodo = await newTodo.save(); // bu yeni tanımlanan nesen mongodb içie kaydediliyor
+    // try {
+    //   await enqueueNewTodoNotification(savedTodo);
+    // } catch (notificationError) {
+    //   console.log("Failed to enqueue new todo notification: " + notificationError);
+    // }
 
-    try {
-      const todoCountKey = `userTodoCount:${userId}:todoCount`;
-      await redisClient.incr(todoCountKey);
-    } catch (redisError) {
-      console.log("Failed to increment Redis todo count: " + redisError);
-    }
+    // try {
+    //   await enqueueLog(savedTodo, "Todo Added");
+    // } catch (logError) {
+    //   console.log("Failed to log new todo: " + logError);
+    // }
 
-    const todoCountKey = `userTodoCount:${userId}:todoCount`; // anahtar olarak redis içine user:userId gmnderiliyor değer olarak todoCount yani todo sayısı gönderiliyor bu sayede her kullanıcının kaç todosu var redis cache içinde tutulur ve bu sayede hızlıca erişilir
-    await redisClient.incr(todoCountKey); // incr ile var olan değer 1 artırılır eğer değer yoksa 0 dan başlar otomatik olarak
+    // try {
+    //   const todoCountKey = `userTodoCount:${userId}:todoCount`;
+    //   await redisClient.incr(todoCountKey);
+    // } catch (redisError) {
+    //   console.log("Failed to increment Redis todo count: " + redisError);
+    // }
 
-    res.status(201).json(savedTodo); // işlem doğru bir biçimde gerçekleşirse 201 durum kodu gönderiliyor client tarafa
+    //const todoCountKey = `userTodoCount:${userId}:todoCount`; // anahtar olarak redis içine user:userId gmnderiliyor değer olarak todoCount yani todo sayısı gönderiliyor bu sayede her kullanıcının kaç todosu var redis cache içinde tutulur ve bu sayede hızlıca erişilir
+    // await redisClient.incr(todoCountKey); // incr ile var olan değer 1 artırılır eğer değer yoksa 0 dan başlar otomatik olarak
 
-    logger.info({
-      // logger ile info seviyesinde bir log alıyoruz ekleme işleminden sonra
-      userId: (req as any).userId,
-      description: (req as any).body.description,
-      action: "Todo Added",
-      deadline: (req as any).body.deadline,
-      time: new Date(),
-    });
+    //res.status(201).json(savedTodo); // işlem doğru bir biçimde gerçekleşirse 201 durum kodu gönderiliyor client tarafa
+
+    res.status(202).json({ message: 'Todo creation in progress' });
+
+    // logger.info({
+    //   // logger ile info seviyesinde bir log alıyoruz ekleme işleminden sonra
+    //   userId: (req as any).userId,
+    //   description: (req as any).body.description,
+    //   action: "Todo Added",
+    //   deadline: (req as any).body.deadline,
+    //   time: new Date(),
+    // });
 
   } catch (error: any) {
     res.status(400).json({ message: error.message });

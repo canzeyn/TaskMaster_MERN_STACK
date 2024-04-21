@@ -31,6 +31,7 @@ import getMonthlyTodoReportRoutes from "./routes/getMonthlyTodoReportRoutes";
 import backupRoutes from "./routes/backupRoutes";
 import restoreRoutes from "./routes/restoreRoutes";
 import backupFileListRoutes from "./routes/backupFileListRoutes";
+import {setupQueues} from "./services/rabbitmq/producer";
 
 
 const app: Express = express(); //express frameworkunun tüm özelliklerinib ir değişkene atar ve oradan kullanırız
@@ -54,6 +55,7 @@ if (mongoDBUrl) { // eğer url varsa veri tabanına bağlanmak için kodlar çal
 } else {
     console.error('MongoDB bağlantı URL’si bulunamadı.');
 }
+
 
 app.use('/signup' , signupRoutes);
 
