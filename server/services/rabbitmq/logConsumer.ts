@@ -1,8 +1,8 @@
 import amqp from "amqplib";
 import LogModel from '../../models/logModel'; // LogModel, MongoDB modelinizi temsil eder
 
-async function startLogConsumer() { 
-    const conn = await amqp.connect('amqp://localhost');
+export async function startLogConsumer() { 
+    const conn = await amqp.connect("amqp://user:password@rabbitmq");
     const channel = await conn.createChannel();
     await channel.assertQueue('logQueue');
 
@@ -11,15 +11,16 @@ async function startLogConsumer() {
             console.log('No message received');
             return;
         }
-        const log = JSON.parse(message.content.toString());
-        console.log('Processing log:', log);
+        const logData = JSON.parse(message.content.toString());
+        console.log('Processing log:', logData);
 
         try {
-            const newLog = new LogModel(log);
+            const newLog = new LogModel(logData);
             await newLog.save(); // Log kaydını MongoDB'ye kaydet
-            console.log('Log saved to database:', log);
+            console.log('Log saved to database:', logData);
         } catch (error) {
             console.error('Error saving log to database:', error);
+            channel.nack(message)
         }
 
         channel.ack(message);

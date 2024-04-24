@@ -2,8 +2,8 @@ import amqp from "amqplib";
 import User from '../../models/userModel'; 
 import sendEmail from '../nodemailer'; // Güncellenmiş import ifadesi
 
-async function startConsumer() {
-    const conn = await amqp.connect('amqp://localhost'); // rabbitmq sunucusuna bağlantı kuruluyor
+export async function startMailConsumer() {
+    const conn = await amqp.connect("amqp://user:password@rabbitmq"); // rabbitmq sunucusuna bağlantı kuruluyor
     const channel = await conn.createChannel(); // sunucuda bir kanal oluşturuluyor mesaj alışverişi için 
     await channel.assertQueue('todoNotifications'); // eğer varsa bu kuyruğa bağlanılıyor yoksa bu isimde bir kuyruk oluşturuluyor
 
@@ -21,7 +21,7 @@ async function startConsumer() {
     });
 }
 
-async function sendEmailToAllUsers(todo) {
+async function sendEmailToAllUsers(todo:any) {
     const users = await User.find().select("email -_id"); // users adlı collectiondaki tüm kullanıcılara  mesaj atılması alınıyor ve bir değişkene atılıyor
     users.forEach(user => { // tüm kullanıcılar teker teker dönülüyor
         sendEmail( // nodemailer ile e-mail gönderiliyor

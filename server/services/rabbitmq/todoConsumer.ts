@@ -4,8 +4,8 @@ import { enqueueNewTodoNotification } from "./producer";
 import { enqueueLog } from "./producer";
 import redisClient from "../../config/redisConfig";
 
-async function startTodoCreateConsumer() {
-  const conn = await amqp.connect("amqp://localhost");
+export async function startTodoCreateConsumer() {
+  const conn = await amqp.connect("amqp://user:password@rabbitmq");
   const channel = await conn.createChannel();
   await channel.assertQueue("todoCreateQueue");
 
@@ -20,21 +20,19 @@ async function startTodoCreateConsumer() {
       const todoCountKey = `userTodoCount:${newTodo.userId}:todoCount`; // redis cache kişinin todo sayısını 1 artırma işlemi burada yapılıyor
       await redisClient.incr(todoCountKey);
 
-
       try {
         // Log kaydı ve e-posta gönderimi için diğer kuyruklara mesaj gönder
-      await enqueueNewTodoNotification(newTodo); // eğer veri tabanı eklemede sorun oluşursa bu kuyruk işlemleri olmaz
-      await enqueueLog(newTodo, "Todo Added");
-      } catch(err) {
-        console.log("todoConsumer hata:" , err);
-        channel.nack(message);
+        await enqueueNewTodoNotification(newTodo); // eğer veri tabanı eklemede sorun oluşursa bu kuyruk işlemleri olmaz
+        await enqueueLog(newTodo, "Todo Added");
+      } catch (err) {
+        console.log("todoConsumer hata:", err);
+        
       }
-      
 
       channel.ack(message);
     } catch (error) {
       console.error("Failed to save todo:", error);
-      channel.nack(message);
+      channel.nack(message, false, false);
     }
   });
 }

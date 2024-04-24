@@ -21,5 +21,5 @@ const LogSchema: Schema = new Schema({
   action: { type: String, required: true },
 });
 
-const Log = mongoose.model<ILog>("Log", LogSchema);
+const Log = mongoose.models.Log || mongoose.model<ILog>('Log', LogSchema);
 export default Log;

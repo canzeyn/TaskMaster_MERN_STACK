@@ -22,11 +22,10 @@ const todoController = async (req: Request, res: Response) => {
 
     console.log("req içindeki id değeri:", (req as any).userId);
 
-     try {
-       await enqueueTodoCreate(newTodo);
-     } catch(err) {
-      console.log("todo eklenirken hata:" , err);
-     }
+     
+       await enqueueTodoCreate(newTodo as any);
+     
+      
    
 
     // const savedTodo = await newTodo.save(); // bu yeni tanımlanan nesen mongodb içie kaydediliyor

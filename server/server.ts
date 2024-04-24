@@ -31,7 +31,11 @@ import getMonthlyTodoReportRoutes from "./routes/getMonthlyTodoReportRoutes";
 import backupRoutes from "./routes/backupRoutes";
 import restoreRoutes from "./routes/restoreRoutes";
 import backupFileListRoutes from "./routes/backupFileListRoutes";
-import {setupQueues} from "./services/rabbitmq/producer";
+import {startTodoCreateConsumer} from "./services/rabbitmq/todoConsumer"
+import {startLogConsumer} from "./services/rabbitmq/logConsumer"
+import {startMailConsumer} from "./services/rabbitmq/mailConsumer"
+import { setupQueues } from './services/rabbitmq/producer';
+
 
 
 const app: Express = express(); //express frameworkunun tüm özelliklerinib ir değişkene atar ve oradan kullanırız
@@ -55,6 +59,22 @@ if (mongoDBUrl) { // eğer url varsa veri tabanına bağlanmak için kodlar çal
 } else {
     console.error('MongoDB bağlantı URL’si bulunamadı.');
 }
+async function initializeConsumers() {
+    try {
+      await startTodoCreateConsumer();
+      console.log('Todo create consumer started.');
+      await startLogConsumer();
+      console.log('Log consumer started.');
+      await startMailConsumer();
+      console.log('Mail consumer started.');
+      await setupQueues();
+      console.log('setup Queue started');
+    } catch (error) {
+      console.error('Error starting consumers:', error);
+    }
+  }
+
+  initializeConsumers();
 
 
 app.use('/signup' , signupRoutes);
