@@ -34,7 +34,7 @@ import backupFileListRoutes from "./routes/backupFileListRoutes";
 import {startTodoCreateConsumer} from "./services/rabbitmq/todoConsumer"
 import {startLogConsumer} from "./services/rabbitmq/logConsumer"
 import {startMailConsumer} from "./services/rabbitmq/mailConsumer"
-import { setupQueues } from './services/rabbitmq/producer';
+
 
 
 
@@ -67,8 +67,6 @@ async function initializeConsumers() {
       console.log('Log consumer started.');
       await startMailConsumer();
       console.log('Mail consumer started.');
-      await setupQueues();
-      console.log('setup Queue started');
     } catch (error) {
       console.error('Error starting consumers:', error);
     }

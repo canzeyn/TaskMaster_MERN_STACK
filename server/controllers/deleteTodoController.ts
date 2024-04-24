@@ -32,10 +32,12 @@ import redisClient from "../config/redisConfig";
 
         await Todo.findByIdAndDelete(req.params.id); // findByIdAndDelete ile benzersiz olan id değerini bulur ve siler yani ilk eşleşen değeri buur ve siler her todo için kendine ait bir _id değeri olduğu için onu bulur ve siler
         const todoCountKey = `userTodoCount:${todo.userId}:todoCount`; // redis cache içine anahtar olarak user:userıd değer olarak todoCount giriliyor
-        await redisClient.decr(todoCountKey).catch(err => {
-          errorLogger.error("Redis decrement error: ", err);
-          // Burada hatayı yönetebilir ve gerekiyorsa başka işlemler yapabilirsiniz.
-        }); // silme işleminden sonra redis cache içinde 1 azaltır sayıyı
+        const currentCount = await redisClient.get(todoCountKey); // redis cache içinden veriler getirliyor userId değerine göre
+        if (currentCount && parseInt(currentCount) > 0) { // azaltma işlemi getireln veri değeri 0 dan büyükse yapılır değilse kodlar çalışmaz parseInt ile alınan veri number tipine çevrilir çünkü redis verileri string tipinde tutuar
+          await redisClient.decr(todoCountKey); // redis içinden gelen decr fonksiyonu ile veri 1 azaltılır
+        } else { // hata durumunda çalışır
+          errorLogger.warn("Attempted to decrement zero or non-existent todo count");
+        }
         
         res.status(200).send("todo başarıyla silindi");
     } catch (err) {

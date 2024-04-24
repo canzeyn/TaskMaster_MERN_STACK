@@ -39,6 +39,7 @@ const Todo: React.FC = () => {
       console.log(response.data);
       await handleGetTodos(); // form tekrar gönderildiğinde tüm veriler tekrardan çekilerek yeni eklenen veride çekilir
       setTodoDescription("");
+      setDeadline(null);
     } catch (err) {
       console.log("todo.tsx hata var:", err);
     }

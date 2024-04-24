@@ -1,45 +1,33 @@
 import amqp from "amqplib";
-import { AnyPtrRecord } from "dns";
- 
 
 async function connectRabbitMQ() {
   return await amqp.connect("amqp://user:password@rabbitmq");
 }
 
-export const enqueueNewTodoNotification = async (todo:any) => {
+export const enqueueNewTodoNotification = async (todo: any) => {
   const conn = await connectRabbitMQ();
   const channel = await conn.createChannel();
-  const options = {
-    durable: true,
-    arguments: {
-      'x-dead-letter-exchange': 'dlx.exchange',
-      'x-dead-letter-routing-key': 'error'
-    }
-  };
-  await channel.assertQueue("todoNotifications", options);
-  channel.sendToQueue("todoNotifications", Buffer.from(JSON.stringify(todo)), { persistent: true });
+
+  await channel.assertQueue("todoNotifications");
+  channel.sendToQueue("todoNotifications", Buffer.from(JSON.stringify(todo)), {
+    persistent: true,
+  });
   console.log("Todo notification queued");
   await channel.close();
   await conn.close();
 };
 
-export const enqueueLog = async (todo:any, action:any) => {
+export const enqueueLog = async (todo: any, action: any) => {
   const conn = await connectRabbitMQ();
   const channel = await conn.createChannel();
-  const options = {
-    durable: true,
-    arguments: {
-      'x-dead-letter-exchange': 'dlx.exchange',
-      'x-dead-letter-routing-key': 'error'
-    }
-  };
-  await channel.assertQueue("logQueue", options);
+
+  await channel.assertQueue("logQueue");
   const log = {
     todoId: todo._id,
     userId: todo.userId,
     action,
     description: todo.description,
-    time: new Date()
+    time: new Date(),
   };
   channel.sendToQueue("logQueue", Buffer.from(JSON.stringify(log)));
   console.log("Log enqueued");
@@ -47,16 +35,10 @@ export const enqueueLog = async (todo:any, action:any) => {
   await conn.close();
 };
 
-export const enqueueTodoCreate = async (todoData:AnyPtrRecord) => {
+export const enqueueTodoCreate = async (todoData: any) => {
   const conn = await connectRabbitMQ();
   const channel = await conn.createChannel();
-  const options = {
-    durable: true,
-    arguments: {
-      'x-dead-letter-exchange': 'dlx.exchange',
-      'x-dead-letter-routing-key': 'error'
-    }
-  };
+
   await channel.assertQueue("todoCreateQueue");
   channel.sendToQueue("todoCreateQueue", Buffer.from(JSON.stringify(todoData)));
   console.log("Todo creation request queued");
@@ -64,26 +46,25 @@ export const enqueueTodoCreate = async (todoData:AnyPtrRecord) => {
   await conn.close();
 };
 
-export const setupQueues = async () => {
-  const conn = await connectRabbitMQ();
-  const channel = await conn.createChannel();
-  await channel.assertExchange("dlx.exchange", "direct", { durable: true });
-  await channel.assertQueue("dlx.queue", { durable: true });
-  await channel.bindQueue("dlx.queue", "dlx.exchange", "error");
-  
-  // const mainQueueOptions = {
-  //   durable: true,
-  //   arguments: {
-  //     'x-dead-letter-exchange': 'dlx.exchange',
-  //     'x-dead-letter-routing-key': 'error' // Bu satırı ekleyin
-  //   }
-  // };
-  // await channel.assertQueue('mainQueue', mainQueueOptions);
+// export const setupQueues = async () => {
+//   const conn = await connectRabbitMQ();
+//   const channel = await conn.createChannel();
+//   await channel.assertExchange("dlx.exchange", "direct", { durable: true });
+//   await channel.assertQueue("dlx.queue", { durable: true });
+//   await channel.bindQueue("dlx.queue", "dlx.exchange", "error");
 
-  await channel.close();
-  await conn.close();
-};
+//   // const mainQueueOptions = {
+//   //   durable: true,
+//   //   arguments: {
+//   //     'x-dead-letter-exchange': 'dlx.exchange',
+//   //     'x-dead-letter-routing-key': 'error' // Bu satırı ekleyin
+//   //   }
+//   // };
+//   // await channel.assertQueue('mainQueue', mainQueueOptions);
 
+//   await channel.close();
+//   await conn.close();
+// };
 
 // import amqp from "amqplib";
 
