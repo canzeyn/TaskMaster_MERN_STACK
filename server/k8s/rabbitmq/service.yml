@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: taskmaster-rabbitmq-service
+spec:
+  type: NodePort
+  ports:
+  - name: management
+    port: 15672
+    targetPort: 15672
+  - name: amqp
+    port: 5672
+    targetPort: 5672
+  selector:
+    app: taskmaster-rabbitmq
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: taskmaster-rabbitmq-service
+# spec:
+#   type: ClusterIP # Service türünü belirtir (ClusterIP). Bu, Service'in sadece cluster içinde erişilebilir olmasını sağlar ve dışarıdan erişim sağlamaz.
+#   ports: # Service'in hangi port'ları dinlediğini ve hangi pod port'larına yönlendireceğini belirtir.
+#   - name: management
+#     port: 15672 # 15672 portunu dinler ve RabbitMQ yönetim arayüzüne erişim sağlar.
+#   - name: amqp
+#     port: 5672 #  5672 portunu dinler ve AMQP protokolü ile RabbitMQ sunucusuna erişim sağlar.
+#   selector:
+#     app: taskmaster-rabbitmq
+

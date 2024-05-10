@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: taskmaster-nginx-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: taskmaster-nginx
+  template:
+    metadata:
+      labels:
+        app: taskmaster-nginx
+    spec:
+      containers:
+      - name: taskmaster-nginx
+        image: zeynlf/taskmaster-nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: html-volume
+          mountPath: /usr/share/nginx/html
+      volumes: # Bu satırı "containers:" bölümüyle aynı düzeye indirin.
+      - name: html-volume
+        hostPath:
+          path: /path/to/your/client/dist
+
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata: # oluşturulacak kaynağın adıdır burada ayarlanan
+#   name: taskmaster-nginx-deployment
+# spec:
+#   replicas: 1 # kaç tane pod kopyası oluşturalacağını söyler
+#   selector: # hangi podların bu deployment ile yönetileceği burada ayarlanır
+#     matchLabels:
+#       app: taskmaster-nginx # app etiketi nginx olanlar ile eşleşir 
+#   template:
+#     metadata: # oluşturulacak podların etiketlerini ayarlar selector kısmı ile eşleşmelidir
+#       labels:
+#         app: taskmaster-nginx
+#     spec:
+#       containers: # hangi containerların bu pod ile çalışacağını belirtir
+#       - name: taskmaster-nginx # containera isim verir
+#         image: zeynlf/taskmaster-nginx:latest # hangi docker imajının kullanılacağı belirtilir
+#         ports:
+#         - containerPort: 80 # containerın dinleyeceği portu belritir 
+#         volumeMounts: # mount edilecek vomelar burada ayarlarlanır
+#         - name: html-volume # mount edilecek volume'un adını belirtir. Bu ad, volumes bölümünde tanımlanan bir volume ile eşleşmelidir.
+#           mountPath: /usr/share/nginx/html # nginx in statik dosyalarının olduğu kısıma bağlanır bu volume ile
+#   volumes: # Pod'da kullanılacak volume'ları tanımlar.
+#   - name: html-volume # volume'a verilen adı tanımlar. Bu ad, volumeMounts bölümünde referans verilen adla aynı olmalıdır.
+#     hostPath: # HostPath volume türü, Kubernetes'te bir pod'a node'un (yani pod'un çalıştığı fiziksel veya sanal makinenin) dosya sistemindeki bir dizini bağlamak için kullanılır. Basitçe söylemek gerekirse, node'daki bir klasörü pod'un içindeki bir klasöre bağlayarak, pod'un o klasördeki dosyalara erişmesini ve değiştirmesini sağlar.
+#       path: /path/to/your/client/dist

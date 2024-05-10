@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: taskmaster-redis-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: taskmaster-redis
+  template:
+    metadata:
+      labels:
+        app: taskmaster-redis
+    spec:
+      containers:
+        - name: taskmaster-redis
+          image: redis:7-alpine
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: redis-config
+              mountPath: /usr/local/etc/redis/redis.conf
+            - name: redis-data
+              mountPath: /data
+      volumes: # 'volumes' bölümü 'containers' ile aynı düzeyde olmalıdır.
+        - name: redis-config
+          configMap: # ConfigMap, Kubernetes'te yapılandırma verilerini depolamak ve yönetmek için kullanılan bir nesnedir. Key-value çiftleri şeklinde verileri tutabilir ve pod'lar tarafından yapılandırma dosyaları olarak kullanılabilir. 
+         
+            name: redis-config
+        - name: redis-data
+          emptyDir: {}
+
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: taskmaster-redis-deployment
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: taskmaster-redis
+#   template:
+#     metadata:
+#       labels:
+#         app: taskmaster-redis
+#     spec:
+#       containers:
+#       - name: taskmaster-redis
+#         image: zeynlf/taskmaster-redis:latest
+#         ports:
+#         - containerPort: 6379
+#         volumeMounts:
+#         - name: redis-config # redis config dosyasını mount ediyor redis-config ismiyle
+#           mountPath: /usr/local/etc/redis/redis.conf #  redis.conf dosyasını container içindeki dizinden alıyor
+#         - name: redis-data
+#           mountPath: /data
+#         volumes:
+#          - name: redis-config
+#           configMap:
+#           name: redis-config
+#          - name: redis-data
+#            emptyDir: {}

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata: # servicein adını belirler
+  name: taskmaster-nginx-service
+spec: # tanımlanan objenin nasıl çalışacağını kind tipini nasıl çalışacağını ayarlar burada service olduğu için bu servicein nasıl çalışacaüını burada ayarlar
+  type: LoadBalancer # LoadBalancer türü, dışarıdan gelen trafiğin bir uygulamaya erişmesini sağlamak için kullanılır.
+  ports:
+  - port: 80
+  selector: # Service'in hangi pod'lara trafik yönlendireceğini belirten etiket seçici. Bu örnekte, app: nginx etiketine sahip tüm pod'lar Service tarafından hedeflenir.
+    app: taskmaster-nginx

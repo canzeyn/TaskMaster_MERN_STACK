@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: taskmaster-backend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: taskmaster-backend
+  template:
+    metadata:
+      labels:
+        app: taskmaster-backend
+    spec:
+      containers:
+      - name: taskmaster-backend
+        image: zeynlf/taskmaster-backend:v4
+        ports:
+        - containerPort: 3000
+
+
+# apiVersion: apps/v1 # kubernetsi yönetmek için gerekli olan temel araçtır  
+# kind: Deployment # oluşturulacak kubernets objesinin türünü belirlet burada deployment ayarlı
+# metadata: # tanımlayıcı bilgiler burada ayarlanır
+#   name: nodejs-app #  uygulamanın ismi belrileniyor burada kaynak adı belirleniyor bu sayede bu kaynağa işlemler yapılabiliyor oluşturulan deployment objesinin ismi burada ayarlanıyor
+# spec: # deploymentın neler yapması gerektiği burada ayarlnır bu bilgiler ile podlar oluşturulur
+#   replicas: 2  # oluşturulacak toplam pod dosyasını belirtir 
+#   selector: # bu deploymentın etkilemesi gereken verielre erşimi için filtreleme yapılır burada bu filtreleme için bir etiket ismi belirlenir hangi podları yöneteceği aylanır
+#     matchLabels: # burada ayarlanıyor hangi podlara etki edeceği
+#       app: nodejs-app #nodejs-app ile eşleşen yapılara etki eder bu deployment eşleşmezse etki edemez
+#   template: #pod şablonu ayarları burada yapılır
+#     metadata:
+#       labels: # etiket verir podlara
+#         app: nodejs-app # pod etiketi olarak nodejs-app olarak ayarlanır sadece app etiketi nodejs-app olanlar yani eşleşenler bu deploymentlar tarafından yönetilir
+#     spec: # podların özellikleri burada tanımlanılır
+#       containers: # pod ile çalıacak olan containerlar burada ayarlanır
+#       - name: nodejs-app # containera verilen isimdir
+#         image: username/nodejs-app # containerın kullanıcağı imaj ayarlanır
+#         ports:
+#         - containerPort: 8080 # containera bağlanmak için bu port kullanılır dışarıdan bağlanmak için
