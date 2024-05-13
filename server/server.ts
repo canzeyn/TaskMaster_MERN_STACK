@@ -31,12 +31,10 @@ import getMonthlyTodoReportRoutes from "./routes/getMonthlyTodoReportRoutes";
 import backupRoutes from "./routes/backupRoutes";
 import restoreRoutes from "./routes/restoreRoutes";
 import backupFileListRoutes from "./routes/backupFileListRoutes";
-import {startTodoCreateConsumer} from "./services/rabbitmq/todoConsumer"
-import {startLogConsumer} from "./services/rabbitmq/logConsumer"
-import {startMailConsumer} from "./services/rabbitmq/mailConsumer"
-
-
-
+import {startTodoCreateConsumer} from "./services/rabbitmq/todoConsumer";
+import {startLogConsumer} from "./services/rabbitmq/logConsumer";
+import {startMailConsumer} from "./services/rabbitmq/mailConsumer";
+import healthCheckRoutes from "./routes/healtCheckRoutes";
 
 const app: Express = express(); //express frameworkunun tüm özelliklerinib ir değişkene atar ve oradan kullanırız
 
@@ -124,6 +122,8 @@ app.use("/backup" , backupRoutes);
 app.use("/restore" , restoreRoutes);
 
 app.use("/backupFileList" , backupFileListRoutes);
+
+app.use("/healt" , healthCheckRoutes)
 
 // Statik dosyaları sunmadan önce tüm API rotaları tanımlanmalıdır
 // app.use(express.static(path.join(__dirname, '..', 'client', 'dist')));

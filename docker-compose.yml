@@ -19,6 +19,13 @@ services:
       - ./server:/app
       - /app/node_modules
     working_dir: /app
+    depends_on:
+      - rabbitmq
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
 
   nginx:
     image: nginx:alpine
@@ -27,8 +34,14 @@ services:
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf  # Nginx yapılandırma dosyasını bağla
       - ./client/dist:/usr/share/nginx/html  # React build dosyalarını Nginx konteynerine bağla
-    depends_on:
+    depends_on: # burada bu servis altta belirltilen servislerin doğru bir şekilde başlatılmasından sonra başlatılır
       - frontend  # Nginx, frontend servisi build edildikten sonra başlatılır
+      - backend  # Nginx, backend servisinin de sağlıklı olmasını bekler
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]  # Nginx'e HTTP GET isteği gönder
+      interval: 30s  # Kontrolü her 30 saniyede bir yap
+      timeout: 10s   # Her kontrol için maksimum 10 saniye bekle
+      retries: 3     # Üst üste 3 başarısızlık sonrası 'unhealthy' olarak işaretle
 
   redis:
     image: redis:7-alpine
@@ -38,6 +51,11 @@ services:
       - ./redis.conf:/usr/local/etc/redis/redis.conf
       - redis-data:/data
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]  # Redis'e ping atarak sağlık kontrolü yap
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   rabbitmq:
     image: "rabbitmq:3-management-alpine"  # Management plugin ile RabbitMQ
@@ -53,8 +71,12 @@ services:
       - "rabbitmq-data:/var/lib/rabbitmq"  # RabbitMQ veri dizini
     labels:
       - "SERVICE_80_NAME=rabbitmq-management"  # Traefik için etiket (opsiyonel) 
-    command: ["rabbitmq-server"] 
-    #command: ["rabbitmq-server", "-detached", "&&", "rabbitmq-plugins", "enable", "rabbitmq_management"]
+    command: ["rabbitmq-server"]
+    healthcheck: # bu bölümde containerın sağlık durumunu kontrol ederiz
+      test: ["CMD", "rabbitmqctl", "status"] # burada sağlık kontrolü için kullanılacak kod tanımlanıyor  rabbitmqctl status ile rabbitmq durumu sorgulanır 
+      interval: 30s # sağlık kontrolünün ne sıklıkla yapılacağı ayarlanır burada her 30 saniyede bir yapılır
+      timeout: 10s # Komutun çalışması için verilen süre belirtilir. Eğer komut bu süre içerisinde tamamlanmazsa, kontrol başarısız olarak kabul edilir.
+      retries: 5 # Komutun kaç kez tekrarlanacağı belirtilir. Eğer komut belirtilen sayıda denemede de başarısız olursa, konteyner sağlıksız olarak kabul edilir.
 
 volumes:
   redis-data:
